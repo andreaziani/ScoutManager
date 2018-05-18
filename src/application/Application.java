@@ -2,8 +2,8 @@ package application;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.EventQueue;
 import java.awt.Font;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -32,16 +32,8 @@ public class Application {
      * Launch the application.
      */
     public static void main(String[] args) {
-        EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                try {
-                    Application window = new Application();
-                    window.frame.setVisible(true);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        });
+        Application window = new Application();
+        window.frame.setVisible(true);
     }
 
     /**
@@ -55,15 +47,15 @@ public class Application {
      * Initialize the contents of the frame.
      */
     private void initialize() {
-        
+        Dimension pref = new Dimension(250, 20);
+        Dimension screensize = Toolkit.getDefaultToolkit().getScreenSize();
         frame = new JFrame();
         frame.setResizable(false);
         panel = new JPanel();
-        panel.setBounds(0, 0, 434, 238);
+        panel.setBounds(0, 0, 450, 250);
         JPanel AreaLogin = new JPanel();
-        Dimension pref = new Dimension(250, 20);
-        
-        frame.setBounds(100, 100, 450, 300);
+        frame.setBounds(0, 0, 450, 250);
+        frame.setLocationRelativeTo(null);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.getContentPane().setLayout(null);
         panel.setLayout(new BorderLayout());
@@ -127,7 +119,7 @@ public class Application {
         JButton btnLogin = new JButton("Login");
         btnLogin.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent arg0) {
-                
+                //Add to db text area
             }
         });
         btnLogin.setAlignmentX(Component.CENTER_ALIGNMENT);
