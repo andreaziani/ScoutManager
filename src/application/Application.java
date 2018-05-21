@@ -3,17 +3,11 @@ package application;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.Toolkit;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JMenu;
-import javax.swing.JMenuBar;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
@@ -48,7 +42,6 @@ public class Application {
      */
     private void initialize() {
         Dimension pref = new Dimension(250, 20);
-        Dimension screensize = Toolkit.getDefaultToolkit().getScreenSize();
         frame = new JFrame();
         frame.setResizable(false);
         panel = new JPanel();
@@ -72,18 +65,19 @@ public class Application {
         
         
         //Text Area
-        
         AreaLogin.setLayout(new BoxLayout(AreaLogin, BoxLayout.Y_AXIS));
         JLabel lblUsername = new JLabel("Username");
         lblUsername.setAlignmentX(Component.CENTER_ALIGNMENT);
         AreaLogin.add(lblUsername);
         
+        //UserName
         txtUsername = new JTextField();
         txtUsername.setPreferredSize(pref);
         txtUsername.setMaximumSize(pref);
         AreaLogin.add(txtUsername);
         txtUsername.setColumns(10);
         
+        //Password
         JLabel lblPassword = new JLabel("Password");
         lblPassword.setAlignmentX(Component.CENTER_ALIGNMENT);
         lblPassword.setHorizontalAlignment(SwingConstants.CENTER);
@@ -94,36 +88,12 @@ public class Application {
         passwordField.setMaximumSize(pref);
         AreaLogin.add(passwordField);
         
-        //MenuBar
-        
-        JMenuBar menuBar = new JMenuBar();
-        frame.setJMenuBar(menuBar);
-        JMenu mnNewMenu = new JMenu("File");
-        menuBar.add(mnNewMenu);
-        JButton btnFile = new JButton("Exit");
-        btnFile.addActionListener(e->System.exit(0));
-        mnNewMenu.add(btnFile);
-        
-        //Action
-        
-        JButton btnCredits = new JButton("Credits");
-        btnCredits.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent arg0) {
-                JOptionPane.showMessageDialog(frame, "Caldara Mariano\nScucchia Matteo\nAndrea Ziani", "Credits", JOptionPane.INFORMATION_MESSAGE);
-            }
-        });
-        mnNewMenu.add(btnCredits);
-        
         //Login
-        
         JButton btnLogin = new JButton("Login");
-        btnLogin.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent arg0) {
-                //Add to db text area
-            }
+        btnLogin.addActionListener(e ->{
+        	// TODO add method.
         });
         btnLogin.setAlignmentX(Component.CENTER_ALIGNMENT);
         AreaLogin.add(btnLogin);
-        
     }
 }
