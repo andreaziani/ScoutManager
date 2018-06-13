@@ -40,15 +40,18 @@ create table ATT_LUDICA (
 
 create table CC (
      codiceCC varchar(10) not null,
-     da numeric(2) not null,
-     a numeric(2) not null,
+     da smallint not null,
+     a smallint not null,
      constraint IDCC_ID primary key (codiceCC));
 
 create table CC_ANNO (
      codiceIscritto varchar(10) not null,
-     anno numeric(4) not null,
+     anno smallint not null,
      codiceCC varchar(10) not null,
-     constraint IDCC_ANNO primary key (codiceIscritto, anno));
+     constraint IDCC_ANNO primary key (codiceIscritto, anno),
+     check(anno - (select year(dataNascita) 
+           from ISCRITTO AS I 
+           where I.codiceIscritto == codiceIscritto) > 20));
 
 create table COMPETENZE (
      nomeCompetenza varchar(20) not null,
@@ -79,7 +82,7 @@ create table Contiene_RS (
 
 create table E_NAZIONALE (
      codiceEvento varchar(10) not null,
-     tipo char(1) not null,
+     tipo varchar(15) not null,
      dataInizio date not null,
      dataFine date not null,
      località varchar(16) not null,
@@ -89,52 +92,52 @@ create table E_NAZIONALE (
 
 create table E_P_EG (
      codiceParrocchia varchar(10) not null,
-     tipo char(1) not null,
-     località varchar(16) not null,
+     tipo varchar(15) not null,
+     località varchar(20) not null,
      descrizione varchar(60) not null,
-     dataInizio char(1) not null,
-     dataFine char(1) not null,
-     codiceEvento char(1) not null,
+     dataInizio date not null,
+     dataFine date not null,
+     codiceEvento varchar(10) not null,
      constraint IDE_P_EG_1 unique (dataInizio, dataFine),
      constraint IDE_P_EG_ID primary key (codiceParrocchia, codiceEvento));
 
 create table E_P_LC (
      codiceParrocchia varchar(10) not null,
-     dataInizio char(1) not null,
-     dataFine char(1) not null,
-     codiceEvento char(1) not null,
-     tipo char(1) not null,
-     località varchar(16) not null,
+     dataInizio date not null,
+     dataFine date not null,
+     codiceEvento varchar(10) not null,
+     tipo varchar(10) not null,
+     località varchar(20) not null,
      descrizione varchar(60) not null,
      constraint IDE_P_LC_1 unique (dataInizio, dataFine),
      constraint IDE_P_LC_ID primary key (codiceParrocchia, codiceEvento));
 
 create table E_P_RS (
      codiceParrocchia varchar(10) not null,
-     tipo char(1) not null,
-     località varchar(16) not null,
+     tipo varchar(10) not null,
+     località varchar(20) not null,
      descrizione varchar(60) not null,
-     dataInizio char(1) not null,
-     dataFine char(1) not null,
-     codiceEvento char(1) not null,
+     dataInizio date not null,
+     dataFine date not null,
+     codiceEvento varchar(10) not null,
      constraint IDE_P_RS_1 unique (dataInizio, dataFine),
      constraint IDE_P_RS_ID primary key (codiceParrocchia, codiceEvento));
 
 create table E_P_TUTTI (
      codiceParrocchia varchar(10) not null,
-     tipo char(1) not null,
+     tipo varchar(10) not null,
      località varchar(16) not null,
      descrizione varchar(60) not null,
-     dataInizio char(1) not null,
-     dataFine char(1) not null,
-     codiceEvento char(1) not null,
+     dataInizio date not null,
+     dataFine date not null,
+     codiceEvento varchar(10) not null,
      constraint IDE_P_TUTTI_1 unique (dataInizio, dataFine),
      constraint IDE_P_TUTTI_ID primary key (codiceParrocchia, codiceEvento));
 
 create table EG (
      codiceEG varchar(10) not null,
-     da numeric(2) not null,
-     a numeric(2) not null,
+     da smallint not null,
+     a smallint not null,
      constraint IDEG_ID primary key (codiceEG));
 
 create table EG_ANNO (
@@ -143,10 +146,10 @@ create table EG_ANNO (
      codiceEG varchar(10) not null,
      constraint IDEG_ANNO primary key (codiceIscritto, anno));
 
-create table ETA' (
-     da numeric(2) not null,
-     a numeric(2) not null,
-     constraint IDFASCIA_ETA'_ID primary key (da, a));
+create table FASCIA_ETA (
+     da smallint not null,
+     a smallint not null,
+     constraint IDFASCIA_ETA_ID primary key (da, a));
 
 create table Formazione_Nazionale (
      codiceEvento varchar(10) not null,
@@ -155,31 +158,31 @@ create table Formazione_Nazionale (
 
 create table Formazione_Parrocchiale_EG (
      codiceParrocchia varchar(10) not null,
-     codiceEvento char(1) not null,
+     codiceEvento varchar(10) not null,
      codiceAttività varchar(10) not null,
      constraint IDFormazione_Parrocchiale_EG primary key (codiceParrocchia, codiceEvento, codiceAttività));
 
 create table Formazione_Parrocchiale_RS (
      codiceParrocchia varchar(10) not null,
-     codiceEvento char(1) not null,
+     codiceEvento varchar(10) not null,
      codiceAttività varchar(10) not null,
      constraint IDFormazione_Parrocchiale_RS primary key (codiceParrocchia, codiceEvento, codiceAttività));
 
 create table ISCRITTO (
      codiceIscritto varchar(10) not null,
-     CF char(1) not null,
-     nome char(1) not null,
-     cognome char(1) not null,
-     dataNascita char(1) not null,
-     luogoNascita char(1) not null,
-     numeroTelefono char(1) not null,
+     CF varchar(16) not null,
+     nome varchar(15) not null,
+     cognome varchar(15) not null,
+     dataNascita date not null,
+     luogoNascita varchar(10) not null,
+     numeroTelefono smallint not null,
      constraint IDISCRITTO primary key (codiceIscritto),
      constraint IDISCRITTO_1 unique (CF));
 
 create table LC (
      codiceLC varchar(10) not null,
-     da numeric(2) not null,
-     a numeric(2) not null,
+     da smallint not null,
+     a smallint not null,
      constraint IDLC_ID primary key (codiceLC));
 
 create table LC_ANNO (
@@ -189,14 +192,14 @@ create table LC_ANNO (
      constraint IDLC_ANNO primary key (codiceIscritto, anno));
 
 create table LUOGO (
-     città varchar(1) not null,
+     città varchar(20) not null,
      constraint IDLUOGO primary key (città));
 
 create table PARROCCHIA (
      codiceParrocchia varchar(10) not null,
      nome varchar(16) not null,
      Ind_via varchar(20) not null,
-     Ind_numCivico numeric(5) not null,
+     Ind_numCivico smallint not null,
      constraint IDPARROCCHIA_ID primary key (codiceParrocchia));
 
 create table REGISTRAZIONE_E_N (
@@ -235,45 +238,45 @@ create table REGISTRAZIONE_E_P_TUTTI (
 
 create table Residenza (
      codiceParrocchia varchar(10) not null,
-     città varchar(1) not null,
+     città varchar(20) not null,
      constraint FKRes_PAR_ID primary key (codiceParrocchia));
 
 create table RESPONSABILE_E_N (
-     CF char(1) not null,
-     nome char(1) not null,
-     cognome char(1) not null,
-     dataNascita char(1) not null,
-     luogoNascita char(1) not null,
-     numeroTelefono char(1) not null,
+     CF varchar(16) not null,
+     nome varchar(15) not null,
+     cognome varchar(15) not null,
+     dataNascita date not null,
+     luogoNascita varchar(20) not null,
+     numeroTelefono smallint not null,
      codiceResponsabile varchar(10) not null,
      username varchar(10) not null,
-     password char(1) not null,
+     password varchar(10) not null,
      constraint IDRESPONSABILE unique (codiceResponsabile),
      constraint IDRESPONSABILE_E_N unique (username),
      constraint IDRESPONSABILE_E_N_1 primary key (CF));
 
 create table RESPONSABILE_P (
      codiceResponsabile varchar(10) not null,
-     CF char(1) not null,
-     nome char(1) not null,
-     cognome char(1) not null,
-     dataNascita char(1) not null,
-     luogoNascita char(1) not null,
-     numeroTelefono char(1) not null,
+     CF varchar(16) not null,
+     nome varchar(15) not null,
+     cognome varchar(15) not null,
+     dataNascita date not null,
+     luogoNascita varchar(20) not null,
+     numeroTelefono smallint not null,
      username varchar(10) not null,
-     password varchar(8) not null,
+     password varchar(10) not null,
      constraint IDRESPONSABILE_P_ID primary key (codiceResponsabile),
      constraint IDRESPONSABILE_P_1 unique (CF),
      constraint IDRESPONSABILE_P_2 unique (username));
 
 create table Responsabilità_E_N (
      codiceEvento varchar(10) not null,
-     CF char(1) not null,
+     CF varchar(16) not null,
      constraint FKRes_E_N_ID primary key (codiceEvento));
 
 create table Responsabilità_E_P_EG (
      codiceParrocchia varchar(10) not null,
-     codiceEvento char(1) not null,
+     codiceEvento varchar(10) not null,
      codiceResponsabile varchar(10) not null,
      constraint FKRes_E_P_ID primary key (codiceParrocchia, codiceEvento));
 
@@ -303,27 +306,27 @@ create table Responsabilità_parrocchia (
 
 create table Ricreazione_EG (
      codiceParrocchia varchar(10) not null,
-     codiceEvento char(1) not null,
+     codiceEvento varchar(10) not null,
      codiceAttività varchar(10) not null,
      constraint IDRicreazione_EG primary key (codiceParrocchia, codiceEvento, codiceAttività));
 
 create table Ricreazione_LC (
      codiceParrocchia varchar(10) not null,
-     codiceEvento char(1) not null,
+     codiceEvento varchar(10) not null,
      codiceAttività varchar(10) not null,
      constraint IDRicreazione_LC primary key (codiceParrocchia, codiceEvento, codiceAttività));
 
 create table Ricreazione_T (
      codiceParrocchia varchar(10) not null,
-     codiceEvento char(1) not null,
+     codiceEvento varchar(10) not null,
      codiceAttività varchar(10) not null,
      constraint FKRic_E_P_ID primary key (codiceParrocchia, codiceEvento));
 
 create table RS (
      codiceRS varchar(10) not null,
      codiceParrocchia varchar(10) not null,
-     da numeric(2) not null,
-     a numeric(2) not null,
+     da smallint not null,
+     a smallint not null,
      constraint IDRS primary key (codiceRS),
      constraint FKCon_RS_ID unique (codiceParrocchia));
 
