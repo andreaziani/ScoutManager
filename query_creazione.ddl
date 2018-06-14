@@ -48,10 +48,7 @@ create table CC_ANNO (
      codiceIscritto varchar(10) not null,
      anno smallint not null,
      codiceCC varchar(10) not null,
-     constraint IDCC_ANNO primary key (codiceIscritto, anno),
-     check(anno - (select year(dataNascita) 
-           from ISCRITTO AS I 
-           where I.codiceIscritto == codiceIscritto) > 20));
+     constraint IDCC_ANNO primary key (codiceIscritto, anno));
 
 create table COMPETENZE (
      nomeCompetenza varchar(20) not null,
@@ -142,7 +139,7 @@ create table EG (
 
 create table EG_ANNO (
      codiceIscritto varchar(10) not null,
-     anno numeric(4) not null,
+     anno smallint not null,
      codiceEG varchar(10) not null,
      constraint IDEG_ANNO primary key (codiceIscritto, anno));
 
@@ -187,7 +184,7 @@ create table LC (
 
 create table LC_ANNO (
      codiceIscritto varchar(10) not null,
-     anno numeric(4) not null,
+     anno smallint not null,
      codiceLC varchar(10) not null,
      constraint IDLC_ANNO primary key (codiceIscritto, anno));
 
@@ -212,28 +209,28 @@ create table REGISTRAZIONE_E_P_EG (
      codiceIscritto varchar(10) not null,
      codiceRegistrazione varchar(10) not null,
      codiceParrocchia varchar(10) not null,
-     codiceEvento char(1) not null,
+     codiceEvento varchar(10) not null,
      constraint IDREGISTRAZIONE_E_P_EG primary key (codiceIscritto, codiceRegistrazione));
 
 create table REGISTRAZIONE_E_P_LC (
      codiceIscritto varchar(10) not null,
      codiceRegistrazione varchar(10) not null,
      codiceParrocchia varchar(10) not null,
-     codiceEvento char(1) not null,
+     codiceEvento varchar(10) not null,
      constraint IDREGISTRAZIONE_E_P_LC primary key (codiceIscritto, codiceRegistrazione));
 
 create table REGISTRAZIONE_E_P_RS (
      codiceIscritto varchar(10) not null,
      codiceRegistrazione varchar(10) not null,
      codiceParrocchia varchar(10) not null,
-     codiceEvento char(1) not null,
+     codiceEvento varchar(10) not null,
      constraint IDREGISTRAZIONE_E_P_RS primary key (codiceIscritto, codiceRegistrazione));
 
 create table REGISTRAZIONE_E_P_TUTTI (
      codiceIscritto varchar(10) not null,
      codiceRegistrazione varchar(10) not null,
      codiceParrocchia varchar(10) not null,
-     codiceEvento char(1) not null,
+     codiceEvento varchar(10) not null,
      constraint IDREGISTRAZIONE_E_P_TUTTI primary key (codiceIscritto, codiceRegistrazione));
 
 create table Residenza (
@@ -282,19 +279,19 @@ create table Responsabilità_E_P_EG (
 
 create table Responsabilità_E_P_LC (
      codiceParrocchia varchar(10) not null,
-     codiceEvento char(1) not null,
+     codiceEvento varchar(10) not null,
      codiceResponsabile varchar(10) not null,
      constraint FKRes_E_P_ID primary key (codiceParrocchia, codiceEvento));
 
 create table Responsabilità_E_P_RS (
      codiceParrocchia varchar(10) not null,
-     codiceEvento char(1) not null,
+     codiceEvento varchar(10) not null,
      codiceResponsabile varchar(10) not null,
      constraint FKRes_E_P_ID primary key (codiceParrocchia, codiceEvento));
 
 create table Responsabilità_E_P_TUTTI (
      codiceParrocchia varchar(10) not null,
-     codiceEvento char(1) not null,
+     codiceEvento varchar(10) not null,
      codiceResponsabile varchar(10) not null,
      constraint FKRes_E_P_ID primary key (codiceParrocchia, codiceEvento));
 
@@ -332,7 +329,7 @@ create table RS (
 
 create table RS_ANNO (
      codiceIscritto varchar(10) not null,
-     anno numeric(4) not null,
+     anno smallint not null,
      codiceRS varchar(10) not null,
      constraint IDRS_ANNO primary key (codiceIscritto, anno));
 
@@ -354,7 +351,7 @@ alter table CC add constraint IDCC_CHK
 
 alter table CC add constraint FKfascia_età_CC
      foreign key (da, a)
-     references ETA';
+     references FASCIA_ETA;
 
 alter table CC_ANNO add constraint FKiscrizione_CC
      foreign key (codiceIscritto)
