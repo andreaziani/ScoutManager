@@ -91,7 +91,9 @@ create table Contiene_LC (
 
 create table Contiene_RS (
      codiceParrocchia varchar(10) not null,
-     constraint FKCon_PAR_ID primary key (codiceParrocchia));
+     codiceRS varchar(10) not null,
+     constraint FKCon_RS_PAR_ID primary key (codiceParrocchia),
+     constraint FKCon_RS_ID unique (codiceRS));
 
 create table E_NAZIONALE (
      codiceEvento varchar(10) not null,
@@ -160,10 +162,10 @@ create table EG_ANNO (
      constraint IDEG_ANNO primary key (codiceIscritto, anno),
 	 check( anno - dbo.CC_ANNO_check(codiceIscritto) > 11 AND anno - dbo.CC_ANNO_check(codiceIscritto) < 16));
 
-create table ETA' (
+create table ETA(
      da int not null,
      a int not null,
-     constraint IDFASCIA_ETA'_ID primary key (da, a));
+     constraint IDFASCIA_ETA_ID primary key (da, a));
 
 create table Formazione_Nazionale (
      codiceEvento varchar(10) not null,
@@ -203,7 +205,8 @@ create table LC_ANNO (
      codiceIscritto varchar(10) not null,
      anno int not null,
      codiceLC varchar(10) not null,
-     constraint IDLC_ANNO primary key (codiceIscritto, anno));
+     constraint IDLC_ANNO primary key (codiceIscritto, anno),
+     check( anno - dbo.CC_ANNO_check(codiceIscritto) > 7 AND anno - dbo.CC_ANNO_check(codiceIscritto) < 11));
 
 create table LUOGO (
      città varchar(20) not null,
@@ -220,35 +223,104 @@ create table REGISTRAZIONE_E_N (
      codiceIscritto varchar(10) not null,
      codiceRegistrazione varchar(10) not null,
      codiceEvento varchar(10) not null,
-     constraint IDREGISTRAZIONE_E_N primary key (codiceIscritto, codiceRegistrazione));
+     constraint IDREGISTRAZIONE_E_N primary key (codiceIscritto, codiceRegistrazione),
+     check(dbo.REGISTRAZIONE_E_N_check(codiceIscritto, codiceEvento) = 'true');
+    
+create FUNCTION REGISTRAZIONE_E_N_check(@codiceIscritto varchar(10), @codiceEvento varchar(10))
+    RETURNS varchar(5)
+    AS
+    BEGIN
+    DECLARE @anno_iscritto int;
+    DECLARE @anno_evento int;
+    DECLARE @return varchar(5);
+
+    select @anno_evento = year(dataInizio) 
+    from E_NAZIONALE E 
+    where E.codiceEvento = codiceEvento;
+ 
+    IF EXISTS (select * 
+        from RS_ANNO R 
+        where R.codiceIscritto = codice_iscritto AND R.anno = @anno_evento))
+    SET @return = 'true';
+        ELSE
+        SET @return = 'false';
+    RETURN @return;
+
+    END;
+    GO
 
 create table REGISTRAZIONE_E_P_EG (
      codiceIscritto varchar(10) not null,
      codiceRegistrazione varchar(10) not null,
      codiceParrocchia varchar(10) not null,
      codiceEvento varchar(10) not null,
-     constraint IDREGISTRAZIONE_E_P_EG primary key (codiceIscritto, codiceRegistrazione));
+     constraint IDREGISTRAZIONE_E_P_EG primary key (codiceIscritto, codiceRegistrazione),
+     check(dbo.REGISTRAZIONE_E_P_EG_check(codiceIscritto, codiceEvento, codiceParrocchia) = 'true'));
+    
+create FUNCTION REGISTRAZIONE_E_P_EG_check(@codiceIscritto varchar(10), @codiceEvento varchar(10), @codiceParrocchia varchar(10))
+    RETURNS varchar(5)
+    AS
+    BEGIN
+    DECLARE @annoIscritto int;
+    DECLARE @annoEvento int;
+    DECLARE @codiceBranca varchar(10);
+    DECLARE @return varchar(5);
+    DECLARE @return2 varchar(5);
+    DECLARE @false varchar(5);
+    SET @false = 'false';
+
+    select @annoEvento = year(dataInizio) 
+    from E_P_EG E 
+    where E.codiceEvento = codiceEvento;
+
+    IF EXISTS ( select * 
+        from EG_ANNO E 
+        where E.codiceIscritto = @codiceIscritto AND E.anno = @annoEvento)
+    SET @return2 = 'true'
+    ELSE SET @return2 = 'false'
+
+    select @codiceBranca = codiceEG 
+    from EG_ANNO E
+    where E.codiceIscritto = @codiceIscritto AND E.anno = @annoEvento
+
+    IF EXISTS (select *
+    from Contiene_EG C 
+    where C.codiceParrocchia = @codiceParrocchia AND C.codiceEG = @codiceBranca)
+    SET @return = 'true'
+    ELSE 
+    SET @return = 'false'
+    IF (@return = 'true' AND @return2 = 'true')
+    BEGIN
+    RETURN @return;
+    END
+    RETURN @false;
+    END;
+    GO
 
 create table REGISTRAZIONE_E_P_LC (
      codiceIscritto varchar(10) not null,
      codiceRegistrazione varchar(10) not null,
      codiceParrocchia varchar(10) not null,
      codiceEvento varchar(10) not null,
-     constraint IDREGISTRAZIONE_E_P_LC primary key (codiceIscritto, codiceRegistrazione));
+     constraint IDREGISTRAZIONE_E_P_LC primary key (codiceIscritto, codiceRegistrazione),
+     check(dbo.REGISTRAZIONE_E_P_LC_check(codiceIscritto, codiceEvento, codiceParrocchia) = 'true'));
 
 create table REGISTRAZIONE_E_P_RS (
      codiceIscritto varchar(10) not null,
      codiceRegistrazione varchar(10) not null,
      codiceParrocchia varchar(10) not null,
      codiceEvento varchar(10) not null,
-     constraint IDREGISTRAZIONE_E_P_RS primary key (codiceIscritto, codiceRegistrazione));
+     constraint IDREGISTRAZIONE_E_P_RS primary key (codiceIscritto, codiceRegistrazione),
+     check(dbo.REGISTRAZIONE_E_P_RS_check(codiceIscritto, codiceEvento, codiceParrocchia) = 'true'));
+     
 
 create table REGISTRAZIONE_E_P_TUTTI (
      codiceIscritto varchar(10) not null,
      codiceRegistrazione varchar(10) not null,
      codiceParrocchia varchar(10) not null,
      codiceEvento varchar(10) not null,
-     constraint IDREGISTRAZIONE_E_P_TUTTI primary key (codiceIscritto, codiceRegistrazione));
+     constraint IDREGISTRAZIONE_E_P_TUTTI primary key (codiceIscritto, codiceRegistrazione),
+     check(dbo.REGISTRAZIONE_E_P_RS_check(codiceIscritto, codiceEvento, codiceParrocchia) = 'true' OR dbo.REGISTRAZIONE_E_P_LC_check(codiceIscritto, codiceEvento, codiceParrocchia) = 'true' OR dbo.REGISTRAZIONE_E_P_EG_check(codiceIscritto, codiceEvento, codiceParrocchia) = 'true'));
 
 create table Residenza (
      codiceParrocchia varchar(10) not null,
@@ -292,25 +364,41 @@ create table Responsabilità_E_P_EG (
      codiceParrocchia varchar(10) not null,
      codiceEvento varchar(10) not null,
      codiceResponsabile varchar(10) not null,
-     constraint FKRes_E_P_ID primary key (codiceParrocchia, codiceEvento));
+     constraint FKRes_E_P_ID primary key (codiceParrocchia, codiceEvento),
+     check(dbo.RESPONSABILITA_E_P_EG_check(codiceResponsabile, codiceEvento, codiceParrocchia) = 'true'));
+
+     select @codiceParrocchia = codiceParrocchia
+     from Responsabilità_parrocchia R
+     where R.codiceResponsabile = @codiceResponsabile
+
+    IF EXISTS (select *
+    from E_P_EG E
+    where E.codiceEvento = @codiceEvento AND E.codiceParrocchia = @codiceParrocchia)
+    BEGIN 
+        RETURN 'true'
+    END
+    RETURN 'false'
 
 create table Responsabilità_E_P_LC (
      codiceParrocchia varchar(10) not null,
      codiceEvento varchar(10) not null,
      codiceResponsabile varchar(10) not null,
-     constraint FKRes_E_P_ID primary key (codiceParrocchia, codiceEvento));
+     constraint FKRes_E_P_ID primary key (codiceParrocchia, codiceEvento),
+     check(dbo.RESPONSABILITA_E_P_LC_check(codiceResponsabile, codiceEvento, codiceParrocchia) = 'true'));
 
 create table Responsabilità_E_P_RS (
      codiceParrocchia varchar(10) not null,
      codiceEvento varchar(10) not null,
      codiceResponsabile varchar(10) not null,
-     constraint FKRes_E_P_ID primary key (codiceParrocchia, codiceEvento));
+     constraint FKRes_E_P_ID primary key (codiceParrocchia, codiceEvento),
+     check(dbo.RESPONSABILITA_E_P_RS_check(codiceResponsabile, codiceEvento, codiceParrocchia) = 'true'));
 
 create table Responsabilità_E_P_TUTTI (
      codiceParrocchia varchar(10) not null,
      codiceEvento varchar(10) not null,
      codiceResponsabile varchar(10) not null,
-     constraint FKRes_E_P_ID primary key (codiceParrocchia, codiceEvento));
+     constraint FKRes_E_P_ID primary key (codiceParrocchia, codiceEvento)
+     check(dbo.RESPONSABILITA_E_P_TUTTI_check(codiceResponsabile, codiceEvento, codiceParrocchia) = 'true'));
 
 create table Responsabilità_parrocchia (
      codiceResponsabile varchar(10) not null,
@@ -348,7 +436,8 @@ create table RS_ANNO (
      codiceIscritto varchar(10) not null,
      anno int not null,
      codiceRS varchar(10) not null,
-     constraint IDRS_ANNO primary key (codiceIscritto, anno));
+     constraint IDRS_ANNO primary key (codiceIscritto, anno),
+     check( anno - dbo.CC_ANNO_check(codiceIscritto) > 15 AND anno - dbo.CC_ANNO_check(codiceIscritto) < 20)));
 
 
 -- Constraints Section
