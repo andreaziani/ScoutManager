@@ -514,7 +514,7 @@ alter table Formazione_Parrocchiale_RS add constraint FKFor_E_P
 alter table LC add constraint IDLC_CHK
      check(exists(select * from Contiene_LC
                   where Contiene_LC.codiceLC = codiceLC)); 
-
+//SONO ARRIVATO QUI
 alter table LC add constraint FKfascia_età_LC
      foreign key (da, a)
      references ETA';
