@@ -7,18 +7,18 @@ public class EventoParrocchiaTutti {
 	private String tipo;
 	private String dataInizio;
 	private String dataFine;
-	private String localit‡;
+	private String localit√†;
 	private String descrizione;
 	
 	public EventoParrocchiaTutti(String codiceParrocchia, String codiceEvento, String tipo, String dataInizio,
-			String dataFine, String localit‡, String descrizione) {
+			String dataFine, String localit√†, String descrizione) {
 		super();
 		this.codiceParrocchia = codiceParrocchia;
 		this.codiceEvento = codiceEvento;
 		this.tipo = tipo;
 		this.dataInizio = dataInizio;
 		this.dataFine = dataFine;
-		this.localit‡ = localit‡;
+		this.localit√† = localit√†;
 		this.descrizione = descrizione;
 	}
 
@@ -42,8 +42,8 @@ public class EventoParrocchiaTutti {
 		return dataFine;
 	}
 
-	public String getLocalit‡() {
-		return localit‡;
+	public String getLocalit√†() {
+		return localit√†;
 	}
 
 	public String getDescrizione() {
@@ -70,8 +70,8 @@ public class EventoParrocchiaTutti {
 		this.dataFine = dataFine;
 	}
 
-	public void setLocalit‡(String localit‡) {
-		this.localit‡ = localit‡;
+	public void setLocalit√†(String localit√†) {
+		this.localit√† = localit√†;
 	}
 
 	public void setDescrizione(String descrizione) {

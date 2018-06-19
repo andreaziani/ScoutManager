@@ -6,16 +6,16 @@ public class EventoNazionale{
 	private String tipo;
 	private String dataInizio;
 	private String dataFine;
-	private String localit‡;
+	private String localit√†;
 	private String descrizione;
 	
-	public EventoNazionale(String codiceEvento, String tipo, String dataInizio, String dataFine, String localit‡,
+	public EventoNazionale(String codiceEvento, String tipo, String dataInizio, String dataFine, String localit√†,
 			String descrizione) {
 		this.codiceEvento = codiceEvento;
 		this.tipo = tipo;
 		this.dataInizio = dataInizio;
 		this.dataFine = dataFine;
-		this.localit‡ = localit‡;
+		this.localit√† = localit√†;
 		this.descrizione = descrizione;
 	}
 
@@ -35,8 +35,8 @@ public class EventoNazionale{
 		return this.dataFine;
 	}
 
-	public String getLocalit‡() {
-		return this.localit‡;
+	public String getLocalita() {
+		return this.localit√†;
 	}
 
 	public String getDescrizione() {
@@ -59,8 +59,8 @@ public class EventoNazionale{
 		this.dataFine = dataFine;
 	}
 
-	public void setLocalit‡(String localit‡) {
-		this.localit‡ = localit‡;
+	public void setLocalita(String localit√†) {
+		this.localit√†= localit√†;
 	}
 
 	public void setDescrizione(String descrizione) {

@@ -1,11 +1,11 @@
 package table;
 
-public class Responsabilit‡Parrocchia {
+public class Responsabilit√†Parrocchia {
 	
 	private String codiceParrocchia;
 	private String codiceResponasbile;
 	
-	public Responsabilit‡Parrocchia(String codiceParrocchia, String codiceResponasbile) {
+	public Responsabilit√†Parrocchia(String codiceParrocchia, String codiceResponasbile) {
 		this.codiceParrocchia = codiceParrocchia;
 		this.codiceResponasbile = codiceResponasbile;
 	}
