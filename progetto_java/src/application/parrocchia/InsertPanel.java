@@ -5,10 +5,8 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 
 import javax.swing.JButton;
-import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
 public class InsertPanel extends JPanel{
@@ -364,7 +362,7 @@ public class InsertPanel extends JPanel{
 		GridBagConstraints c = new GridBagConstraints();
 		c.gridx = 0;
 		c.insets = new Insets(0, 10, 10, 10);
-		this.add(this.registrazioneIscritto, c);
+		this.add(this.cancellaEvento, c);
 		c.insets = new Insets(0, 0, 0, 0);
 		c.gridx = 0;
 		c.gridy = 1;
