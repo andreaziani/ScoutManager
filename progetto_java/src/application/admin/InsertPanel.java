@@ -2,12 +2,15 @@ package application.admin;
 
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.Insets;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
+
 
 public class InsertPanel extends JPanel{
 	/**
@@ -54,20 +57,156 @@ public class InsertPanel extends JPanel{
 	private JLabel cities = new JLabel("citt‡: ");
 	private JComboBox<String> citt‡ = new JComboBox<>();
 	
+	//attivit‡ ludica
+	private JLabel attL = new JLabel("Inserimento attivit‡ ludica");
+	private JLabel codiceAttL = new JLabel("Codice attivit‡: ");
+	private JTextField codiceAttivit‡Ludica = new JTextField(16);
+	private JLabel descAttL = new JLabel("Descrizione attivit‡: ");
+	private JTextArea descrizioneAttivit‡Ludica = new JTextArea(1, 30);
+	private JButton inserisciAttL = new JButton("Inserisci attivit‡ ludica");
+	
+	//attivit‡ formativa
+	private JLabel attF = new JLabel("Inserimento attivit‡ formativa");
+	private JLabel codiceAttF = new JLabel("Codice attivit‡: ");
+	private JTextField codiceAttivit‡Formativa = new JTextField(16);
+	private JLabel descAttF = new JLabel("Descrizione attivit‡: ");
+	private JTextArea descrizioneAttivit‡Formativa = new JTextArea(1, 30);
+	private JButton inserisciAttF = new JButton("Inserisci attivit‡ formativa");
+	
+	//responsabile nazionale
+	private JLabel insertResponsabileN = new JLabel("Inserimento Responsabile Nazionale");
+	private JLabel codiceResponsabileN = new JLabel("Codice Responsabile: ");
+	private JTextField codResponsabileN = new JTextField(16);
+	private JLabel codiceFiscaleN = new JLabel("CF: ");
+	private JTextField cfN = new JTextField(16);
+	private JLabel nomeResponsabileN = new JLabel("nome: ");
+	private JTextField nameResponsabileN = new JTextField(16);
+	private JLabel cognomeN = new JLabel("cognome: ");
+	private JTextField surnameN = new JTextField(16);
+	private JLabel dataNascitaN = new JLabel("data nascita: ");
+	private JTextField dateN = new JTextField(16);
+	private JLabel luogoNascitaN = new JLabel("luogo nascita: ");
+	private JTextField luogoN = new JTextField(16);
+	private JLabel numTelefonoN = new JLabel("numero telefono: ");
+	private JTextField numeroTelefonoN = new JTextField(16);
+	private JLabel nomeUtenteN = new JLabel("nome utente: ");
+	private JTextField usernameN = new JTextField(16);
+	private JLabel passwordAssegnataN = new JLabel("password: ");
+	private JTextField passwordN = new JTextField(16);
+	private JButton registraRespN = new JButton("Registra responsabile nazionale");
+	
 	public InsertPanel() {
 		GridBagLayout grid = new GridBagLayout();
 		this.setLayout(grid);
 		this.inserimentoResponsabileParrocchia();
 		this.inserimentoParrocchia();
 		this.inserimentoResidenza();
+		this.inserimentoAttivit‡();
+		this.inserimentoResponsabileNazionale();
+	}
+	
+	private void inserimentoResponsabileNazionale() {
+		GridBagConstraints c = new GridBagConstraints();
+		c.insets = new Insets(0, 10, 10, 10);
+		c.gridx = 3;
+		c.gridy = 20;
+		c.fill = GridBagConstraints.HORIZONTAL;
+		this.add(this.insertResponsabileN, c);
+		c.insets = new Insets(0, 0, 0, 0);
+		c.gridx = 3;
+		c.gridy = 21;
+		this.add(this.codiceResponsabileN, c);
+		c.gridx = 4;
+		this.add(this.codResponsabileN, c);
+		c.gridx = 3;
+		c.gridy = 22;
+		this.add(this.codiceFiscaleN, c);
+		c.gridx = 4;
+		this.add(this.cfN, c);
+		c.gridx = 3;
+		c.gridy = 23;
+		this.add(this.nomeResponsabileN, c);
+		c.gridx = 4;
+		this.add(this.nameResponsabileN, c);
+		c.gridx = 3;
+		c.gridy = 24;
+		this.add(this.cognomeN, c);
+		c.gridx = 4;
+		this.add(this.surnameN, c);
+		c.gridx = 3;
+		c.gridy = 25;
+		this.add(this.dataNascitaN, c);
+		c.gridx = 4;
+		this.add(this.dateN, c);
+		c.gridx = 3;
+		c.gridy = 26;
+		this.add(this.luogoNascitaN, c);
+		c.gridx = 4;
+		this.add(this.luogoN, c);
+		c.gridx = 3;
+		c.gridy = 27;
+		this.add(this.numTelefonoN, c);
+		c.gridx = 4;
+		this.add(this.numeroTelefonoN, c);
+		c.gridx = 3;
+		c.gridy = 28;
+		this.add(this.nomeUtenteN, c);
+		c.gridx = 4;
+		this.add(this.usernameN, c);
+		c.gridx = 3;
+		c.gridy = 29;
+		this.add(this.passwordAssegnataN, c);
+		c.gridx = 4;
+		this.add(this.passwordN, c);
+		c.gridx = 4;
+		c.gridy = 30;
+		this.add(this.registraRespN, c);
+		
+	}
+	
+	private void inserimentoAttivit‡() {
+		GridBagConstraints c = new GridBagConstraints();
+		c.insets = new Insets(0, 4, 4, 10);
+		c.gridx = 0;
+		c.gridy = 20;
+		this.add(this.attL, c);
+		c.insets = new Insets(0, 0, 0, 0);
+		c.gridy = 21;
+		this.add(this.codiceAttL, c);
+		c.gridy = 22;
+		this.add(this.codiceAttivit‡Ludica, c);
+		c.gridy = 23;
+		this.add(this.descAttL, c);
+		c.fill = UNDEFINED_CONDITION;
+		c.gridy = 24;
+		this.add(this.descrizioneAttivit‡Ludica, c);
+		c.gridy = 25;
+		this.add(this.inserisciAttL, c);
+		c.gridx = 0;
+		c.gridy = 26;
+		this.add(this.attF, c);
+		c.gridy = 27;
+		this.add(this.codiceAttF, c);
+		c.gridy = 28;
+		this.add(this.codiceAttivit‡Formativa, c);
+		c.gridy = 29;
+		this.add(this.descAttF, c);
+		c.fill = UNDEFINED_CONDITION;
+		c.gridy = 30;
+		this.add(this.descrizioneAttivit‡Formativa, c);
+		c.gridy = 31;
+		this.add(this.inserisciAttF, c);
+		
 	}
 	
 	private void inserimentoResidenza() {
 		GridBagConstraints c = new GridBagConstraints();
 		c.fill = GridBagConstraints.HORIZONTAL;
-		c.gridx = 5;
+		c.insets = new Insets(0, 10, 10, 10);
+		c.gridx = 4;
 		c.gridy = 0;
 		this.add(this.residenza, c);
+		c.insets = new Insets(0, 0, 0, 0);
 		c.gridx = 4;
 		c.gridy = 1;
 		this.add(this.cPar, c);
@@ -83,9 +222,11 @@ public class InsertPanel extends JPanel{
 	private void inserimentoParrocchia() {
 		GridBagConstraints c = new GridBagConstraints();
 		c.fill = GridBagConstraints.HORIZONTAL;
-		c.gridx = 3;
+		c.insets = new Insets(0, 10, 10, 10);
+		c.gridx = 2;
 		c.gridy = 0;
 		this.add(this.insertParrocchia, c);
+		c.insets = new Insets(0, 0, 0, 0);
 		c.gridx = 2;
 		c.gridy = 1;
 		this.add(this.codiceParrocchia, c);
@@ -112,8 +253,10 @@ public class InsertPanel extends JPanel{
 	
 	private void inserimentoResponsabileParrocchia() {
 		GridBagConstraints c = new GridBagConstraints();
-		c.gridx = 1;
+		c.gridx = 0;
+		c.insets = new Insets(0, 10, 10, 10);
 		this.add(this.insertResponsabile, c);
+		c.insets = new Insets(0, 0, 0, 0);
 		c.gridx = 0;
 		c.gridy = 1;
 		c.fill = GridBagConstraints.HORIZONTAL;
@@ -160,7 +303,7 @@ public class InsertPanel extends JPanel{
 		this.add(this.passwordAssegnata, c);
 		c.gridx = 1;
 		this.add(this.password, c);
-		c.gridx = 1;
+		c.gridx = 5;
 		c.gridy = 10;
 		this.add(this.registraRespEParr, c);
 	}
