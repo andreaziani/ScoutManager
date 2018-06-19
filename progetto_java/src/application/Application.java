@@ -12,6 +12,9 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
+
+import application.admin.AdminView;
+
 import java.awt.Dimension;
 import java.awt.Component;
 
@@ -91,7 +94,10 @@ public class Application {
         //Login
         JButton btnLogin = new JButton("Login");
         btnLogin.addActionListener(e ->{
-        	// TODO add method.
+        	if(txtUsername.getText().equals("admin")) {
+        		this.frame.dispose();
+        		new AdminView();
+        	}
         });
         btnLogin.setAlignmentX(Component.CENTER_ALIGNMENT);
         AreaLogin.add(btnLogin);
