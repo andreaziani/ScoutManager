@@ -18,6 +18,8 @@ public class AdminView extends JFrame {
 		JPanel panel = new JPanel();
 		panel.setLayout(new BorderLayout());
 		InsertPanel insertPanel = new InsertPanel();
+		AdminViewOperationPanel op = new AdminViewOperationPanel();
+		panel.add(op, BorderLayout.SOUTH);
 		this.setTitle("Admin");
 		panel.add(insertPanel, BorderLayout.NORTH);
 		this.add(panel);
