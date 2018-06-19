@@ -602,7 +602,7 @@ alter table Residenza add constraint FKRes_PAR_FK
 alter table RESPONSABILE_P add constraint IDRESPONSABILE_P_CHK
      check(exists(select * from Responsabilità_parrocchia
                   where Responsabilità_parrocchia.codiceResponsabile = codiceResponsabile)); 
-
+//SONO QUI
 alter table Responsabilità_E_N add constraint FKRes_RES
      foreign key (codiceResponsabile)
      references RESPONSABILE_E_N;
