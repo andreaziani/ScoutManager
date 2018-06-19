@@ -11,11 +11,11 @@ public class AdminViewOperationPanel extends JPanel {
 	 * Automatically generated.
 	 */
 	private static final long serialVersionUID = 2907987461933376055L;
-	// parr per città
-	private JLabel parrocchiePerCittà = new JLabel("Parrocchie per città");
-	private JLabel nomeCittà = new JLabel("città: ");
-	private JTextField città = new JTextField(16);
-	private JButton b1 = new JButton("visualizza parrocchie per città");
+	// parr per cittï¿½
+	private JLabel parrocchiePerCitta = new JLabel("Parrocchie per cittï¿½");
+	private JLabel nomeCitta = new JLabel("cittï¿½: ");
+	private JTextField citta = new JTextField(16);
+	private JButton b1 = new JButton("visualizza parrocchie per cittï¿½");
 	
 	// parr per resp
 	private JLabel parrocchiePerResp = new JLabel("Parrocchia per responsabile");

@@ -54,24 +54,24 @@ public class InsertPanel extends JPanel{
 	private JLabel residenza = new JLabel("Inserisci Residenza");
 	private JLabel cPar = new JLabel("codice parrocchia: ");
 	private JTextField cParrocchia = new JTextField(16);
-	private JLabel cities = new JLabel("città: ");
-	private JComboBox<String> città = new JComboBox<>();
+	private JLabel cities = new JLabel("cittï¿½: ");
+	private JComboBox<String> citta = new JComboBox<>();
 	
-	//attività ludica
-	private JLabel attL = new JLabel("Inserimento attività ludica");
-	private JLabel codiceAttL = new JLabel("Codice attività: ");
-	private JTextField codiceAttivitàLudica = new JTextField(16);
-	private JLabel descAttL = new JLabel("Descrizione attività: ");
-	private JTextArea descrizioneAttivitàLudica = new JTextArea(1, 30);
-	private JButton inserisciAttL = new JButton("Inserisci attività ludica");
+	//attivitï¿½ ludica
+	private JLabel attL = new JLabel("Inserimento attivitï¿½ ludica");
+	private JLabel codiceAttL = new JLabel("Codice attivitï¿½: ");
+	private JTextField codiceAttivitaLudica = new JTextField(16);
+	private JLabel descAttL = new JLabel("Descrizione attivitï¿½: ");
+	private JTextArea descrizioneAttivitaLudica = new JTextArea(1, 30);
+	private JButton inserisciAttL = new JButton("Inserisci attivitï¿½ ludica");
 	
-	//attività formativa
-	private JLabel attF = new JLabel("Inserimento attività formativa");
-	private JLabel codiceAttF = new JLabel("Codice attività: ");
-	private JTextField codiceAttivitàFormativa = new JTextField(16);
-	private JLabel descAttF = new JLabel("Descrizione attività: ");
-	private JTextArea descrizioneAttivitàFormativa = new JTextArea(1, 30);
-	private JButton inserisciAttF = new JButton("Inserisci attività formativa");
+	//attivitï¿½ formativa
+	private JLabel attF = new JLabel("Inserimento attivitï¿½ formativa");
+	private JLabel codiceAttF = new JLabel("Codice attivitï¿½: ");
+	private JTextField codiceAttivitaFormativa = new JTextField(16);
+	private JLabel descAttF = new JLabel("Descrizione attivitï¿½: ");
+	private JTextArea descrizioneAttivitaFormativa = new JTextArea(1, 30);
+	private JButton inserisciAttF = new JButton("Inserisci attivitï¿½ formativa");
 	
 	//responsabile nazionale
 	private JLabel insertResponsabileN = new JLabel("Inserimento Responsabile Nazionale");
@@ -101,7 +101,7 @@ public class InsertPanel extends JPanel{
 		this.inserimentoResponsabileParrocchia();
 		this.inserimentoParrocchia();
 		this.inserimentoResidenza();
-		this.inserimentoAttività();
+		this.inserimentoAttivita();
 		this.inserimentoResponsabileNazionale();
 	}
 	
@@ -164,7 +164,7 @@ public class InsertPanel extends JPanel{
 		
 	}
 	
-	private void inserimentoAttività() {
+	private void inserimentoAttivita() {
 		GridBagConstraints c = new GridBagConstraints();
 		c.insets = new Insets(0, 4, 4, 10);
 		c.gridx = 0;
@@ -174,12 +174,12 @@ public class InsertPanel extends JPanel{
 		c.gridy = 21;
 		this.add(this.codiceAttL, c);
 		c.gridy = 22;
-		this.add(this.codiceAttivitàLudica, c);
+		this.add(this.codiceAttivitaLudica, c);
 		c.gridy = 23;
 		this.add(this.descAttL, c);
 		c.fill = UNDEFINED_CONDITION;
 		c.gridy = 24;
-		this.add(this.descrizioneAttivitàLudica, c);
+		this.add(this.descrizioneAttivitaLudica, c);
 		c.gridy = 25;
 		this.add(this.inserisciAttL, c);
 		c.gridx = 0;
@@ -188,12 +188,12 @@ public class InsertPanel extends JPanel{
 		c.gridy = 27;
 		this.add(this.codiceAttF, c);
 		c.gridy = 28;
-		this.add(this.codiceAttivitàFormativa, c);
+		this.add(this.codiceAttivitaFormativa, c);
 		c.gridy = 29;
 		this.add(this.descAttF, c);
 		c.fill = UNDEFINED_CONDITION;
 		c.gridy = 30;
-		this.add(this.descrizioneAttivitàFormativa, c);
+		this.add(this.descrizioneAttivitaFormativa, c);
 		c.gridy = 31;
 		this.add(this.inserisciAttF, c);
 		
@@ -216,7 +216,7 @@ public class InsertPanel extends JPanel{
 		c.gridy = 2;
 		this.add(this.cities, c);
 		c.gridx = 5;
-		this.add(this.città, c);
+		this.add(this.citta, c);
 	}
 	
 	private void inserimentoParrocchia() {
