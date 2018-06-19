@@ -3,13 +3,13 @@ package table;
 public class FormazioneParrocchialeRS {
 
 	private String codiceEvento;
-	private String codiceAttivit‡;
+	private String codiceAttivit√†;
 	private String codiceParrocchia;
 	
-	public FormazioneParrocchialeRS(String codiceEvento, String codiceAttivit‡, String codiceParrocchia) {
+	public FormazioneParrocchialeRS(String codiceEvento, String codiceAttivit√†, String codiceParrocchia) {
 		super();
 		this.codiceEvento = codiceEvento;
-		this.codiceAttivit‡ = codiceAttivit‡;
+		this.codiceAttivit√† = codiceAttivit√†;
 		this.codiceParrocchia = codiceParrocchia;
 	}
 
@@ -17,8 +17,8 @@ public class FormazioneParrocchialeRS {
 		return codiceEvento;
 	}
 
-	public String getCodiceAttivit‡() {
-		return codiceAttivit‡;
+	public String getCodiceAttivit√†() {
+		return codiceAttivit√†;
 	}
 
 	public String getCodiceParrocchia() {
@@ -29,8 +29,8 @@ public class FormazioneParrocchialeRS {
 		this.codiceEvento = codiceEvento;
 	}
 
-	public void setCodiceAttivit‡(String codiceAttivit‡) {
-		this.codiceAttivit‡ = codiceAttivit‡;
+	public void setCodiceAttivit√†(String codiceAttivit√†) {
+		this.codiceAttivit√† = codiceAttivit√†;
 	}
 
 	public void setCodiceParrocchia(String codiceParrocchia) {

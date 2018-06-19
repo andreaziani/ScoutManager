@@ -1,12 +1,12 @@
 package table;
 
-public class Responsabilit‡EventoParrocchiaEG {
+public class Responsabilit√†EventoParrocchiaEG {
 	
 	private String codiceEvento;
 	private String codiceParrocchia;
 	private String codiceResponsabile;
 	
-	public Responsabilit‡EventoParrocchiaEG(String codiceEvento, String codiceParrocchia, String codiceResponsabile) {
+	public Responsabilit√†EventoParrocchiaEG(String codiceEvento, String codiceParrocchia, String codiceResponsabile) {
 		super();
 		this.codiceEvento = codiceEvento;
 		this.codiceParrocchia = codiceParrocchia;

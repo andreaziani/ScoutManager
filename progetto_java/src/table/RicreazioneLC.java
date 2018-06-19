@@ -4,13 +4,13 @@ public class RicreazioneLC {
 	
 	private String codiceEvento;
 	private String codiceParrocchia;
-	private String codiceAttivit‡;
+	private String codiceAttivit√†;
 	
-	public RicreazioneLC(String codiceEvento, String codiceParrocchia, String codiceAttivit‡) {
+	public RicreazioneLC(String codiceEvento, String codiceParrocchia, String codiceAttivit√†) {
 		super();
 		this.codiceEvento = codiceEvento;
 		this.codiceParrocchia = codiceParrocchia;
-		this.codiceAttivit‡ = codiceAttivit‡;
+		this.codiceAttivit√† = codiceAttivit√†;
 	}
 
 	public String getCodiceEvento() {
@@ -21,8 +21,8 @@ public class RicreazioneLC {
 		return codiceParrocchia;
 	}
 
-	public String getCodiceAttivit‡() {
-		return codiceAttivit‡;
+	public String getCodiceAttivit√†() {
+		return codiceAttivit√†;
 	}
 
 	public void setCodiceEvento(String codiceEvento) {
@@ -33,8 +33,8 @@ public class RicreazioneLC {
 		this.codiceParrocchia = codiceParrocchia;
 	}
 
-	public void setCodiceAttivit‡(String codiceAttivit‡) {
-		this.codiceAttivit‡ = codiceAttivit‡;
+	public void setCodiceAttivit√†(String codiceAttivit√†) {
+		this.codiceAttivit√† = codiceAttivit√†;
 	}
 
 }
