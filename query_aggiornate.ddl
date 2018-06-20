@@ -241,15 +241,15 @@ create table Residenza (
      constraint FKRes_PAR_ID primary key (codiceParrocchia));
 
 create table RESPONSABILE_E_N (
-     CF char(1) not null,
-     nome char(1) not null,
-     cognome char(1) not null,
-     dataNascita char(1) not null,
-     luogoNascita char(1) not null,
-     numeroTelefono char(1) not null,
+     CF varchar(16) not null,
+     nome varchar(20) not null,
+     cognome varchar(20) not null,
+     dataNascita varchar(10) not null,
+     luogoNascita varchar(20) not null,
+     numeroTelefono varchar(10) not null,
      codiceResponsabile varchar(10) not null,
      username varchar(10) not null,
-     password char(1) not null,
+     password varchar(10) not null,
      constraint IDRESPONSABILE_E_N primary key (codiceResponsabile),
      constraint IDRESPONSABILE_E_N_1 unique (CF),
      constraint IDRESPONSABILE_E_N_2 unique (username));
