@@ -50,6 +50,9 @@ public class AdminViewOperationPanel extends JPanel {
 		this.setLayout(new GridBagLayout());
 		this.parrPercitta();
 		this.parrPerResponsabile();
+		this.eventoNazionalePerResponsabile();
+		this.eventoParrocchiaPerData();
+		this.eventoNazionalePerData();
 	}
 	
 	private void parrPercitta() {
@@ -74,12 +77,58 @@ public class AdminViewOperationPanel extends JPanel {
 		c.gridx = 3;
 		c.gridy = 0;
 		this.add(this.parrocchiePerResp, c);
+		c.gridx = 3;
 		c.gridy = 1;
-		this.add(this.codiceResp);
+		this.add(this.codiceResp, c);
 		c.gridx = 4;
 		this.add(this.codResponsabile, c);
 		c.gridx = 4;
 		c.gridy = 2;
 		this.add(this.b2, c);
+	}
+	
+	private void eventoNazionalePerResponsabile() {
+		GridBagConstraints c = new GridBagConstraints();
+		c.insets = new Insets(0, 10, 10, 10);
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.gridx = 5;
+		c.gridy = 0;
+		this.add(this.eventoPerResp, c);
+		c.gridy = 1;
+		this.add(this.codiceRespEN, c);
+		c.gridx = 6;
+		this.add(this.codResponsabileEN, c);
+		c.gridy = 2;
+		this.add(this.b3, c);
+	}
+	
+	private void eventoParrocchiaPerData() {
+		GridBagConstraints c = new GridBagConstraints();
+		c.insets = new Insets(0, 10, 10, 10);
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.gridx = 0;
+		c.gridy = 4;
+		this.add(this.eventoParrPerData, c);
+		c.gridy = 5;
+		this.add(this.dataInizio, c);
+		c.gridx = 1;
+		this.add(this.data, c);
+		c.gridy = 6;
+		this.add(this.b4, c);
+	}
+	
+	private void eventoNazionalePerData() {
+		GridBagConstraints c = new GridBagConstraints();
+		c.insets = new Insets(0, 10, 10, 10);
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.gridx = 3;
+		c.gridy = 4;
+		this.add(this.eventoNazPerData, c);
+		c.gridy = 5;
+		this.add(this.dataInizioN, c);
+		c.gridx = 4;
+		this.add(this.dataN, c);
+		c.gridy = 6;
+		this.add(this.b5, c);
 	}
 }
