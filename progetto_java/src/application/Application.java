@@ -15,6 +15,8 @@ import javax.swing.SwingConstants;
 
 import application.admin.AdminView;
 import application.responsabile_nazionale.ResponsabileView;
+import application.parrocchia.ParrocchiaView;
+
 
 import java.awt.Dimension;
 import java.awt.Component;
@@ -95,7 +97,7 @@ public class Application {
         //Login
         JButton btnLogin = new JButton("Login");
         btnLogin.addActionListener(e ->{
-        	if(txtUsername.getText().equals("admin")) {
+        	if(txtUsername.getText().equals("admin") && String.valueOf(passwordField.getPassword()).equals("admin")) {
         		this.frame.dispose();
         		new AdminView();
         	}
@@ -103,6 +105,10 @@ public class Application {
                     this.frame.dispose();
                     new ResponsabileView();
                 }
+        	if(txtUsername.getText().equals("parrocchia") && String.valueOf(passwordField.getPassword()).equals("parr")) {
+        		this.frame.dispose();
+        		new ParrocchiaView();
+        	}
         });
         btnLogin.setAlignmentX(Component.CENTER_ALIGNMENT);
         AreaLogin.add(btnLogin);

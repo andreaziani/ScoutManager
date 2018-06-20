@@ -1,6 +1,5 @@
 package application.responsabile_nazionale;
 
-
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
