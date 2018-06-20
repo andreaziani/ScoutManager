@@ -16,13 +16,13 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
 import application.admin.AdminView;
+import application.responsabile_nazionale.ResponsabileView;
 import application.parrocchia.ParrocchiaView;
 /**
  * Login window.
  *
  */
 public class LoginWindow extends JFrame {
-
 	/**
 	 * Automatically generated.
 	 */
@@ -85,6 +85,10 @@ public class LoginWindow extends JFrame {
         		this.dispose();
         		new AdminView(con);
         	}
+        	if(txtUsername.getText().equals("res")) {
+                    this.dispose();
+                    new ResponsabileView();
+                }
         	if(txtUsername.getText().equals("parrocchia") && String.valueOf(passwordField.getPassword()).equals("parr")) {
         		this.dispose();
         		new ParrocchiaView();

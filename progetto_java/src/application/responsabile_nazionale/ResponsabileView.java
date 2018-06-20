@@ -9,6 +9,7 @@ public class ResponsabileView extends JFrame{
     
     private int height = Toolkit.getDefaultToolkit().getScreenSize().height;
     private int width = Toolkit.getDefaultToolkit().getScreenSize().width;
+    private InsertNationalEvent ne = new InsertNationalEvent();
     
     /**
      * Automatically generated
@@ -22,6 +23,7 @@ public class ResponsabileView extends JFrame{
         this.setVisible(true);
         this.setLocationRelativeTo(null);
         getContentPane().setLayout(new GridLayout(2, 3, 0, 0));
+        this.add(ne);
         
     }
 }
