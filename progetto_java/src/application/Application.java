@@ -14,6 +14,7 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
 import application.admin.AdminView;
+import application.parrocchia.ParrocchiaView;
 
 import java.awt.Dimension;
 import java.awt.Component;
@@ -97,6 +98,10 @@ public class Application {
         	if(txtUsername.getText().equals("admin") && String.valueOf(passwordField.getPassword()).equals("admin")) {
         		this.frame.dispose();
         		new AdminView();
+        	}
+        	if(txtUsername.getText().equals("parrocchia") && String.valueOf(passwordField.getPassword()).equals("parr")) {
+        		this.frame.dispose();
+        		new ParrocchiaView();
         	}
         });
         btnLogin.setAlignmentX(Component.CENTER_ALIGNMENT);
