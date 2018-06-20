@@ -10,7 +10,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
-
+import java.sql.*;
 
 public class AdminInsertPanel extends JPanel{
 	/**
@@ -111,6 +111,19 @@ public class AdminInsertPanel extends JPanel{
 		this.inserimentoResidenza();
 		this.inserimentoAttivita();
 		this.inserimentoResponsabileNazionale();
+		try {
+			Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+        	String dbUri = "jdbc:sqlserver://DESKTOP-CBBL63Q;databaseName=AGESCI";
+			Connection con = DriverManager.getConnection(dbUri, "DESKTOP-CBBL63Q\\andre", "");
+			Statement st = con.createStatement();
+			ResultSet rs = st.executeQuery("select * from LUOGO");
+			while(rs.next()) {
+				this.citta.addItem(rs.getString(1));
+			}
+		} catch (ClassNotFoundException | SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	private void inserimentoResponsabileNazionale() {
