@@ -14,6 +14,7 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
 import application.admin.AdminView;
+import application.responsabile_nazionale.ResponsabileView;
 
 import java.awt.Dimension;
 import java.awt.Component;
@@ -98,6 +99,10 @@ public class Application {
         		this.frame.dispose();
         		new AdminView();
         	}
+        	if(txtUsername.getText().equals("res")) {
+                    this.frame.dispose();
+                    new ResponsabileView();
+                }
         });
         btnLogin.setAlignmentX(Component.CENTER_ALIGNMENT);
         AreaLogin.add(btnLogin);
