@@ -10,6 +10,8 @@ import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.border.Border;
 
+import application.app.DBConnection;
+
 public class AdminView extends JFrame {
 	/**
 	 * Automatically generated.
@@ -19,14 +21,15 @@ public class AdminView extends JFrame {
 	private int width = Toolkit.getDefaultToolkit().getScreenSize().width;
 	private JTextArea view = new JTextArea(100, 400);
 	private Border border = BorderFactory.createLineBorder(Color.BLACK);
-	public AdminView() {
+	public AdminView(DBConnection con) {
 		JPanel panel = new JPanel();
 		panel.setLayout(new BorderLayout());
-		AdminInsertPanel insertPanel = new AdminInsertPanel();
-		AdminViewOperationPanel op = new AdminViewOperationPanel();
-		AdminModifyOperation mod = new AdminModifyOperation();
+		AdminInsertPanel insertPanel = new AdminInsertPanel(con);
+		AdminViewOperationPanel op = new AdminViewOperationPanel(con);
+		AdminModifyOperation mod = new AdminModifyOperation(con);
 		panel.add(mod, BorderLayout.WEST);
 		panel.add(op, BorderLayout.SOUTH);
+		this.view.setEditable(false);
 		this.setTitle("Admin");
 		this.view.setBorder(this.border);
 		panel.add(this.view, BorderLayout.CENTER);

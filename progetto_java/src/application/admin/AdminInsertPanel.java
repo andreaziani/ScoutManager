@@ -10,6 +10,9 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+
+import application.app.DBConnection;
+
 import java.sql.*;
 
 public class AdminInsertPanel extends JPanel{
@@ -103,7 +106,7 @@ public class AdminInsertPanel extends JPanel{
 	private JTextField passwordN = new JTextField(16);
 	private JButton registraRespN = new JButton("Registra responsabile nazionale");
 	
-	public AdminInsertPanel() {
+	public AdminInsertPanel(DBConnection con) {
 		GridBagLayout grid = new GridBagLayout();
 		this.setLayout(grid);
 		this.inserimentoResponsabileParrocchia();
@@ -112,15 +115,12 @@ public class AdminInsertPanel extends JPanel{
 		this.inserimentoAttivita();
 		this.inserimentoResponsabileNazionale();
 		try {
-			Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-        	String dbUri = "jdbc:sqlserver://DESKTOP-CBBL63Q;databaseName=AGESCI";
-			Connection con = DriverManager.getConnection(dbUri, "DESKTOP-CBBL63Q\\andre", "");
-			Statement st = con.createStatement();
+			Statement st = con.getMsSQLConnection().createStatement();
 			ResultSet rs = st.executeQuery("select * from LUOGO");
 			while(rs.next()) {
 				this.citta.addItem(rs.getString(1));
 			}
-		} catch (ClassNotFoundException | SQLException e) {
+		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}

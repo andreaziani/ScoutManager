@@ -9,6 +9,8 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import application.app.DBConnection;
+
 public class AdminModifyOperation extends JPanel {
 	/**
 	 * Automatically generated
@@ -35,7 +37,7 @@ public class AdminModifyOperation extends JPanel {
 	private JTextField password = new JTextField(16);
 	private JButton modificaRespParrocchia = new JButton("Modifica responsabile e parrocchia");
 	
-	public AdminModifyOperation() {
+	public AdminModifyOperation(DBConnection con) {
 		this.setLayout(new GridBagLayout());
 		this.modificaResp();
 	}
