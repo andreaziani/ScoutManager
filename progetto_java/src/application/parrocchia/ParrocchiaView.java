@@ -7,8 +7,8 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 public class ParrocchiaView extends JFrame{
-	private int height = Toolkit.getDefaultToolkit().getScreenSize().height * 5/6;
-	private int width = Toolkit.getDefaultToolkit().getScreenSize().width * 5/6;
+	private int height = Toolkit.getDefaultToolkit().getScreenSize().height;
+	private int width = Toolkit.getDefaultToolkit().getScreenSize().width;
 	/**
 	 * Automatically generated.
 	 */

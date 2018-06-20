@@ -94,7 +94,7 @@ public class Application {
         //Login
         JButton btnLogin = new JButton("Login");
         btnLogin.addActionListener(e ->{
-        	if(txtUsername.getText().equals("admin")) {
+        	if(txtUsername.getText().equals("admin") && String.valueOf(passwordField.getPassword()).equals("admin")) {
         		this.frame.dispose();
         		new AdminView();
         	}

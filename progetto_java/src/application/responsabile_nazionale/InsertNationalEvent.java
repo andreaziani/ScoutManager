@@ -1,6 +1,5 @@
 package application.responsabile_nazionale;
 
-import javax.swing.BoxLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import java.awt.BorderLayout;
@@ -19,7 +18,7 @@ public class InsertNationalEvent extends JPanel{
         JPanel evNazionale = new JPanel();
         add(evNazionale, BorderLayout.NORTH);
         evNazionale.setLayout(new GridLayout(6, 2, 0, 0));
-        evNazionale.add(new JLabel("))
+        evNazionale.add(new JLabel());
     }
     
 }

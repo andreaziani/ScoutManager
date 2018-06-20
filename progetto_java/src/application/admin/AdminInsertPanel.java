@@ -12,7 +12,7 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
 
-public class InsertPanel extends JPanel{
+public class AdminInsertPanel extends JPanel{
 	/**
 	 * Automatically generated.
 	 */
@@ -49,6 +49,14 @@ public class InsertPanel extends JPanel{
 	private JTextField viaP = new JTextField(16);
 	private JLabel numCivicoParrocchia = new JLabel("numero civico: ");
 	private JTextField numCivicoP = new JTextField(16);
+	private JLabel codiceCCLabel = new JLabel("codice comunità capi: ");
+	private JTextField codiceCC = new JTextField(16);
+	private JLabel codiceRSLabel = new JLabel("codice RS: ");
+	private JTextField codiceRS = new JTextField(16);
+	private JLabel codiceEGLabel = new JLabel("codice EG: ");
+	private JTextField codiceEG = new JTextField(16);
+	private JLabel codiceLCLabel = new JLabel("codice LC: ");
+	private JTextField codiceLC = new JTextField(16);
 	
 	//residenza
 	private JLabel residenza = new JLabel("Inserisci Residenza");
@@ -95,7 +103,7 @@ public class InsertPanel extends JPanel{
 	private JTextField passwordN = new JTextField(16);
 	private JButton registraRespN = new JButton("Registra responsabile nazionale");
 	
-	public InsertPanel() {
+	public AdminInsertPanel() {
 		GridBagLayout grid = new GridBagLayout();
 		this.setLayout(grid);
 		this.inserimentoResponsabileParrocchia();
@@ -247,8 +255,27 @@ public class InsertPanel extends JPanel{
 		this.add(this.numCivicoParrocchia, c);
 		c.gridx = 3;
 		this.add(this.numCivicoP, c);
-		c.gridx = 3;
+		c.gridx = 2;
 		c.gridy = 5;
+		this.add(this.codiceCCLabel, c);
+		c.gridx = 3;
+		this.add(this.codiceCC, c);
+		c.gridx = 2;
+		c.gridy = 6;
+		this.add(this.codiceRSLabel, c);
+		c.gridx = 3;
+		this.add(this.codiceRS, c);
+		c.gridx = 2;
+		c.gridy = 7;
+		this.add(this.codiceEGLabel, c);
+		c.gridx = 3;
+		this.add(this.codiceEG, c);
+		c.gridx = 2;
+		c.gridy = 8;
+		this.add(this.codiceLCLabel, c);
+		c.gridx = 3;
+		this.add(this.codiceLC, c);
+		
 	}
 	
 	private void inserimentoResponsabileParrocchia() {
