@@ -6,7 +6,6 @@ import java.awt.Insets;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
-import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -14,9 +13,11 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
 import application.app.DBConnection;
+import table.AttivitàFormativa;
+import table.AttivitàLudica;
+import table.ResponsabileEventoNazionale;
 
 import java.sql.*;
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
@@ -114,32 +115,23 @@ public class AdminInsertPanel extends JPanel {
 	public AdminInsertPanel(DBConnection con) {
 		GridBagLayout grid = new GridBagLayout();
 		this.registraRespN.addActionListener(e -> {
-			try {
-				SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-				java.util.Date parsed = sdf.parse(this.dateN.getText());
-		        java.sql.Date datesql = new java.sql.Date(parsed.getTime());
-				PreparedStatement st = con.getMsSQLConnection().prepareStatement("insert into RESPONSABILE_E_N(CF, nome, cognome, dataNascita, luogoNascita, numeroTelefono,"
-								+ "codiceResponsabile, username, password) VALUES(?, ?, ?, ?, ?, ?, ? ,?, ?)");
-				 st.setString(1, this.cfN.getText());
-				 st.setString(2, this.nameResponsabileN.getText());
-				 st.setString(3, this.surnameN.getText());
-				 st.setDate(4, datesql);
-				 st.setString(5, this.luogoN.getText());
-				 st.setString(6, this.numeroTelefonoN.getText()); 
-				 st.setString(7, this.codResponsabileN.getText());
-				 st.setString(8, this.usernameN.getText());
-				 st.setString(9, this.passwordN.getText());
-				 int rs = st.executeUpdate();
-				if(rs != 0) {
-					JOptionPane.showMessageDialog(this,"Inserimento andato a buon fine");
-				}
-			} catch (SQLException | ParseException e1) {
-				e1.printStackTrace();
-				JOptionPane.showMessageDialog(this,
-						"Qualcosa è andato storto, verifica la corretta lunghezza dei campi.");
-			}
+			ResponsabileEventoNazionale res = new ResponsabileEventoNazionale(this.codResponsabileN.getText(),
+					this.cfN.getText(), this.nameResponsabileN.getText(), this.surnameN.getText(), this.dateN.getText(),
+					this.luogoN.getText(), this.numeroTelefonoN.getText(), this.usernameN.getText(),
+					this.passwordN.getText());
+			checkCorrect(res.inserimentoResponsabile());
 		});
-
+		
+		this.inserisciAttL.addActionListener(e -> {
+			AttivitàLudica attL = new AttivitàLudica(this.codiceAttivitaLudica.getText(), this.descrizioneAttivitaLudica.getText());
+			checkCorrect(attL.inserimentoAttività());
+		});
+		
+		this.inserisciAttF.addActionListener(e -> {
+			AttivitàFormativa attF = new AttivitàFormativa(this.codiceAttivitaFormativa.getText(), this.descrizioneAttivitaFormativa.getText());
+			checkCorrect(attF.inserimentoAttività());
+		});
+		
 		this.setLayout(grid);
 		this.inserimentoResponsabileParrocchia();
 		this.inserimentoParrocchia();
@@ -380,7 +372,11 @@ public class AdminInsertPanel extends JPanel {
 		this.add(this.registraRespEParr, c);
 	}
 
-	private boolean checkField(String value, int size) {
-		return value.length() <= size;
+	private void checkCorrect(int number) {
+		if (number != 0) {
+			JOptionPane.showMessageDialog(this, "Inserimento andato a buon fine.");
+		} else {
+			JOptionPane.showMessageDialog(this, "Qualcosa è andato storto, verifica la correttezza dei campi.");
+		}
 	}
 }
