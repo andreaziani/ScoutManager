@@ -22,16 +22,16 @@ public class ResponsabileView extends JFrame{
     
     public ResponsabileView() {
         this.setExtendedState(JFrame.MAXIMIZED_BOTH);
+        getContentPane().setLayout(new GridLayout(2, 3, 0, 0));
         this.setTitle("Responsabile Nazionale");
         this.setSize(this.height, this.width);
-        this.setVisible(true);
-        this.setLocationRelativeTo(null);
-        getContentPane().setLayout(new GridLayout(2, 3, 0, 0));
         this.add(ne);
         this.add(ap);
         this.add(me);
         this.add(usp);
         this.add(vd);
+        this.setVisible(true);
+        this.setLocationRelativeTo(null);
         
     }
 }
