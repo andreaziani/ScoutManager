@@ -20,7 +20,7 @@ public class AttivitàFormativa{
 	public int inserimentoAttività() {
 		try {
 			PreparedStatement st = con.getMsSQLConnection().prepareStatement(
-					"insert into ATT_LUDICA(codiceAttività, descrizione) VALUES(?, ?)");
+					"insert into ATT_FORMATIVA(codiceAttività, descrizione) VALUES(?, ?)");
 			st.setString(1, codiceAttività);
 			st.setString(2, descrizione);
 			return st.executeUpdate();

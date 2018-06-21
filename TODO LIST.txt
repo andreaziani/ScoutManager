@@ -1,0 +1,4 @@
+- Modificare le query di creazione nella relazione
+- Modificare gli schemi della relazione con quelli aggiornati
+- Finire le query delle operazioni
+- Ricontrollare attentamente la relazione
