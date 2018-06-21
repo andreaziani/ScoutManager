@@ -1,7 +1,9 @@
-package application;
+package application.app;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.Font;
 
 import javax.swing.BoxLayout;
@@ -16,49 +18,31 @@ import javax.swing.SwingConstants;
 import application.admin.AdminView;
 import application.responsabile_nazionale.ResponsabileView;
 import application.parrocchia.ParrocchiaView;
-
-
-import java.awt.Dimension;
-import java.awt.Component;
-
-public class Application {
-
-    private JFrame frame;
-    private JPanel panel;    
+/**
+ * Login window.
+ *
+ */
+public class LoginWindow extends JFrame {
+	/**
+	 * Automatically generated.
+	 */
+	private static final long serialVersionUID = 6801537677416988762L;
+	private JPanel panel;    
     private JTextField txtUsername;
     private JPasswordField passwordField;
-
-    /**
-     * Launch the application.
-     */
-    public static void main(String[] args) {
-        Application window = new Application();
-        window.frame.setVisible(true);
-    }
-
-    /**
-     * Create the application.
-     */
-    public Application() {
-        initialize();
-    }
-
-    /**
-     * Initialize the contents of the frame.
-     */
-    private void initialize() {
-        Dimension pref = new Dimension(250, 20);
-        frame = new JFrame();
-        frame.setResizable(false);
+    
+    public LoginWindow(DBConnection con) {
+    	Dimension pref = new Dimension(250, 20);
+        this.setResizable(false);
         panel = new JPanel();
         panel.setBounds(0, 0, 450, 250);
         JPanel AreaLogin = new JPanel();
-        frame.setBounds(0, 0, 450, 250);
-        frame.setLocationRelativeTo(null);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.getContentPane().setLayout(null);
+        this.setBounds(0, 0, 450, 250);
+        this.setLocationRelativeTo(null);
+        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.getContentPane().setLayout(null);
         panel.setLayout(new BorderLayout());
-        frame.getContentPane().add(panel);
+        this.getContentPane().add(panel);
         panel.add(AreaLogin, BorderLayout.CENTER);
         
         //Title
@@ -98,19 +82,20 @@ public class Application {
         JButton btnLogin = new JButton("Login");
         btnLogin.addActionListener(e ->{
         	if(txtUsername.getText().equals("admin") && String.valueOf(passwordField.getPassword()).equals("admin")) {
-        		this.frame.dispose();
-        		new AdminView();
+        		this.dispose();
+        		new AdminView(con);
         	}
         	if(txtUsername.getText().equals("res")) {
-                    this.frame.dispose();
+                    this.dispose();
                     new ResponsabileView();
                 }
         	if(txtUsername.getText().equals("parrocchia") && String.valueOf(passwordField.getPassword()).equals("parr")) {
-        		this.frame.dispose();
+        		this.dispose();
         		new ParrocchiaView();
         	}
         });
         btnLogin.setAlignmentX(Component.CENTER_ALIGNMENT);
         AreaLogin.add(btnLogin);
+        this.setVisible(true);
     }
 }

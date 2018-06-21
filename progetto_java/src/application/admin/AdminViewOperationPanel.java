@@ -9,6 +9,8 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import application.app.DBConnection;
+
 public class AdminViewOperationPanel extends JPanel {
 	 
 	/**
@@ -46,7 +48,7 @@ public class AdminViewOperationPanel extends JPanel {
 	private JButton b5 = new JButton("visualizza evento nazionale per data");
 	
 	
-	public AdminViewOperationPanel() {
+	public AdminViewOperationPanel(DBConnection con) {
 		this.setLayout(new GridBagLayout());
 		this.parrPercitta();
 		this.parrPerResponsabile();
