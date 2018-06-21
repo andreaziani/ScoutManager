@@ -10,7 +10,10 @@ public class ResponsabileView extends JFrame{
     private int height = Toolkit.getDefaultToolkit().getScreenSize().height;
     private int width = Toolkit.getDefaultToolkit().getScreenSize().width;
     private InsertNationalEvent ne = new InsertNationalEvent();
-    
+    private ActivityPanel ap = new ActivityPanel();
+    private ModifyEv me = new ModifyEv();
+    private UserSignInPanel usp = new UserSignInPanel();
+    private ViewEventdByDate vd = new ViewEventdByDate();
     /**
      * Automatically generated
      */
@@ -18,12 +21,17 @@ public class ResponsabileView extends JFrame{
     
     
     public ResponsabileView() {
+        this.setExtendedState(JFrame.MAXIMIZED_BOTH);
         this.setTitle("Responsabile Nazionale");
         this.setSize(this.height, this.width);
         this.setVisible(true);
         this.setLocationRelativeTo(null);
         getContentPane().setLayout(new GridLayout(2, 3, 0, 0));
         this.add(ne);
+        this.add(ap);
+        this.add(me);
+        this.add(usp);
+        this.add(vd);
         
     }
 }

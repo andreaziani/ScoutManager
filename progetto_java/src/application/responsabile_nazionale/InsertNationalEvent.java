@@ -2,6 +2,7 @@ package application.responsabile_nazionale;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
 import java.awt.GridBagConstraints;
@@ -9,12 +10,14 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 
 import javax.swing.SwingConstants;
+import javax.swing.border.LineBorder;
+
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Color;
 
 public class InsertNationalEvent extends JPanel{
-    private JLabel title = new JLabel("Eventi Nazionali");
+    protected JLabel title = new JLabel("Eventi Nazionali");
     
     //EVENTO NAZIONALE
     private JPanel evNazionale = new JPanel();
@@ -26,6 +29,9 @@ public class InsertNationalEvent extends JPanel{
     private JTextField txtdata = new JTextField(16);
     private JLabel datafine = new JLabel("Data fine:");
     private JTextField txtdatafine = new JTextField(16);
+    private JLabel località = new JLabel("Località:");
+    private JTextField txtLocalità = new JTextField(16);
+    private JTextArea txtdescrizione = new JTextArea("Inserire qui la descrizione dell'evento", 100, 250);
     /**
      * 
      */
@@ -36,7 +42,8 @@ public class InsertNationalEvent extends JPanel{
         this.build();
     }
     
-    public void build() {
+    private void build() {
+        this.setBorder(new LineBorder(new Color(0, 0, 0), 2, true));
         GridBagConstraints gbcMain = new GridBagConstraints();
         gbcMain.gridx = 0;
         gbcMain.gridy = 0;
@@ -55,7 +62,7 @@ public class InsertNationalEvent extends JPanel{
         this.add(evNazionale, gbcMain);        
     }
     
-    public void buildEv_Nazionale() {
+    private void buildEv_Nazionale() {
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.weightx = 1.0;
@@ -91,7 +98,20 @@ public class InsertNationalEvent extends JPanel{
         gbc.gridx = 1;
         evNazionale.add(txtdatafine, gbc);
         
+        gbc.gridy = 4;
+        gbc.gridx = 0;
+        evNazionale.add(località, gbc);
         
+        gbc.gridx = 1;
+        evNazionale.add(txtLocalità, gbc);
+        
+        gbc.gridy = 5;
+        gbc.gridx = 0;
+        gbc.gridwidth = GridBagConstraints.REMAINDER;
+        gbc.fill = GridBagConstraints.NONE;
+        txtdescrizione.setColumns(5);
+        txtdescrizione.setRows(3);
+        evNazionale.add(txtdescrizione, gbc);
     }
         
 }
