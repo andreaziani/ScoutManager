@@ -242,10 +242,10 @@ create table Residenza (
 
 create table RESPONSABILE_E_N (
      CF varchar(16) not null,
-     nome varchar(20) not null,
-     cognome varchar(20) not null,
-     dataNascita varchar(10) not null,
-     luogoNascita varchar(20) not null,
+     nome varchar(15) not null,
+     cognome varchar(15) not null,
+     dataNascita date not null,
+     luogoNascita varchar(15) not null,
      numeroTelefono varchar(10) not null,
      codiceResponsabile varchar(10) not null,
      username varchar(10) not null,
@@ -517,7 +517,7 @@ alter table LC add constraint IDLC_CHK
 //SONO ARRIVATO QUI
 alter table LC add constraint FKfascia_età_LC
      foreign key (da, a)
-     references ETA';
+     references ETA;
 
 alter table LC_ANNO add constraint FKiscrizione_LC
      foreign key (codiceIscritto)
@@ -602,7 +602,7 @@ alter table Residenza add constraint FKRes_PAR_FK
 alter table RESPONSABILE_P add constraint IDRESPONSABILE_P_CHK
      check(exists(select * from Responsabilità_parrocchia
                   where Responsabilità_parrocchia.codiceResponsabile = codiceResponsabile)); 
-//SONO QUI
+
 alter table Responsabilità_E_N add constraint FKRes_RES
      foreign key (codiceResponsabile)
      references RESPONSABILE_E_N;

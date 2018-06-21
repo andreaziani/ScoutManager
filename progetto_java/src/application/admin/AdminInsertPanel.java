@@ -6,7 +6,9 @@ import java.awt.Insets;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JDialog;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
@@ -14,8 +16,11 @@ import javax.swing.JTextField;
 import application.app.DBConnection;
 
 import java.sql.*;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 
-public class AdminInsertPanel extends JPanel{
+public class AdminInsertPanel extends JPanel {
 	/**
 	 * Automatically generated.
 	 */
@@ -41,8 +46,8 @@ public class AdminInsertPanel extends JPanel{
 	private JLabel passwordAssegnata = new JLabel("password: ");
 	private JTextField password = new JTextField(16);
 	private JButton registraRespEParr = new JButton("Registra responsabile e parrocchia");
-	
-	//inserimento parrocchia 
+
+	// inserimento parrocchia
 	private JLabel insertParrocchia = new JLabel("Inserimento Parrocchia");
 	private JLabel codiceParrocchia = new JLabel("Codice Parrocchia: ");
 	private JTextField codParrocchia = new JTextField(16);
@@ -60,31 +65,31 @@ public class AdminInsertPanel extends JPanel{
 	private JTextField codiceEG = new JTextField(16);
 	private JLabel codiceLCLabel = new JLabel("codice LC: ");
 	private JTextField codiceLC = new JTextField(16);
-	
-	//residenza
+
+	// residenza
 	private JLabel residenza = new JLabel("Inserisci Residenza");
 	private JLabel cPar = new JLabel("codice parrocchia: ");
 	private JTextField cParrocchia = new JTextField(16);
 	private JLabel cities = new JLabel("citta: ");
 	private JComboBox<String> citta = new JComboBox<>();
-	
-	//attivit� ludica
+
+	// attivit� ludica
 	private JLabel attL = new JLabel("Inserimento attivita ludica");
 	private JLabel codiceAttL = new JLabel("Codice attivita: ");
 	private JTextField codiceAttivitaLudica = new JTextField(16);
 	private JLabel descAttL = new JLabel("Descrizione attivita: ");
 	private JTextArea descrizioneAttivitaLudica = new JTextArea(1, 30);
 	private JButton inserisciAttL = new JButton("Inserisci attivita ludica");
-	
-	//attivit� formativa
+
+	// attivit� formativa
 	private JLabel attF = new JLabel("Inserimento attivita formativa");
 	private JLabel codiceAttF = new JLabel("Codice attivita: ");
 	private JTextField codiceAttivitaFormativa = new JTextField(16);
 	private JLabel descAttF = new JLabel("Descrizione attivita: ");
 	private JTextArea descrizioneAttivitaFormativa = new JTextArea(1, 30);
 	private JButton inserisciAttF = new JButton("Inserisci attivita formativa");
-	
-	//responsabile nazionale
+
+	// responsabile nazionale
 	private JLabel insertResponsabileN = new JLabel("Inserimento Responsabile Nazionale");
 	private JLabel codiceResponsabileN = new JLabel("Codice Responsabile: ");
 	private JTextField codResponsabileN = new JTextField(16);
@@ -105,9 +110,36 @@ public class AdminInsertPanel extends JPanel{
 	private JLabel passwordAssegnataN = new JLabel("password: ");
 	private JTextField passwordN = new JTextField(16);
 	private JButton registraRespN = new JButton("Registra responsabile nazionale");
-	
+
 	public AdminInsertPanel(DBConnection con) {
 		GridBagLayout grid = new GridBagLayout();
+		this.registraRespN.addActionListener(e -> {
+			try {
+				SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+				java.util.Date parsed = sdf.parse(this.dateN.getText());
+		        java.sql.Date datesql = new java.sql.Date(parsed.getTime());
+				PreparedStatement st = con.getMsSQLConnection().prepareStatement("insert into RESPONSABILE_E_N(CF, nome, cognome, dataNascita, luogoNascita, numeroTelefono,"
+								+ "codiceResponsabile, username, password) VALUES(?, ?, ?, ?, ?, ?, ? ,?, ?)");
+				 st.setString(1, this.cfN.getText());
+				 st.setString(2, this.nameResponsabileN.getText());
+				 st.setString(3, this.surnameN.getText());
+				 st.setDate(4, datesql);
+				 st.setString(5, this.luogoN.getText());
+				 st.setString(6, this.numeroTelefonoN.getText()); 
+				 st.setString(7, this.codResponsabileN.getText());
+				 st.setString(8, this.usernameN.getText());
+				 st.setString(9, this.passwordN.getText());
+				 int rs = st.executeUpdate();
+				if(rs != 0) {
+					JOptionPane.showMessageDialog(this,"Inserimento andato a buon fine");
+				}
+			} catch (SQLException | ParseException e1) {
+				e1.printStackTrace();
+				JOptionPane.showMessageDialog(this,
+						"Qualcosa è andato storto, verifica la corretta lunghezza dei campi.");
+			}
+		});
+
 		this.setLayout(grid);
 		this.inserimentoResponsabileParrocchia();
 		this.inserimentoParrocchia();
@@ -117,7 +149,7 @@ public class AdminInsertPanel extends JPanel{
 		try {
 			Statement st = con.getMsSQLConnection().createStatement();
 			ResultSet rs = st.executeQuery("select * from LUOGO");
-			while(rs.next()) {
+			while (rs.next()) {
 				this.citta.addItem(rs.getString(1));
 			}
 		} catch (SQLException e) {
@@ -125,7 +157,7 @@ public class AdminInsertPanel extends JPanel{
 			e.printStackTrace();
 		}
 	}
-	
+
 	private void inserimentoResponsabileNazionale() {
 		GridBagConstraints c = new GridBagConstraints();
 		c.insets = new Insets(0, 10, 10, 10);
@@ -182,9 +214,9 @@ public class AdminInsertPanel extends JPanel{
 		c.gridx = 4;
 		c.gridy = 30;
 		this.add(this.registraRespN, c);
-		
+
 	}
-	
+
 	private void inserimentoAttivita() {
 		GridBagConstraints c = new GridBagConstraints();
 		c.insets = new Insets(0, 4, 4, 10);
@@ -217,9 +249,9 @@ public class AdminInsertPanel extends JPanel{
 		this.add(this.descrizioneAttivitaFormativa, c);
 		c.gridy = 31;
 		this.add(this.inserisciAttF, c);
-		
+
 	}
-	
+
 	private void inserimentoResidenza() {
 		GridBagConstraints c = new GridBagConstraints();
 		c.fill = GridBagConstraints.HORIZONTAL;
@@ -239,7 +271,7 @@ public class AdminInsertPanel extends JPanel{
 		c.gridx = 5;
 		this.add(this.citta, c);
 	}
-	
+
 	private void inserimentoParrocchia() {
 		GridBagConstraints c = new GridBagConstraints();
 		c.fill = GridBagConstraints.HORIZONTAL;
@@ -288,9 +320,9 @@ public class AdminInsertPanel extends JPanel{
 		this.add(this.codiceLCLabel, c);
 		c.gridx = 3;
 		this.add(this.codiceLC, c);
-		
+
 	}
-	
+
 	private void inserimentoResponsabileParrocchia() {
 		GridBagConstraints c = new GridBagConstraints();
 		c.gridx = 0;
@@ -346,5 +378,9 @@ public class AdminInsertPanel extends JPanel{
 		c.gridx = 5;
 		c.gridy = 10;
 		this.add(this.registraRespEParr, c);
+	}
+
+	private boolean checkField(String value, int size) {
+		return value.length() <= size;
 	}
 }

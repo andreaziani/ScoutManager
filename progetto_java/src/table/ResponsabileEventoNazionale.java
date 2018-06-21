@@ -1,5 +1,7 @@
 package table;
 
+import java.sql.Connection;
+
 public class ResponsabileEventoNazionale {
 	
 	private String codiceResponsabile;
@@ -24,7 +26,10 @@ public class ResponsabileEventoNazionale {
 		this.username = username;
 		this.password = password;
 	}
-
+	
+	public ResponsabileEventoNazionale(Connection con) {
+		
+	}
 	public String getCodiceResponsabile() {
 		return this.codiceResponsabile;
 	}
