@@ -67,17 +67,16 @@ public class ResponsabileParrocchia {
 			java.util.Date parsed = sdf.parse(this.dataNascita);
 			Date datesql = new java.sql.Date(parsed.getTime());
 			PreparedStatement st = con.getMsSQLConnection().prepareStatement(
-					"UPDATE RESPONSABILE_P SET codiceResponsabile = ? , CF = ? , nome = ? , cognome = ? , dataNascita = ? , luogoNascita = ? , numeroTelefono = ? , username = ? , password = ?  WHERE codiceResponsabile = ?");
-			st.setString(1, this.codiceResponsabile);
-			st.setString(2, this.codiceFiscale);
-			st.setString(3, this.nome);
-			st.setString(4, this.cognome);
-			st.setDate(5, datesql);
-			st.setString(6, this.luogoNascita);
-			st.setString(7, this.numTelefono);
-			st.setString(8, this.username);
-			st.setString(9, this.password);
-			st.setString(10, this.codiceResponsabile);
+					"update RESPONSABILE_P set CF = ?, nome = ?, cognome = ?, dataNascita = ?, luogoNascita = ?, numeroTelefono = ?, username = ?, password = ? where codiceResponsabile = ?");
+			st.setString(1, this.codiceFiscale);
+			st.setString(2, this.nome);
+			st.setString(3, this.cognome);
+			st.setDate(4, datesql);
+			st.setString(5, this.luogoNascita);
+			st.setString(6, this.numTelefono);
+			st.setString(7, this.username);
+			st.setString(8, this.password);
+			st.setString(9, this.codiceResponsabile);
 			result = st.executeUpdate();
 			st.close();
 		} catch (SQLException | ParseException e) {
