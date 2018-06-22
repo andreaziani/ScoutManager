@@ -4,6 +4,8 @@ import java.awt.Toolkit;
 
 import javax.swing.JFrame;
 
+import table.ResponsabileEventoNazionale;
+
 import java.awt.GridLayout;
 
 public class ResponsabileView extends JFrame{
@@ -21,7 +23,7 @@ public class ResponsabileView extends JFrame{
     private static final long serialVersionUID = -8618024398073504613L;
     
     
-    public ResponsabileView() {
+    public ResponsabileView(ResponsabileEventoNazionale responsabile) {
         build();
         ap = new ActivityPanel();
         me = new ModifyEv();

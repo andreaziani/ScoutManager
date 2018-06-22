@@ -10,6 +10,8 @@ import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.border.Border;
 
+import table.ResponsabileParrocchia;
+
 public class ParrocchiaView extends JFrame{
 	/**
 	 * 
@@ -20,7 +22,7 @@ public class ParrocchiaView extends JFrame{
 	private JTextArea view = new JTextArea(100, 400);
 	private Border border = BorderFactory.createLineBorder(Color.BLACK);
 	
-	public ParrocchiaView() {
+	public ParrocchiaView(ResponsabileParrocchia responsabileParrocchia) {
 		JPanel panel = new JPanel();
 		panel.setLayout(new BorderLayout());
 		ParrocchiaViewOperation op = new ParrocchiaViewOperation();
