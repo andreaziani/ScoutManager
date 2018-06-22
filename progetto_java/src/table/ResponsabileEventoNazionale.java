@@ -1,9 +1,16 @@
 package table;
 
-import java.sql.Connection;
+import java.sql.Date;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+
+import application.app.DBConnection;
+import application.app.DBConnectionImpl;
 
 public class ResponsabileEventoNazionale {
-	
+
 	private String codiceResponsabile;
 	private String codiceFiscale;
 	private String nome;
@@ -13,7 +20,8 @@ public class ResponsabileEventoNazionale {
 	private String numTelefono;
 	private String username;
 	private String password;
-	
+	private DBConnection con = new DBConnectionImpl();
+
 	public ResponsabileEventoNazionale(String codiceResponsabile, String codiceFiscale, String nome, String cognome,
 			String dataNascita, String luogoNascita, String numTelefono, String username, String password) {
 		this.codiceResponsabile = codiceResponsabile;
@@ -26,80 +34,29 @@ public class ResponsabileEventoNazionale {
 		this.username = username;
 		this.password = password;
 	}
-	
-	public ResponsabileEventoNazionale(Connection con) {
-		
-	}
-	public String getCodiceResponsabile() {
-		return this.codiceResponsabile;
-	}
 
-	public String getCodiceFiscale() {
-		return this.codiceFiscale;
+	public int inserimentoResponsabile() {
+		try {
+			SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+			java.util.Date parsed = sdf.parse(dataNascita);
+	        Date datesql = new java.sql.Date(parsed.getTime());
+			PreparedStatement st = con.getMsSQLConnection().prepareStatement(
+					"insert into RESPONSABILE_E_N(CF, nome, cognome, dataNascita, luogoNascita, numeroTelefono,"
+							+ "codiceResponsabile, username, password) VALUES(?, ?, ?, ?, ?, ?, ? ,?, ?)");
+			st.setString(1, codiceFiscale);
+			st.setString(2, nome);
+			st.setString(3, cognome);
+			st.setDate(4, datesql);
+			st.setString(5, luogoNascita);
+			st.setString(6, numTelefono);
+			st.setString(7, codiceResponsabile);
+			st.setString(8, username);
+			st.setString(9, password);
+			return st.executeUpdate();
+		} catch (SQLException e) {
+			return 0;
+		} catch (ParseException e) {
+			return 0;
+		}
 	}
-
-	public String getNome() {
-		return this.nome;
-	}
-
-	public String getCognome() {
-		return this.cognome;
-	}
-
-	public String getDataNascita() {
-		return this.dataNascita;
-	}
-
-	public String getLuogoNascita() {
-		return this.luogoNascita;
-	}
-
-	public String getNumTelefono() {
-		return this.numTelefono;
-	}
-
-	public String getUsername() {
-		return this.username;
-	}
-
-	public String getPassword() {
-		return this.password;
-	}
-
-	public void setCodiceResponsabile(String codiceResponsabile) {
-		this.codiceResponsabile = codiceResponsabile;
-	}
-
-	public void setCodiceFiscale(String codiceFiscale) {
-		this.codiceFiscale = codiceFiscale;
-	}
-
-	public void setNome(String nome) {
-		this.nome = nome;
-	}
-
-	public void setCognome(String cognome) {
-		this.cognome = cognome;
-	}
-
-	public void setDataNascita(String dataNascita) {
-		this.dataNascita = dataNascita;
-	}
-
-	public void setLuogoNascita(String luogoNascita) {
-		this.luogoNascita = luogoNascita;
-	}
-
-	public void setNumTelefono(String numTelefono) {
-		this.numTelefono = numTelefono;
-	}
-
-	public void setUsername(String username) {
-		this.username = username;
-	}
-
-	public void setPassword(String password) {
-		this.password = password;
-	}
-
 }

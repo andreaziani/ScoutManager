@@ -8,7 +8,7 @@ import java.sql.SQLException;
  *
  */
 public class DBConnectionImpl implements DBConnection {
-    private String dbName = "AGESCI"; 
+    private String dbName = "SCOUT"; 
  
     public Connection getMsSQLConnection()  {
         	String driver = "com.microsoft.sqlserver.jdbc.SQLServerDriver";
