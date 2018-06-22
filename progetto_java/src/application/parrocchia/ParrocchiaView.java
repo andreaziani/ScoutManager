@@ -27,7 +27,8 @@ public class ParrocchiaView extends JFrame{
 	public ParrocchiaView(ResponsabileParrocchia responsabileParrocchia, DBConnection con) {
 		JPanel panel = new JPanel();
 		panel.setLayout(new BorderLayout());
-		ParrocchiaViewOperationPanel op = new ParrocchiaViewOperationPanel();
+		this.view.setEditable(false);
+		ParrocchiaViewOperationPanel op = new ParrocchiaViewOperationPanel(con, view, responsabileParrocchia);
 		ParrocchiaModifyOperation mod = new ParrocchiaModifyOperation(con, responsabileParrocchia);
 		panel.add(mod, BorderLayout.NORTH);
 		panel.add(op, BorderLayout.SOUTH);

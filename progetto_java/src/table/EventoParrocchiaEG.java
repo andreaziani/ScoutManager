@@ -1,5 +1,6 @@
 package table;
 
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
@@ -11,14 +12,14 @@ public class EventoParrocchiaEG{
 	private String codiceParrocchia;
 	private String codiceEvento;
 	private String tipo;
-	private String dataInizio;
-	private String dataFine;
+	private Date dataInizio;
+	private Date dataFine;
 	private String località;
 	private String descrizione;
 	private DBConnection con = new DBConnectionImpl();
 	
-	public EventoParrocchiaEG(String codiceParrocchia, String codiceEvento, String tipo, String dataInizio,
-			String dataFine, String località, String descrizione) {
+	public EventoParrocchiaEG(String codiceParrocchia, String codiceEvento, String tipo, Date dataInizio,
+			Date dataFine, String località, String descrizione) {
 		super();
 		this.codiceParrocchia = codiceParrocchia;
 		this.codiceEvento = codiceEvento;
@@ -36,8 +37,8 @@ public class EventoParrocchiaEG{
 			st.setString(1, codiceParrocchia);
 			st.setString(2, codiceEvento);
 			st.setString(3, tipo);
-			st.setString(4, dataInizio);
-			st.setString(5, dataFine);
+			st.setDate(4, dataInizio);
+			st.setDate(5, dataFine);
 			st.setString(6, località);
 			st.setString(7, descrizione);
 			return st.executeUpdate();

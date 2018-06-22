@@ -7,7 +7,11 @@ import java.awt.Insets;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
+
+import application.app.DBConnection;
+import table.ResponsabileParrocchia;
 
 public class ParrocchiaViewOperationPanel extends JPanel{
 	
@@ -20,8 +24,6 @@ public class ParrocchiaViewOperationPanel extends JPanel{
 	private JLabel visualizzazioneIscritti = new JLabel("Visualizza iscritti branca per anno");
 	private JLabel anno = new JLabel("Anno :");
 	private JTextField year = new JTextField(16);
-	private JLabel parrocchia = new JLabel("Codice parrocchia :");
-	private JTextField parr = new JTextField(16);
 	private JLabel codiceBranca = new JLabel("Codice branca :");
 	private JTextField codBranca = new JTextField(16);
 	private JButton visualizzaIscritti = new JButton("Visualizza iscritti");
@@ -38,12 +40,26 @@ public class ParrocchiaViewOperationPanel extends JPanel{
 		private JTextField date = new JTextField(16);
 		private JButton visualizzaEventoData = new JButton("Visualizza eventi");
 
-	public ParrocchiaViewOperationPanel() {
+	public ParrocchiaViewOperationPanel(DBConnection con, JTextArea view, ResponsabileParrocchia responsabileParrocchia) {
 		GridBagLayout grid = new GridBagLayout();
 		this.setLayout(grid);
 		this.visualizzaIscritti();
 		this.visualizzaIscrittiEvento();
 		this.visualizzaEventoPerData();
+		this.visualizzaEventoData.addActionListener(e -> {
+			view.setText(ParrocchiaViewOperation.eventoDiParrocchiaPerData(this.date.getText()));
+		});
+		this.visualizzaIscrittiEvento.addActionListener(e -> {
+			view.setText(ParrocchiaViewOperation.iscrittiEvento(this.codEvento.getText(), ParrocchiaModifyOperation.getCodiceParrocchia()));
+			view.revalidate();
+			view.repaint();
+		});
+		
+		this.visualizzaIscritti.addActionListener(e -> {
+			view.setText(ParrocchiaViewOperation.iscrittiBranca(codBranca.getText(), Integer.parseInt(year.getText())));
+			view.revalidate();
+			view.repaint();
+		});
 	}
 	
 	private void visualizzaIscritti() {
@@ -60,11 +76,6 @@ public class ParrocchiaViewOperationPanel extends JPanel{
 		this.add(this.year, c);
 		c.gridx = 0;
 		c.gridy = 2;
-		this.add(this.parrocchia, c);
-		c.gridx = 1;
-		this.add(this.parr, c);
-		c.gridx = 0;
-		c.gridy = 3;
 		this.add(this.codiceBranca, c);
 		c.gridx = 1;
 		this.add(this.codBranca, c);

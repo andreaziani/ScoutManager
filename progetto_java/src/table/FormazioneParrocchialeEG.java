@@ -1,10 +1,17 @@
 package table;
 
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+
+import application.app.DBConnection;
+import application.app.DBConnectionImpl;
+
 public class FormazioneParrocchialeEG {
 	
 	private String codiceEvento;
 	private String codiceAttività;
 	private String codiceParrocchia;
+	private DBConnection con = new DBConnectionImpl();
 	
 	public FormazioneParrocchialeEG(String codiceEvento, String codiceAttività, String codiceParrocchia) {
 		super();
@@ -13,28 +20,20 @@ public class FormazioneParrocchialeEG {
 		this.codiceParrocchia = codiceParrocchia;
 	}
 
-	public String getCodiceEvento() {
-		return codiceEvento;
-	}
-
-	public String getCodiceAttività() {
-		return codiceAttività;
-	}
-
-	public String getCodiceParrocchia() {
-		return codiceParrocchia;
-	}
-
-	public void setCodiceEvento(String codiceEvento) {
-		this.codiceEvento = codiceEvento;
-	}
-
-	public void setCodiceAttività(String codiceAttività) {
-		this.codiceAttività = codiceAttività;
-	}
-
-	public void setCodiceParrocchia(String codiceParrocchia) {
-		this.codiceParrocchia = codiceParrocchia;
+	public int assegnamentoAttivitàFormativaEG() {
+		int rs;
+		try {
+			PreparedStatement st = con.getMsSQLConnection().prepareStatement(
+					"insert into Formazione_Parrocchiale_EG(codiceEvento, codiceAttività, codiceParrocchia) VALUES(?, ?, ?)");
+			st.setString(1, codiceEvento);
+			st.setString(2, codiceAttività);
+			st.setString(3, codiceParrocchia);
+			rs = st.executeUpdate();
+			st.close();
+		} catch (SQLException e) {
+			return 0;
+		}
+		return rs;
 	}
 	
 }

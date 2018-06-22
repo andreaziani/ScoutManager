@@ -1,10 +1,17 @@
 package table;
 
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+
+import application.app.DBConnection;
+import application.app.DBConnectionImpl;
+
 public class RicreazioneEG {
 	
 	private String codiceEvento;
 	private String codiceParrocchia;
 	private String codiceAttività;
+	private DBConnection con = new DBConnectionImpl();
 	
 	public RicreazioneEG(String codiceEvento, String codiceParrocchia, String codiceAttività) {
 		super();
@@ -13,28 +20,20 @@ public class RicreazioneEG {
 		this.codiceAttività = codiceAttività;
 	}
 
-	public String getCodiceEvento() {
-		return codiceEvento;
-	}
-
-	public String getCodiceParrocchia() {
-		return codiceParrocchia;
-	}
-
-	public String getCodiceAttività() {
-		return codiceAttività;
-	}
-
-	public void setCodiceEvento(String codiceEvento) {
-		this.codiceEvento = codiceEvento;
-	}
-
-	public void setCodiceParrocchia(String codiceParrocchia) {
-		this.codiceParrocchia = codiceParrocchia;
-	}
-
-	public void setCodiceAttività(String codiceAttività) {
-		this.codiceAttività = codiceAttività;
+	public int assegnamentoAttivitàRicreativaEG() {
+		int rs;
+		try {
+			PreparedStatement st = con.getMsSQLConnection().prepareStatement(
+					"insert into Ricreazione_EG(codiceEvento, codiceAttività, codiceParrocchia) VALUES(?, ?, ?)");
+			st.setString(1, codiceEvento);
+			st.setString(2, codiceAttività);
+			st.setString(3, codiceParrocchia);
+			rs = st.executeUpdate();
+			st.close();
+		} catch (SQLException e) {
+			return 0;
+		}
+		return rs;
 	}
 
 }

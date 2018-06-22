@@ -1,10 +1,17 @@
 package table;
 
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+
+import application.app.DBConnection;
+import application.app.DBConnectionImpl;
+
 public class Acquisizione {
 	
 	private String nome;
 	private String areaCompetenza;
 	private String codiceIscritto;
+	private DBConnection con = new DBConnectionImpl();
 	
 	public Acquisizione(String nome, String areaCompetenza, String codiceIscritto) {
 		super();
@@ -13,28 +20,17 @@ public class Acquisizione {
 		this.codiceIscritto = codiceIscritto;
 	}
 
-	public String getNome() {
-		return nome;
+	public int acquisizione() {
+		try {
+			PreparedStatement st = con.getMsSQLConnection().prepareStatement(
+					"insert into acquisizione(codiceIscritto, nomeCompetenza, areaCompetenza) VALUES(?, ?, ?)");
+			st.setString(1, codiceIscritto);
+			st.setString(2, nome);
+			st.setString(3, areaCompetenza);
+			return st.executeUpdate();
+		} catch (SQLException e) {
+			return 0;
+		}
 	}
-
-	public String getAreaCompetenza() {
-		return areaCompetenza;
-	}
-
-	public String getCodiceIscritto() {
-		return codiceIscritto;
-	}
-
-	public void setNome(String nome) {
-		this.nome = nome;
-	}
-
-	public void setAreaCompetenza(String areaCompetenza) {
-		this.areaCompetenza = areaCompetenza;
-	}
-
-	public void setCodiceIscritto(String codiceIscritto) {
-		this.codiceIscritto = codiceIscritto;
-	}	
 
 }

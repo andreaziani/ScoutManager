@@ -1,11 +1,18 @@
 package table;
 
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+
+import application.app.DBConnection;
+import application.app.DBConnectionImpl;
+
 public class RegistrazioneEventoParrocchiaLC {
 	
 	private String codiceEvento;
 	private String codiceIscritto;
 	private String codiceParrocchia;
 	private String codiceRegistrazione;
+	private DBConnection con = new DBConnectionImpl();
 	
 	public RegistrazioneEventoParrocchiaLC(String codiceEvento, String codiceIscritto, String codiceParrocchia,
 			String codiceRegistrazione) {
@@ -16,36 +23,18 @@ public class RegistrazioneEventoParrocchiaLC {
 		this.codiceRegistrazione = codiceRegistrazione;
 	}
 
-	public String getCodiceEvento() {
-		return codiceEvento;
+	public int registrazioneEventoLC() {
+		try {
+			PreparedStatement st = con.getMsSQLConnection().prepareStatement(
+					"insert into REGISTRAZIONE_E_P_LC(codiceParrocchia, codiceEvento, codiceRegistrazione, codiceIscritto) VALUES(?, ?, ?, ?)");
+			st.setString(1, codiceParrocchia);
+			st.setString(2, codiceEvento);
+			st.setString(3, codiceRegistrazione);
+			st.setString(4, codiceIscritto);
+			return st.executeUpdate();
+		} catch (SQLException e) {
+			return 0;
+		}
 	}
-
-	public String getCodiceIscritto() {
-		return codiceIscritto;
-	}
-
-	public String getCodiceParrocchia() {
-		return codiceParrocchia;
-	}
-
-	public String getCodiceRegistrazione() {
-		return codiceRegistrazione;
-	}
-
-	public void setCodiceEvento(String codiceEvento) {
-		this.codiceEvento = codiceEvento;
-	}
-
-	public void setCodiceIscritto(String codiceIscritto) {
-		this.codiceIscritto = codiceIscritto;
-	}
-
-	public void setCodiceParrocchia(String codiceParrocchia) {
-		this.codiceParrocchia = codiceParrocchia;
-	}
-
-	public void setCodiceRegistrazione(String codiceRegistrazione) {
-		this.codiceRegistrazione = codiceRegistrazione;
-	}	
 
 }
