@@ -8,6 +8,7 @@ public class ModifyEv extends InsertNationalEvent{
 
     public ModifyEv() {
         super.title.setText("Modifica Evento");
+        super.btn.setText("Modifica Evento");
     }
 
 }
