@@ -17,12 +17,14 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
 import application.app.DBConnection;
+import table.AttivitàLudica;
 import table.EventoParrocchiaEG;
 import table.EventoParrocchiaLC;
 import table.EventoParrocchiaRS;
 import table.EventoParrocchiaTutti;
 import table.Iscritto;
 import table.LCAnno;
+import table.RicreazioneLC;
 
 public class ParrocchiaModifyOperation extends JPanel{
 	/**

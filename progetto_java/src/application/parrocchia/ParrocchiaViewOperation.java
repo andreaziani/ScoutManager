@@ -1,111 +1,79 @@
 package application.parrocchia;
 
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.Insets;
+import java.sql.Date;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
+import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 
-import javax.swing.JButton;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JTextField;
+import application.app.DBConnection;
+import application.app.DBConnectionImpl;
 
-public class ParrocchiaViewOperation extends JPanel{
+public class ParrocchiaViewOperation {
+	static DBConnection con = new DBConnectionImpl();
 	
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 4773835530627131778L;
-	
-	//visualizzazione iscritti
-	private JLabel visualizzazioneIscritti = new JLabel("Visualizza iscritti branca per anno");
-	private JLabel anno = new JLabel("Anno :");
-	private JTextField year = new JTextField(16);
-	private JLabel parrocchia = new JLabel("Codice parrocchia :");
-	private JTextField parr = new JTextField(16);
-	private JLabel codiceBranca = new JLabel("Codice branca :");
-	private JTextField codBranca = new JTextField(16);
-	private JButton visualizzaIscritti = new JButton("Visualizza iscritti");
-	
-	//visualizzazione iscritti ad evento parrocchiale
-	private JLabel visualizzazioneIscrittiEvento = new JLabel("Visualizza iscritti ad evento");
-	private JLabel codiceEvento = new JLabel("Codice evento :");
-	private JTextField codEvento = new JTextField(16);
-	private JButton visualizzaIscrittiEvento = new JButton("Visualizza iscritti a evento");
-	
-	//visualizzazione evento per data
-		private JLabel visualizzazioneEventoData = new JLabel("Visualizza eventi per data");
-		private JLabel data = new JLabel("Data inizio:");
-		private JTextField date = new JTextField(16);
-		private JButton visualizzaEventoData = new JButton("Visualizza eventi");
+	static public String eventoDiParrocchiaPerData(String data) {
+		String row = "";
+		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+		try {
+			java.util.Date parsed = sdf.parse(data);
+			Date datesql = new java.sql.Date(parsed.getTime());
+			PreparedStatement st = con.getMsSQLConnection()
+					.prepareStatement("SELECT * " + "FROM E_P_TUTTI" + "WHERE dataInizio = ? ");
+			st.setDate(1, datesql);
+			ResultSet rs = st.executeQuery();
+			ResultSetMetaData rsMetaData = rs.getMetaData();
+			while (rs.next()) {
+				for (int i = 1; i < rsMetaData.getColumnCount(); i++) {
+					row += rs.getString(i) + "\t";
+				}
+				row += "\n";
+			}
+			st.close();
+			PreparedStatement st2 = con.getMsSQLConnection()
+					.prepareStatement("SELECT * " + "FROM E_P_LC" + "WHERE dataInizio = ? ");
+			st2.setDate(1, datesql);
+			rs = st2.executeQuery();
+			rsMetaData = rs.getMetaData();
+			while (rs.next()) {
+				for (int i = 1; i < rsMetaData.getColumnCount(); i++) {
+					row += rs.getString(i) + "\t";
+				}
+				row += "\n";
+			}
+			st2.close();
 
-	public ParrocchiaViewOperation() {
-		GridBagLayout grid = new GridBagLayout();
-		this.setLayout(grid);
-		this.visualizzaIscritti();
-		this.visualizzaIscrittiEvento();
-		this.visualizzaEventoPerData();
-	}
-	
-	private void visualizzaIscritti() {
-		GridBagConstraints c = new GridBagConstraints();
-		c.gridx = 0;
-		c.insets = new Insets(0, 10, 10, 10);
-		this.add(this.visualizzazioneIscritti, c);
-		c.insets = new Insets(0, 0, 0, 0);
-		c.gridx = 0;
-		c.gridy = 1;
-		c.fill = GridBagConstraints.HORIZONTAL;
-		this.add(this.anno, c);
-		c.gridx = 1;
-		this.add(this.year, c);
-		c.gridx = 0;
-		c.gridy = 2;
-		this.add(this.parrocchia, c);
-		c.gridx = 1;
-		this.add(this.parr, c);
-		c.gridx = 0;
-		c.gridy = 3;
-		this.add(this.codiceBranca, c);
-		c.gridx = 1;
-		this.add(this.codBranca, c);
-		c.gridx = 0;
-		c.gridy = 5;
-		this.add(this.visualizzaIscritti, c);
-		
-	}
-	
-	private void visualizzaIscrittiEvento() {
-		GridBagConstraints c = new GridBagConstraints();
-		c.gridx = 2;
-		c.insets = new Insets(0, 10, 10, 10);
-		this.add(this.visualizzazioneIscrittiEvento, c);
-		c.insets = new Insets(0, 0, 0, 0);
-		c.gridx = 2;
-		c.gridy = 1;
-		c.fill = GridBagConstraints.HORIZONTAL;
-		this.add(this.codiceEvento, c);
-		c.gridx = 3;
-		this.add(this.codEvento, c);
-		c.gridx = 2;
-		c.gridy = 5;
-		this.add(this.visualizzaIscrittiEvento, c);		
-	}
-	
-	private void visualizzaEventoPerData() {
-		GridBagConstraints c = new GridBagConstraints();
-		c.gridx = 4;
-		c.insets = new Insets(0, 10, 10, 10);
-		this.add(this.visualizzazioneEventoData, c);
-		c.insets = new Insets(0, 0, 0, 0);
-		c.gridx = 4;
-		c.gridy = 1;
-		c.fill = GridBagConstraints.HORIZONTAL;
-		this.add(this.data, c);
-		c.gridx = 5;
-		this.add(this.date, c);
-		c.gridx = 4;
-		c.gridy = 5;
-		this.add(this.visualizzaEventoData, c);	
+			PreparedStatement st3 = con.getMsSQLConnection()
+					.prepareStatement("SELECT * " + "FROM E_P_RS" + "WHERE dataInizio = ? ");
+			st3.setDate(1, datesql);
+			rs = st3.executeQuery();
+			rsMetaData = rs.getMetaData();
+			while (rs.next()) {
+				for (int i = 1; i < rsMetaData.getColumnCount(); i++) {
+					row += rs.getString(i) + "\t";
+				}
+				row += "\n";
+			}
+			st3.close();
+
+			PreparedStatement st4 = con.getMsSQLConnection()
+					.prepareStatement("SELECT * " + "FROM E_P_EG" + "WHERE dataInizio = ? ");
+			st4.setDate(1, datesql);
+			rs = st4.executeQuery();
+			rsMetaData = rs.getMetaData();
+			while (rs.next()) {
+				for (int i = 1; i < rsMetaData.getColumnCount(); i++) {
+					row += rs.getString(i) + "\t";
+				}
+				row += "\n";
+			}
+			st4.close();
+		} catch (SQLException | ParseException e1) {
+			return " ";
+		}
+		return row;
 	}
 
 }
