@@ -385,23 +385,6 @@ alter table E_NAZIONALE add constraint IDE_NAZIONALE_CHK
      check(exists(select * from Formazione_Nazionale
                   where Formazione_Nazionale.codiceEvento = codiceEvento)); 
 
-create FUNCTION IDE_Nazionale_check(@codiceEvento varchar(10))
-    RETURNS varchar(5)
-    AS
-    BEGIN
-    DECLARE @return varchar(5);
-    IF EXISTS (select * from Responsabilità_E_N
-                  where Responsabilità_E_N.codiceEvento =  @codiceEvento)
-	SET
-	@return = 'true';
-	ELSE
-	SET @return = 'false';
-
-    RETURN @return;
-
-    END;
-    GO
-
 // queste tre sotto non le ho messe perchè vincolano a registrare prima la ricreazione rispetto all'evento di parrocchia
 alter table E_P_EG add constraint IDE_P_EG_CHK
      check(exists(select * from Ricreazione_EG
@@ -417,7 +400,8 @@ alter table E_P_EG add constraint IDE_P_EG_CHK
 
 alter table E_P_EG add constraint FKOrganizza_E_P_EG
      foreign key (codiceParrocchia)
-     references PARROCCHIA;
+     references PARROCCHIA
+     ON DELETE CASCADE;
 
 // anche questi due check
 alter table E_P_LC add constraint IDE_P_LC_CHK
@@ -430,7 +414,8 @@ alter table E_P_LC add constraint IDE_P_LC_CHK
 
 alter table E_P_LC add constraint FKOrganizza_E_P_LC
      foreign key (codiceParrocchia)
-     references PARROCCHIA;
+     references PARROCCHIA
+     ON DELETE CASCADE;
 
 alter table E_P_RS add constraint IDE_P_RS_CHK
      check(exists(select * from Formazione_Parrocchiale_RS
@@ -442,7 +427,8 @@ alter table E_P_RS add constraint IDE_P_RS_CHK
 
 alter table E_P_RS add constraint FKOrganizza_E_P_RS
      foreign key (codiceParrocchia)
-     references PARROCCHIA;
+     references PARROCCHIA
+     ON DELETE CASCADE;
 
 alter table E_P_TUTTI add constraint IDE_P_TUTTI_CHK
      check(exists(select * from Ricreazione_T
@@ -454,7 +440,8 @@ alter table E_P_TUTTI add constraint IDE_P_TUTTI_CHK
 
 alter table E_P_TUTTI add constraint FKOrganizza_E_P_TUTTI
      foreign key (codiceParrocchia)
-     references PARROCCHIA;
+     references PARROCCHIA
+     ON DELETE CASCADE;
 
 alter table EG add constraint IDEG_CHK // inutile
      check(exists(select * from Contiene_EG

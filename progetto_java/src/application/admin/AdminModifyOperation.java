@@ -1,5 +1,6 @@
 package application.admin;
 
+import java.awt.Color;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -40,6 +41,7 @@ public class AdminModifyOperation extends JPanel {
 	private JButton modificaRespParrocchia = new JButton("Modifica responsabile e parrocchia");
 
 	public AdminModifyOperation(DBConnection con) {
+		modifyResp.setForeground(Color.RED);
 		this.setLayout(new GridBagLayout());
 		this.modificaResp();
 		this.modificaRespParrocchia.addActionListener(e -> {
