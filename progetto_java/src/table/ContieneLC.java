@@ -27,6 +27,7 @@ public class ContieneLC {
 			st.setString(1, this.codiceParrocchia);
 			st.setString(2, this.codiceLC);
 			result = st.executeUpdate();
+			st.close();
 		} catch (SQLException e) {
 			return 0;
 		}

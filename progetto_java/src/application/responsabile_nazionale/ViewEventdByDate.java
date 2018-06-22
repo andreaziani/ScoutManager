@@ -5,13 +5,18 @@ import java.awt.Component;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.util.Properties;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
-import javax.swing.border.LineBorder;
+import javax.swing.border.EtchedBorder;
+
+import org.jdatepicker.impl.JDatePanelImpl;
+import org.jdatepicker.impl.JDatePickerImpl;
+import org.jdatepicker.impl.UtilDateModel;
 
 public class ViewEventdByDate extends JPanel{
     /**
@@ -23,14 +28,19 @@ public class ViewEventdByDate extends JPanel{
     private JLabel title = new JLabel("Visualizza eventi per data");
     private JLabel dataInizio = new JLabel("Data di inizio:");
     private JLabel codiceRes = new JLabel("Codice Responsabile:");
-    private JTextField txtdata = new JTextField(16);
+    private Properties p;
+    private JDatePickerImpl datePicker;
     private JTextField txtCod = new JTextField(16);
     private JButton btn = new JButton("VISUALIZZA");
     
     
     public ViewEventdByDate() {
-        this.setBorder(new LineBorder(Color.BLACK, 2, true));
+        this.setBorder(new EtchedBorder(EtchedBorder.LOWERED));
         this.setLayout(new GridBagLayout());
+        p = new Properties();
+        p.put("text.today", "Today");
+        p.put("text.month", "Month");
+        p.put("text.year", "Year");
         setTitle();
         this.build();
     }
@@ -57,6 +67,8 @@ public class ViewEventdByDate extends JPanel{
         gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.weightx = 1.0;
         
+        datePicker = new JDatePickerImpl(new JDatePanelImpl(new UtilDateModel(), p), new DateLabelFormatter());
+        
         add(dataInizio, gbc);
         gbc.gridx = 1;
         add(codiceRes, gbc);
@@ -64,7 +76,7 @@ public class ViewEventdByDate extends JPanel{
         gbc.gridy = 2;
         gbc.gridx = 0;
         
-        add(txtdata, gbc);
+        add(datePicker, gbc);
         
         gbc.gridx = 1;
         add(txtCod, gbc);
@@ -73,6 +85,7 @@ public class ViewEventdByDate extends JPanel{
         gbc.gridx = 0;
         gbc.gridwidth = GridBagConstraints.REMAINDER;
         gbc.gridheight = GridBagConstraints.REMAINDER;
+        gbc.fill = GridBagConstraints.NONE;
         add(btn, gbc);
     }
 }

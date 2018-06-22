@@ -23,6 +23,7 @@ public class CC {
 			st = con.getMsSQLConnection().prepareStatement("insert into CC(codiceCC) VALUES(?) ");
 			st.setString(1, this.codiceCC);
 			result = st.executeUpdate();
+			st.close();
 		} catch (SQLException e) {
 			return 0;
 		}

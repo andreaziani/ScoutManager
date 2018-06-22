@@ -147,7 +147,7 @@ public class AdminInsertPanel extends JPanel {
 		this.registraRespEParr.addActionListener(e -> {
 			ResponsabileParrocchia rp = new ResponsabileParrocchia(this.codResponsabile.getText(), this.cf.getText(),
 					this.nameResponsabileP.getText(), this.surname.getText(), this.date.getText(), this.luogo.getText(),
-					this.numeroTelefono.getText(), this.username.getText(), this.passwordAssegnata.getText());
+					this.numeroTelefono.getText(), this.username.getText(), this.password.getText());
 			Parrocchia p = new Parrocchia(this.codParrocchia.getText(), this.nameParrocchia.getText(),
 					this.viaP.getText(), this.numCivicoP.getText());
 			Residenza res = new Residenza(this.codParrocchia.getText(), this.citta.getSelectedItem().toString());
@@ -281,7 +281,6 @@ public class AdminInsertPanel extends JPanel {
 		this.add(this.descrizioneAttivitaFormativa, c);
 		c.gridy = 31;
 		this.add(this.inserisciAttF, c);
-
 	}
 
 	private void inserimentoResidenza() {
@@ -352,7 +351,6 @@ public class AdminInsertPanel extends JPanel {
 		this.add(this.codiceLCLabel, c);
 		c.gridx = 3;
 		this.add(this.codiceLC, c);
-
 	}
 
 	private void inserimentoResponsabileParrocchia() {
