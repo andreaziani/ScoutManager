@@ -93,6 +93,8 @@ public class ParrocchiaModifyOperation extends JPanel{
 	private JTextField codiceEP = new JTextField(16);
 	private JLabel codIscr = new JLabel("Codice Iscritto: ");
 	private JTextField cIscr= new JTextField(16);
+	private JLabel codiceRegistrazione = new JLabel("Codice registrazione: ");
+	private JTextField codReg = new JTextField(16);
 	private JButton iscriviEvento = new JButton("Iscrivi a evento");
 	
 	public ParrocchiaModifyOperation() {
@@ -125,6 +127,9 @@ public class ParrocchiaModifyOperation extends JPanel{
 		this.add(this.cEvL, c);
 		c.gridy = 27;
 		this.add(this.assegnaAttL, c);
+		this.assegnaAttL.addActionListener(e -> {
+			
+		});
 		c.gridx = 1;
 		c.gridy = 22;
 		this.add(this.attivitàFormativa, c);
@@ -138,6 +143,9 @@ public class ParrocchiaModifyOperation extends JPanel{
 		this.add(this.cEvF, c);
 		c.gridy = 27;
 		this.add(this.assegnaAttF, c);
+		this.assegnaAttF.addActionListener(e -> {
+			
+		});
 		
 	}
 	
@@ -172,6 +180,9 @@ public class ParrocchiaModifyOperation extends JPanel{
 		c.gridx = 4;
 		c.gridy = 8;
 		this.add(this.inserisciEvento, c);
+		this.inserisciEvento.addActionListener(e -> {
+			
+		});
 	}
 	
 	private void assegnamentoCompetenza() {
@@ -200,6 +211,9 @@ public class ParrocchiaModifyOperation extends JPanel{
 		c.gridx = 2;
 		c.gridy = 27;
 		this.add(this.assegnaCompetenza, c);
+		this.assegnaCompetenza.addActionListener(e -> {
+			
+		});
 	}
 	
 	private void registrazioneIscritto() {
@@ -247,6 +261,9 @@ public class ParrocchiaModifyOperation extends JPanel{
 		c.gridx = 0;
 		c.gridy = 8;
 		this.add(this.registraIscritto, c);
+		this.registraIscritto.addActionListener(e -> {
+			
+		});
 	}
 	
 	private void registrazioneIscrittoBranca() {
@@ -274,6 +291,9 @@ public class ParrocchiaModifyOperation extends JPanel{
 		c.gridx = 2;
 		c.gridy = 8;
 		this.add(this.iscrivi, c);
+		this.iscrivi.addActionListener(e -> {
+			
+		});
 	}
 	
 	private void registrazioneIscrittoEvento() {
@@ -295,12 +315,15 @@ public class ParrocchiaModifyOperation extends JPanel{
 		this.add(this.cIscr, c);
 		c.gridx = 8;
 		c.gridy = 3;
-		this.add(this.anno, c);
+		this.add(this.codiceRegistrazione, c);
 		c.gridx = 9;
-		this.add(this.year, c);
+		this.add(this.codReg, c);
 		c.gridx = 8;
 		c.gridy = 8;
 		this.add(this.iscriviEvento, c);
+		this.iscriviEvento.addActionListener(e -> {
+			
+		});
 	}
 	
 	private void cancellazioneEvento() {
@@ -318,6 +341,9 @@ public class ParrocchiaModifyOperation extends JPanel{
 		c.gridx = 6;
 		c.gridy = 8;
 		this.add(this.cancella, c);
+		this.cancella.addActionListener(e -> {
+			
+		});
 	}
 	
 
