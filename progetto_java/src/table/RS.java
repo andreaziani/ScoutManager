@@ -23,6 +23,7 @@ public class RS {
 			st = con.getMsSQLConnection().prepareStatement("insert into RS(codiceRS) VALUES(?)");
 			st.setString(1, this.codiceRS);
 			result = st.executeUpdate();
+			st.close();
 		} catch (SQLException e) {
 			return 0;
 		}

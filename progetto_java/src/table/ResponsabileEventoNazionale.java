@@ -36,6 +36,7 @@ public class ResponsabileEventoNazionale {
 	}
 
 	public int inserimentoResponsabile() {
+		int rs;
 		try {
 			SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 			java.util.Date parsed = sdf.parse(dataNascita);
@@ -52,11 +53,13 @@ public class ResponsabileEventoNazionale {
 			st.setString(7, codiceResponsabile);
 			st.setString(8, username);
 			st.setString(9, password);
-			return st.executeUpdate();
+			rs = st.executeUpdate();
+			st.close();
 		} catch (SQLException e) {
 			return 0;
 		} catch (ParseException e) {
 			return 0;
 		}
+		return rs;
 	}
 }

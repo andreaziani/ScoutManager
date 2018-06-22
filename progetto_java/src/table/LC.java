@@ -25,6 +25,7 @@ public class LC {
 					"insert into LC(codiceLC) VALUES(?) ");
 			st.setString(1, this.codiceLC);
 			result = st.executeUpdate();
+			st.close();
 		} catch (SQLException e) {
 			return 0;
 		}

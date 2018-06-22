@@ -26,6 +26,7 @@ public class Residenza {
 			st.setString(1, this.codiceParrocchia);
 			st.setString(2, this.città);
 			result = st.executeUpdate();
+			st.close();
 		} catch (SQLException e) {
 			return 0;
 		}

@@ -43,7 +43,7 @@ public class AdminModifyOperation extends JPanel {
 		this.setLayout(new GridBagLayout());
 		this.modificaResp();
 		this.modificaRespParrocchia.addActionListener(e -> {
-			ResponsabileParrocchia r = new ResponsabileParrocchia(this.codiceResponsabile.getText(), this.cf.getText(),
+			ResponsabileParrocchia r = new ResponsabileParrocchia(this.codResponsabile.getText(), this.cf.getText(),
 					this.nameResponsabileP.getText(), this.surname.getText(), this.date.getText(), this.luogo.getText(),
 					this.numeroTelefono.getText(), this.username.getText(), this.password.getText());
 			if(r.modificaResponsabile() != 0) {

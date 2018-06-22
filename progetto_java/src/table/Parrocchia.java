@@ -31,6 +31,7 @@ public class Parrocchia {
 			st.setString(3, this.indirizzo);
 			st.setInt(4, Integer.parseInt(this.numeroCivico));
 			result = st.executeUpdate();
+			st.close();
 		} catch (SQLException e) {
 			return 0;
 		}
