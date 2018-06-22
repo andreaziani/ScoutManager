@@ -125,9 +125,9 @@ public class AdminInsertPanel extends JPanel {
 	public AdminInsertPanel(DBConnection con) {
 		GridBagLayout grid = new GridBagLayout();
 		this.registraRespN.addActionListener(e -> {
-			ResponsabileEventoNazionale res = new ResponsabileEventoNazionale(this.codResponsabileN.getText(),
+			ResponsabileEventoNazionale res = new ResponsabileEventoNazionale(
 					this.cfN.getText(), this.nameResponsabileN.getText(), this.surnameN.getText(), this.dateN.getText(),
-					this.luogoN.getText(), this.numeroTelefonoN.getText(), this.usernameN.getText(),
+					this.luogoN.getText(), this.numeroTelefonoN.getText(), this.codResponsabileN.getText(), this.usernameN.getText(),
 					this.passwordN.getText());
 			checkCorrect(res.inserimentoResponsabile());
 		});

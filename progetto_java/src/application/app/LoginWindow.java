@@ -87,10 +87,10 @@ public class LoginWindow extends JFrame {
 				new AdminView(con);
 			} else if (LoginControl.checkNazID(txtUsername.getText(), String.valueOf(this.passwordField.getPassword()))) {
 				this.dispose();
-				new ResponsabileView();
+				new ResponsabileView(LoginControl.getResponsabileNazionale(this.txtUsername.getText()));
 			} else if (LoginControl.checkParrID(txtUsername.getText(), String.valueOf(this.passwordField.getPassword()))) {
 				this.dispose();
-				new ParrocchiaView();
+				new ParrocchiaView(LoginControl.getResponsabileParrocchia(this.txtUsername.getText()));
 			} else {
 				JOptionPane.showMessageDialog(this, "Nome utente o password errati.");
 			}

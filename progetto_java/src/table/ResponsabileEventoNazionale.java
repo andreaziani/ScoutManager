@@ -22,8 +22,8 @@ public class ResponsabileEventoNazionale {
 	private String password;
 	private DBConnection con = new DBConnectionImpl();
 
-	public ResponsabileEventoNazionale(String codiceResponsabile, String codiceFiscale, String nome, String cognome,
-			String dataNascita, String luogoNascita, String numTelefono, String username, String password) {
+	public ResponsabileEventoNazionale(String codiceFiscale, String nome, String cognome,
+			String dataNascita, String luogoNascita, String numTelefono, String codiceResponsabile, String username, String password) {
 		this.codiceResponsabile = codiceResponsabile;
 		this.codiceFiscale = codiceFiscale;
 		this.nome = nome;
