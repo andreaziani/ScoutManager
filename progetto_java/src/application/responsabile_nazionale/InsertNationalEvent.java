@@ -1,5 +1,6 @@
 package application.responsabile_nazionale;
 
+import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
@@ -8,9 +9,14 @@ import javax.swing.JTextField;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.util.Properties;
 
 import javax.swing.SwingConstants;
-import javax.swing.border.LineBorder;
+import javax.swing.border.EtchedBorder;
+
+import org.jdatepicker.impl.JDatePanelImpl;
+import org.jdatepicker.impl.JDatePickerImpl;
+import org.jdatepicker.impl.UtilDateModel;
 
 import java.awt.Component;
 import java.awt.Dimension;
@@ -26,24 +32,39 @@ public class InsertNationalEvent extends JPanel{
     private JLabel tipo = new JLabel("Tipo:");
     private JTextField txttipo = new JTextField(16);
     private JLabel data = new JLabel("Data Inizio:");
-    private JTextField txtdata = new JTextField(16);
     private JLabel datafine = new JLabel("Data fine:");
-    private JTextField txtdatafine = new JTextField(16);
     private JLabel località = new JLabel("Località:");
     private JTextField txtLocalità = new JTextField(16);
     private JTextArea txtdescrizione = new JTextArea("Inserire qui la descrizione dell'evento", 100, 250);
+    protected JButton btn = new JButton("Registra Evento");
+    
+    private Properties p;
+    private JDatePickerImpl datePicker;
+    private JDatePickerImpl datePicker2;
+    
+    
+    //SQL
+    
+    //PreparedStatement st = con.getMsSQLConnection().prepareStatement("insert into RESPONSABILE_E_N(CF, nome, cognome, dataNascita, luogoNascita, numeroTelefono,"
+    //       + "codiceResponsabile, username, password) VALUES(?, ?, ?, ?, ?, ?, ? ,?, ?)");
+    
     /**
      * 
      */
     private static final long serialVersionUID = 1129165456568949369L;
 
     public InsertNationalEvent() {
+        p = new Properties();
+        p.put("text.today", "Today");
+        p.put("text.month", "Month");
+        p.put("text.year", "Year");
+        
         this.buildEv_Nazionale();
         this.build();
     }
     
-    private void build() {
-        this.setBorder(new LineBorder(new Color(0, 0, 0), 2, true));
+    private void build() {      
+        this.setBorder(new EtchedBorder(EtchedBorder.LOWERED));
         GridBagConstraints gbcMain = new GridBagConstraints();
         gbcMain.gridx = 0;
         gbcMain.gridy = 0;
@@ -69,6 +90,10 @@ public class InsertNationalEvent extends JPanel{
         gbc.insets = new Insets(2, 2, 2, 2);
         evNazionale.setLayout(new GridBagLayout());
         
+        
+        datePicker = new JDatePickerImpl(new JDatePanelImpl(new UtilDateModel(), p), new DateLabelFormatter());
+        datePicker2 = new JDatePickerImpl(new JDatePanelImpl(new UtilDateModel(), p), new DateLabelFormatter());
+        
         gbc.gridx = 0;
         gbc.gridy = 0;
         evNazionale.add(codEvento, gbc);
@@ -89,14 +114,14 @@ public class InsertNationalEvent extends JPanel{
         evNazionale.add(data, gbc);
         
         gbc.gridx = 1;
-        evNazionale.add(txtdata, gbc);
+        evNazionale.add(datePicker, gbc);
         
         gbc.gridy = 3;
         gbc.gridx = 0;
         evNazionale.add(datafine, gbc);
         
         gbc.gridx = 1;
-        evNazionale.add(txtdatafine, gbc);
+        evNazionale.add(datePicker2, gbc);
         
         gbc.gridy = 4;
         gbc.gridx = 0;
@@ -112,6 +137,11 @@ public class InsertNationalEvent extends JPanel{
         txtdescrizione.setColumns(5);
         txtdescrizione.setRows(3);
         evNazionale.add(txtdescrizione, gbc);
+        
+        gbc.gridy = 6;
+        gbc.gridx = 0;
+        gbc.gridwidth = GridBagConstraints.REMAINDER;
+        evNazionale.add(btn, gbc);
     }
         
 }

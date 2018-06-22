@@ -6,11 +6,12 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 
+import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
-import javax.swing.border.LineBorder;
+import javax.swing.border.EtchedBorder;
 
 public class UserSignInPanel extends JPanel{
     private GridBagConstraints gbc= new GridBagConstraints();
@@ -23,13 +24,14 @@ public class UserSignInPanel extends JPanel{
     private JTextField txtCodIsc = new JTextField(5);
     private JTextField txtCodEv = new JTextField(5);
     private JTextField txtCodReg = new JTextField(5);
+    private JButton regbtn = new JButton("Regitra iscritto ad evento");
     /**
      * 
      */
     private static final long serialVersionUID = 995155670126020353L;
 
     public UserSignInPanel() {
-        this.setBorder(new LineBorder(Color.BLACK, 2, true));
+        this.setBorder(new EtchedBorder(EtchedBorder.LOWERED));
         this.setLayout(new GridBagLayout());
         setTitle();
         buildInterface();
@@ -69,5 +71,11 @@ public class UserSignInPanel extends JPanel{
         this.add(txtCodEv, gbc);
         gbc.gridx = 2;
         this.add(txtCodReg, gbc);
+        
+        gbc.gridy = 3;
+        gbc.gridx = 0;
+        gbc.gridwidth = GridBagConstraints.REMAINDER;
+        gbc.fill = GridBagConstraints.NONE;
+        this.add(regbtn, gbc);
     }
 }
