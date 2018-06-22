@@ -9,7 +9,6 @@ import javax.swing.JTextField;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
-import java.sql.PreparedStatement;
 import java.util.Properties;
 
 import javax.swing.SwingConstants;
@@ -46,8 +45,8 @@ public class InsertNationalEvent extends JPanel{
     
     //SQL
     
-    PreparedStatement st = con.getMsSQLConnection().prepareStatement("insert into RESPONSABILE_E_N(CF, nome, cognome, dataNascita, luogoNascita, numeroTelefono,"
-            + "codiceResponsabile, username, password) VALUES(?, ?, ?, ?, ?, ?, ? ,?, ?)");
+    //PreparedStatement st = con.getMsSQLConnection().prepareStatement("insert into RESPONSABILE_E_N(CF, nome, cognome, dataNascita, luogoNascita, numeroTelefono,"
+    //       + "codiceResponsabile, username, password) VALUES(?, ?, ?, ?, ?, ?, ? ,?, ?)");
     
     /**
      * 

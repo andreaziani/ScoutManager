@@ -1,15 +1,22 @@
 package table;
 
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+
+import application.app.DBConnection;
+import application.app.DBConnectionImpl;
+
 public class EventoNazionale{
 
 	private String codiceEvento;
 	private String tipo;
-	private String dataInizio;
-	private String dataFine;
+	private java.util.Date dataInizio;
+	private java.util.Date dataFine;
 	private String località;
 	private String descrizione;
+	private DBConnection con = new DBConnectionImpl();
 	
-	public EventoNazionale(String codiceEvento, String tipo, String dataInizio, String dataFine, String località,
+	public EventoNazionale(String codiceEvento, String tipo, java.util.Date dataInizio, java.util.Date dataFine, String località,
 			String descrizione) {
 		this.codiceEvento = codiceEvento;
 		this.tipo = tipo;
@@ -17,6 +24,22 @@ public class EventoNazionale{
 		this.dataFine = dataFine;
 		this.località = località;
 		this.descrizione = descrizione;
+	}
+	
+	public int execQuery() {
+	    try {
+                PreparedStatement st = con.getMsSQLConnection().prepareStatement(
+                                "insert into E_NAZIONALE(codiceEvento, tipo, dataInizio, dataFine, località, descrizione) VALUES(?, ?, ?, ?, ?, ?)");
+                st.setString(1, codiceEvento);
+                st.setString(2, tipo);
+                st.setDate(3, new java.sql.Date(dataInizio.getTime()));
+                st.setDate(4, new java.sql.Date(dataFine.getTime()));
+                st.setString(5, località);
+                st.setString(6, descrizione);
+                return st.executeUpdate();
+        } catch (SQLException e) {
+                return 0;
+        }
 	}
 
 	public String getCodiceEvento() {
@@ -27,11 +50,11 @@ public class EventoNazionale{
 		return this.tipo;
 	}
 
-	public String getDataInizio() {
+	public java.util.Date getDataInizio() {
 		return this.dataInizio;
 	}
 
-	public String getDataFine() {
+	public java.util.Date getDataFine() {
 		return this.dataFine;
 	}
 
@@ -51,11 +74,11 @@ public class EventoNazionale{
 		this.tipo = tipo;
 	}
 
-	public void setDataInizio(String dataInizio) {
+	public void setDataInizio(java.util.Date dataInizio) {
 		this.dataInizio = dataInizio;
 	}
 
-	public void setDataFine(String dataFine) {
+	public void setDataFine(java.util.Date dataFine) {
 		this.dataFine = dataFine;
 	}
 
