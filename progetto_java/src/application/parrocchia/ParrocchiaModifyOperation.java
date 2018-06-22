@@ -3,6 +3,7 @@ package application.parrocchia;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -16,13 +17,32 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
 import application.app.DBConnection;
+import table.EventoParrocchiaEG;
 import table.EventoParrocchiaLC;
+import table.EventoParrocchiaRS;
+import table.EventoParrocchiaTutti;
+import table.Iscritto;
+import table.LCAnno;
 
 public class ParrocchiaModifyOperation extends JPanel{
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 656762902576451100L;
+	private String codiceLC;
+	private String codiceRS;
+	private String codiceEG;
+	private String codiceCC;
+	private String us;
+	private String pa;
+	private String codiceResponsabile;
+	
+	//riconoscimento responsabile
+	private JLabel username = new JLabel("Username: ");
+	private JTextField user = new JTextField(16);
+	private JLabel password = new JLabel("Password: ");
+	private JTextField pw = new JTextField(16);
+	private JButton resp = new JButton("Responsabile");
 	
 	//inserimento iscritti
 	private String codiceParrocchia;
@@ -46,11 +66,11 @@ public class ParrocchiaModifyOperation extends JPanel{
 	// registrazioni iscritti alle branche
 	private JLabel iscrizione = new JLabel("Registrazione iscritto alla branca");
 	private JLabel codIscritto = new JLabel("Codice iscritto: ");
-	private JTextField codIscB = new JTextField(16);
-	private JLabel codNazionale = new JLabel("Codice branca: ");
-	private JTextField codN = new JTextField(16);
+	private JComboBox<String> codIscB = new JComboBox<>();
+	private JLabel brancaI = new JLabel("Branca: ");
+	private JComboBox<String> brancheI = new JComboBox<>();
 	private JLabel anno = new JLabel("Anno :");
-	private JTextField year = new JTextField(16);
+	private JComboBox<String> year = new JComboBox<>();;
 	private JButton iscrivi = new JButton("Iscrivi");
 	
 	//assegnamento competenza
@@ -123,6 +143,18 @@ public class ParrocchiaModifyOperation extends JPanel{
 		branca.addItem("LC");
 		branca.addItem("EG");
 		branca.addItem("RS");
+		branca.addItem("Tutti");
+		brancheI.addItem("LC");
+		brancheI.addItem("EG");
+		brancheI.addItem("RS");
+		brancheI.addItem("CC");
+		year.addItem("2012");
+		year.addItem("2013");
+		year.addItem("2014");
+		year.addItem("2015");
+		year.addItem("2016");
+		year.addItem("2017");
+		this.inserimentoResponsabile();
 		this.inserimentoEvento();
 		this.registrazioneIscrittoBranca();
 		this.registrazioneIscritto();
@@ -131,12 +163,27 @@ public class ParrocchiaModifyOperation extends JPanel{
 		this.assegnamentoAttività();
 		this.registrazioneIscrittoEvento();
 		this.cancellazioneEvento();
+		
+		try {
+			PreparedStatement st = con.getMsSQLConnection().prepareStatement("select codiceResponsabile from RESPONSABILE_P where username = ? and password = ?");
+			st.setString(1, this.us);
+			st.setString(2, this.pa);
+			ResultSet rs = st.executeQuery();
+			while (rs.next()) {
+				this.codiceResponsabile = rs.getString(1);
+				
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
 		try {
 			Statement st = con.getMsSQLConnection().createStatement();
 			ResultSet rs = st.executeQuery("select * from ATT_FORMATIVA");
 			while (rs.next()) {
 				int i = 1;
 				this.attFormativa.addItem(rs.getString(i));
+				this.attFormativaE.addItem(rs.getString(i));
 				i++;
 				
 			}
@@ -144,8 +191,9 @@ public class ParrocchiaModifyOperation extends JPanel{
 			e.printStackTrace();
 		}
 		try {
-			Statement st = con.getMsSQLConnection().createStatement();
-			ResultSet rs = st.executeQuery("select codiceParrocchia from PARROCCHIA, RESPONSABILE_P where username = 'parrocchia'");
+			PreparedStatement st = con.getMsSQLConnection().prepareStatement("select codiceParrocchia from Responsabilità_parrocchia where codiceResponsabile = ?");
+			st.setString(1, this.codiceResponsabile);
+			ResultSet rs = st.executeQuery();
 			while (rs.next()) {
 				this.codiceParrocchia = rs.getString(1);
 				
@@ -153,6 +201,67 @@ public class ParrocchiaModifyOperation extends JPanel{
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+		try {
+			PreparedStatement st = con.getMsSQLConnection().prepareStatement("select codiceLC from Contiene_LC where codiceParrocchia = ?");
+			st.setString(1, this.codiceParrocchia);
+			ResultSet rs = st.executeQuery();
+			while (rs.next()) {
+				this.codiceLC = rs.getString(1);
+				
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		try {
+			PreparedStatement st = con.getMsSQLConnection().prepareStatement("select codiceEG from Contiene_EG where codiceParrocchia = ?");
+			st.setString(1, this.codiceParrocchia);
+			ResultSet rs = st.executeQuery();
+			while (rs.next()) {
+				this.codiceEG = rs.getString(1);
+				
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		try {
+			PreparedStatement st = con.getMsSQLConnection().prepareStatement("select codiceRS from Contiene_RS where codiceParrocchia = ?");
+			st.setString(1, this.codiceParrocchia);
+			ResultSet rs = st.executeQuery();
+			while (rs.next()) {
+				this.codiceRS = rs.getString(1);
+				
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		try {
+			PreparedStatement st = con.getMsSQLConnection().prepareStatement("select codiceCC from Contiene_CC where codiceParrocchia = ?");
+			st.setString(1, this.codiceParrocchia);
+			ResultSet rs = st.executeQuery();
+			while (rs.next()) {
+				this.codiceCC = rs.getString(1);
+				
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		try {
+			Statement st = con.getMsSQLConnection().createStatement();
+			ResultSet rs = st.executeQuery("select codiceIscritto from ISCRITTO");
+			while (rs.next()) {
+				int i = 1;
+				this.codIscB.addItem(rs.getString(i)); 
+				i++;
+				
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
 		this.assegnaAttL.addActionListener(e -> {
 			
 		});
@@ -164,12 +273,43 @@ public class ParrocchiaModifyOperation extends JPanel{
 				EventoParrocchiaLC eventoLC = new EventoParrocchiaLC(this.codiceParrocchia, codEvento.getText(), tipo.getText(), dInizio.getText(), dFine.getText(), loc.getText(), desc.getText());
 				checkCorrect(eventoLC.inserimentoEvento());
 			}
+			else if(branca.getSelectedItem().equals("EG")) {
+				EventoParrocchiaEG eventoEG = new EventoParrocchiaEG(this.codiceParrocchia, codEvento.getText(), tipo.getText(), dInizio.getText(), dFine.getText(), loc.getText(), desc.getText());
+				checkCorrect(eventoEG.inserimentoEvento());
+			}
+			else if(branca.getSelectedItem().equals("RS")) {
+				EventoParrocchiaRS eventoRS = new EventoParrocchiaRS(this.codiceParrocchia, codEvento.getText(), tipo.getText(), dInizio.getText(), dFine.getText(), loc.getText(), desc.getText());
+				checkCorrect(eventoRS.inserimentoEvento());
+			}
+			else if(branca.getSelectedItem().equals("Tutti")) {
+				EventoParrocchiaTutti eventoTutti = new EventoParrocchiaTutti(this.codiceParrocchia, codEvento.getText(), tipo.getText(), dInizio.getText(), dFine.getText(), loc.getText(), desc.getText());
+				checkCorrect(eventoTutti.inserimentoEvento());
+			}
 			
+		});
+		
+		this.registraIscritto.addActionListener(e -> {
+			Iscritto is = new Iscritto(this.iscCodice.getText(), this.iscCF.getText(), this.iscNome.getText(), this.iscCognome.getText(), this.iscDataN.getText(), this.iscLuogoN.getText(), this.iscNTelefono.getText());
+			checkCorrect(is.registrazioneIscritto());
+		});
+		
+		this.iscrivi.addActionListener(e -> {
+			if(branca.getSelectedItem().equals("LC")) {
+				LCAnno lc = new LCAnno(this.codiceLC, (String)this.codIscB.getSelectedItem(), Integer.parseInt((String)this.year.getSelectedItem()));
+				checkCorrect(lc.iscrizioneLC());
+			}
+			
+		});
+		
+		this.resp.addActionListener(e -> {
+			this.us = this.user.getText();
+			this.pa = this.pw.getText();
 		});
 	}
 	
 	private void assegnamentoAttività() {
 		GridBagConstraints c = new GridBagConstraints();
+		c.fill = GridBagConstraints.HORIZONTAL;
 		c.insets = new Insets(0, 4, 4, 10);
 		c.gridx = 0;
 		c.gridy = 22;
@@ -207,56 +347,56 @@ public class ParrocchiaModifyOperation extends JPanel{
 		GridBagConstraints c = new GridBagConstraints();
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.insets = new Insets(0, 10, 10, 10);
-		c.gridx = 4;
+		c.gridx = 6;
 		c.gridy = 0;
 		this.add(this.evento, c);
 		c.insets = new Insets(0, 0, 0, 0);
-		c.gridx = 4;
+		c.gridx = 6;
 		c.gridy = 1;
 		this.add(this.codiceEvento, c);
-		c.gridx = 5;
+		c.gridx = 7;
 		this.add(this.codEvento, c);
-		c.gridx = 4;
+		c.gridx = 6;
 		c.gridy = 2;
 		this.add(this.dataInizio, c);
-		c.gridx = 5;
+		c.gridx = 7;
 		this.add(this.dInizio, c);
-		c.gridx = 4;
+		c.gridx = 6;
 		c.gridy = 3;
 		this.add(this.dataFine, c);
-		c.gridx = 5;
+		c.gridx = 7;
 		this.add(this.dFine, c);
-		c.gridx = 4;
+		c.gridx = 6;
 		c.gridy = 4;
 		this.add(this.tipologia, c);
-		c.gridx = 5;
+		c.gridx = 7;
 		this.add(this.tipo, c);
-		c.gridx = 4;
+		c.gridx = 6;
 		c.gridy = 5;
 		this.add(this.località, c);
-		c.gridx = 5;
+		c.gridx = 7;
 		this.add(this.loc, c);
-		c.gridx = 4;
+		c.gridx = 6;
 		c.gridy = 6;
 		this.add(this.branche, c);
-		c.gridx = 5;
+		c.gridx = 7;
 		this.add(this.branca, c);
-		c.gridx = 4;
+		c.gridx = 6;
 		c.gridy = 7;
 		this.add(attLE, c);
-		c.gridx = 5;
+		c.gridx = 7;
 		this.add(this.attLudicaE, c);
-		c.gridx = 4;
+		c.gridx = 6;
 		c.gridy = 8;
 		this.add(attFE, c);
-		c.gridx = 5;
+		c.gridx = 7;
 		this.add(this.attFormativaE, c);
-		c.gridx = 4;
+		c.gridx = 6;
 		c.gridy = 9;
 		this.add(this.descrizione, c);
-		c.gridx = 5;
+		c.gridx = 7;
 		this.add(this.desc, c);
-		c.gridx = 4;
+		c.gridx = 6;
 		c.gridy = 20;
 		this.add(this.inserisciEvento, c);
 		
@@ -295,82 +435,78 @@ public class ParrocchiaModifyOperation extends JPanel{
 	
 	private void registrazioneIscritto() {
 		GridBagConstraints c = new GridBagConstraints();
-		c.gridx = 0;
+		c.gridx = 2;
 		c.insets = new Insets(0, 10, 10, 10);
 		this.add(this.registrazioneIscritti, c);
 		c.insets = new Insets(0, 0, 0, 0);
-		c.gridx = 0;
+		c.gridx = 2;
 		c.gridy = 1;
 		c.fill = GridBagConstraints.HORIZONTAL;
 		this.add(this.iscrittoCodice, c);
-		c.gridx = 1;
+		c.gridx = 3;
 		this.add(this.iscCodice, c);
-		c.gridx = 0;
+		c.gridx = 2;
 		c.gridy = 2;
 		this.add(this.iscrittoCF, c);
-		c.gridx = 1;
+		c.gridx = 3;
 		this.add(this.iscCF, c);
-		c.gridx = 0;
+		c.gridx = 2;
 		c.gridy = 3;
 		this.add(this.iscrittoNome, c);
-		c.gridx = 1;
+		c.gridx = 3;
 		this.add(this.iscNome, c);
-		c.gridx = 0;
+		c.gridx = 2;
 		c.gridy = 4;
 		this.add(this.iscrittoCognome, c);
-		c.gridx = 1;
+		c.gridx = 3;
 		this.add(this.iscCognome, c);
-		c.gridx = 0;
+		c.gridx = 2;
 		c.gridy = 5;
 		this.add(this.iscrittoDataN, c);
-		c.gridx = 1;
+		c.gridx = 3;
 		this.add(this.iscDataN, c);
-		c.gridx = 0;
+		c.gridx = 2;
 		c.gridy = 6;
 		this.add(this.iscrittoLuogoN, c);
-		c.gridx = 1;
+		c.gridx = 3;
 		this.add(this.iscLuogoN, c);
-		c.gridx = 0;
+		c.gridx = 2;
 		c.gridy = 7;
 		this.add(this.iscrittoNTelefono, c);
-		c.gridx = 1;
+		c.gridx = 3;
 		this.add(this.iscNTelefono, c);
-		c.gridx = 0;
+		c.gridx = 2;
 		c.gridy = 8;
 		this.add(this.registraIscritto, c);
-		this.registraIscritto.addActionListener(e -> {
-			
-		});
+		
 	}
 	
 	private void registrazioneIscrittoBranca() {
 		GridBagConstraints c = new GridBagConstraints();
-		c.gridx = 2;
+		c.gridx = 4;
 		c.insets = new Insets(0, 10, 10, 10);
 		this.add(this.iscrizione, c);
 		c.insets = new Insets(0, 0, 0, 0);
-		c.gridx = 2;
+		c.gridx = 4;
 		c.gridy = 1;
 		c.fill = GridBagConstraints.HORIZONTAL;
 		this.add(this.codIscritto, c);
-		c.gridx = 3;
+		c.gridx = 5;
 		this.add(this.codIscB, c);
-		c.gridx = 2;
+		c.gridx = 4;
 		c.gridy = 2;
-		this.add(this.codNazionale, c);
-		c.gridx = 3;
-		this.add(this.codN, c);
-		c.gridx = 2;
+		this.add(this.brancaI, c);
+		c.gridx = 5;
+		this.add(this.brancheI, c);
+		c.gridx = 4;
 		c.gridy = 3;
 		this.add(this.anno, c);
-		c.gridx = 3;
+		c.gridx = 5;
 		this.add(this.year, c);
-		c.gridx = 2;
+		c.gridx = 4;
 		c.gridy = 8;
 		this.add(this.iscrivi, c);
-		this.iscrivi.addActionListener(e -> {
-			
-		});
+		
 	}
 	
 	private void registrazioneIscrittoEvento() {
@@ -405,22 +541,42 @@ public class ParrocchiaModifyOperation extends JPanel{
 	
 	private void cancellazioneEvento() {
 		GridBagConstraints c = new GridBagConstraints();
-		c.gridx = 6;
+		c.gridx = 4;
 		c.insets = new Insets(0, 10, 10, 10);
 		this.add(this.cancellaEvento, c);
 		c.insets = new Insets(0, 0, 0, 0);
-		c.gridx = 6;
-		c.gridy = 1;
+		c.gridx = 4;
+		c.gridy = 22;
 		c.fill = GridBagConstraints.HORIZONTAL;
 		this.add(this.codEventoParrocchia, c);
-		c.gridx = 7;
+		c.gridx = 5;
 		this.add(this.codEP, c);
-		c.gridx = 6;
-		c.gridy = 8;
+		c.gridx = 5;
+		c.gridy = 27;
 		this.add(this.cancella, c);
 		this.cancella.addActionListener(e -> {
 			
 		});
+	}
+		
+	private void inserimentoResponsabile() {
+		GridBagConstraints c = new GridBagConstraints();
+		c.gridx = 0;
+		c.insets = new Insets(0, 10, 10, 10);
+		c.gridx = 0;
+		c.gridy = 0;
+		this.add(this.username, c);
+		c.gridx = 1;
+		this.add(this.user, c);
+		c.gridx = 0;
+		c.gridy = 1;
+		this.add(this.password, c);
+		c.gridx = 1;
+		this.add(this.pw, c);
+		c.gridx = 0;
+		c.gridy = 2;
+		this.add(this.resp, c);
+		
 	}
 	
 	private void checkCorrect(int number) {

@@ -1,5 +1,11 @@
 package table;
 
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+
+import application.app.DBConnection;
+import application.app.DBConnectionImpl;
+
 public class Iscritto {
 	
 	private String codiceIscritto;
@@ -9,6 +15,7 @@ public class Iscritto {
 	private String dataNascita;
 	private String luogoNascita;
 	private String numTelefono;
+	private DBConnection con = new DBConnectionImpl();
 	
 	public Iscritto(String codiceIscritto, String codiceFiscale, String nome, String cognome, String dataNascita,
 			String luogoNascita, String numTelefono) {
@@ -22,60 +29,21 @@ public class Iscritto {
 		this.numTelefono = numTelefono;
 	}
 
-	public String getCodiceIscritto() {
-		return codiceIscritto;
-	}
-
-	public String getCodiceFiscale() {
-		return codiceFiscale;
-	}
-
-	public String getNome() {
-		return nome;
-	}
-
-	public String getCognome() {
-		return cognome;
-	}
-
-	public String getDataNascita() {
-		return dataNascita;
-	}
-
-	public String getLuogoNascita() {
-		return luogoNascita;
-	}
-
-	public String getNumTelefono() {
-		return numTelefono;
-	}
-
-	public void setCodiceIscritto(String codiceIscritto) {
-		this.codiceIscritto = codiceIscritto;
-	}
-
-	public void setCodiceFiscale(String codiceFiscale) {
-		this.codiceFiscale = codiceFiscale;
-	}
-
-	public void setNome(String nome) {
-		this.nome = nome;
-	}
-
-	public void setCognome(String cognome) {
-		this.cognome = cognome;
-	}
-
-	public void setDataNascita(String dataNascita) {
-		this.dataNascita = dataNascita;
-	}
-
-	public void setLuogoNascita(String luogoNascita) {
-		this.luogoNascita = luogoNascita;
-	}
-
-	public void setNumTelefono(String numTelefono) {
-		this.numTelefono = numTelefono;
+	public int registrazioneIscritto() {
+		try {
+			PreparedStatement st = con.getMsSQLConnection().prepareStatement(
+					"insert into ISCRITTO(codiceIscritto, codiceFiscale, nome, cognome, dataNascita, luogoNascita, numeroTelefono) VALUES(?, ?, ?, ?, ?, ?, ?)");
+			st.setString(1, codiceIscritto);
+			st.setString(2, codiceFiscale);
+			st.setString(3, nome);
+			st.setString(4, cognome);
+			st.setString(5, dataNascita);
+			st.setString(6, luogoNascita);
+			st.setString(7, numTelefono);
+			return st.executeUpdate();
+		} catch (SQLException e) {
+			return 0;
+		}
 	}
 	
 }

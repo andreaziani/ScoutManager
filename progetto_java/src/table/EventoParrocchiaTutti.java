@@ -1,5 +1,11 @@
 package table;
 
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+
+import application.app.DBConnection;
+import application.app.DBConnectionImpl;
+
 public class EventoParrocchiaTutti {
 	
 	private String codiceParrocchia;
@@ -9,6 +15,7 @@ public class EventoParrocchiaTutti {
 	private String dataFine;
 	private String località;
 	private String descrizione;
+	private DBConnection con = new DBConnectionImpl();
 	
 	public EventoParrocchiaTutti(String codiceParrocchia, String codiceEvento, String tipo, String dataInizio,
 			String dataFine, String località, String descrizione) {
@@ -22,60 +29,21 @@ public class EventoParrocchiaTutti {
 		this.descrizione = descrizione;
 	}
 
-	public String getCodiceParrocchia() {
-		return codiceParrocchia;
-	}
-
-	public String getCodiceEvento() {
-		return codiceEvento;
-	}
-
-	public String getTipo() {
-		return tipo;
-	}
-
-	public String getDataInizio() {
-		return dataInizio;
-	}
-
-	public String getDataFine() {
-		return dataFine;
-	}
-
-	public String getLocalità() {
-		return località;
-	}
-
-	public String getDescrizione() {
-		return descrizione;
-	}
-
-	public void setCodiceParrocchia(String codiceParrocchia) {
-		this.codiceParrocchia = codiceParrocchia;
-	}
-
-	public void setCodiceEvento(String codiceEvento) {
-		this.codiceEvento = codiceEvento;
-	}
-
-	public void setTipo(String tipo) {
-		this.tipo = tipo;
-	}
-
-	public void setDataInizio(String dataInizio) {
-		this.dataInizio = dataInizio;
-	}
-
-	public void setDataFine(String dataFine) {
-		this.dataFine = dataFine;
-	}
-
-	public void setLocalità(String località) {
-		this.località = località;
-	}
-
-	public void setDescrizione(String descrizione) {
-		this.descrizione = descrizione;
+	public int inserimentoEvento() {
+		try {
+			PreparedStatement st = con.getMsSQLConnection().prepareStatement(
+					"insert into E_P_TUTTI(codiceParrocchia, codiceEvento, tipo, dataInizio, dataFine, località, descrizione) VALUES(?, ?, ?, ?, ?, ?, ?)");
+			st.setString(1, codiceParrocchia);
+			st.setString(2, codiceEvento);
+			st.setString(3, tipo);
+			st.setString(4, dataInizio);
+			st.setString(5, dataFine);
+			st.setString(6, località);
+			st.setString(7, descrizione);
+			return st.executeUpdate();
+		} catch (SQLException e) {
+			return 0;
+		}
 	}
 
 }
