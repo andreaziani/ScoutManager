@@ -27,6 +27,7 @@ public class EventoNazionale{
 	}
 	
 	public int execQuery() {
+	    int result;
 	    try {
                 PreparedStatement st = con.getMsSQLConnection().prepareStatement(
                                 "insert into E_NAZIONALE(codiceEvento, tipo, dataInizio, dataFine, località, descrizione) VALUES(?, ?, ?, ?, ?, ?)");
@@ -36,10 +37,12 @@ public class EventoNazionale{
                 st.setDate(4, new java.sql.Date(dataFine.getTime()));
                 st.setString(5, località);
                 st.setString(6, descrizione);
-                return st.executeUpdate();
+                result = st.executeUpdate();
+                st.close();
         } catch (SQLException e) {
                 return 0;
         }
+	    return result;
 	}
 
 	public String getCodiceEvento() {

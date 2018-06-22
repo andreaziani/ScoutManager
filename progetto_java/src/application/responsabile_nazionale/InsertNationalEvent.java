@@ -2,6 +2,7 @@ package application.responsabile_nazionale;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
@@ -17,6 +18,8 @@ import javax.swing.border.EtchedBorder;
 import org.jdatepicker.impl.JDatePanelImpl;
 import org.jdatepicker.impl.JDatePickerImpl;
 import org.jdatepicker.impl.UtilDateModel;
+
+import table.EventoNazionale;
 
 import java.awt.Component;
 import java.awt.Dimension;
@@ -42,12 +45,6 @@ public class InsertNationalEvent extends JPanel{
     private JDatePickerImpl datePicker;
     private JDatePickerImpl datePicker2;
     
-    
-    //SQL
-    
-    //PreparedStatement st = con.getMsSQLConnection().prepareStatement("insert into RESPONSABILE_E_N(CF, nome, cognome, dataNascita, luogoNascita, numeroTelefono,"
-    //       + "codiceResponsabile, username, password) VALUES(?, ?, ?, ?, ?, ?, ? ,?, ?)");
-    
     /**
      * 
      */
@@ -61,6 +58,14 @@ public class InsertNationalEvent extends JPanel{
         
         this.buildEv_Nazionale();
         this.build();
+        this.btn.addActionListener(e->{
+            EventoNazionale ev = new EventoNazionale(txtCod.getText(), txttipo.getText(),(java.util.Date) datePicker.getModel().getValue(), (java.util.Date) datePicker2.getModel().getValue(), txtLocalità.getText(), txtdescrizione.getText());
+            if(ev.execQuery()==1) {
+                JOptionPane.showMessageDialog(this, "Inserimento andato a buon fine.");
+            }else {
+                JOptionPane.showMessageDialog(this, "Si è verificato un errore, ricontrollare la correttezza dei campi.");
+            }
+        });
     }
     
     private void build() {      
