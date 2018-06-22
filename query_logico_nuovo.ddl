@@ -417,7 +417,8 @@ alter table E_P_EG add constraint IDE_P_EG_CHK
 
 alter table E_P_EG add constraint FKOrganizza_E_P_EG
      foreign key (codiceParrocchia)
-     references PARROCCHIA;
+     references PARROCCHIA
+     ON DELETE CASCADE;
 
 // anche questi due check
 alter table E_P_LC add constraint IDE_P_LC_CHK
@@ -430,7 +431,8 @@ alter table E_P_LC add constraint IDE_P_LC_CHK
 
 alter table E_P_LC add constraint FKOrganizza_E_P_LC
      foreign key (codiceParrocchia)
-     references PARROCCHIA;
+     references PARROCCHIA
+     ON DELETE CASCADE;
 
 alter table E_P_RS add constraint IDE_P_RS_CHK
      check(exists(select * from Formazione_Parrocchiale_RS
@@ -442,7 +444,8 @@ alter table E_P_RS add constraint IDE_P_RS_CHK
 
 alter table E_P_RS add constraint FKOrganizza_E_P_RS
      foreign key (codiceParrocchia)
-     references PARROCCHIA;
+     references PARROCCHIA
+     ON DELETE CASCADE;
 
 alter table E_P_TUTTI add constraint IDE_P_TUTTI_CHK
      check(exists(select * from Ricreazione_T
@@ -454,7 +457,8 @@ alter table E_P_TUTTI add constraint IDE_P_TUTTI_CHK
 
 alter table E_P_TUTTI add constraint FKOrganizza_E_P_TUTTI
      foreign key (codiceParrocchia)
-     references PARROCCHIA;
+     references PARROCCHIA
+     ON DELETE CASCADE;
 
 alter table EG add constraint IDEG_CHK // inutile
      check(exists(select * from Contiene_EG
