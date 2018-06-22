@@ -6,10 +6,12 @@ import java.awt.Insets;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import application.app.DBConnection;
+import table.ResponsabileParrocchia;
 
 public class AdminModifyOperation extends JPanel {
 	/**
@@ -36,12 +38,22 @@ public class AdminModifyOperation extends JPanel {
 	private JLabel passwordAssegnata = new JLabel("password: ");
 	private JTextField password = new JTextField(16);
 	private JButton modificaRespParrocchia = new JButton("Modifica responsabile e parrocchia");
-	
+
 	public AdminModifyOperation(DBConnection con) {
 		this.setLayout(new GridBagLayout());
 		this.modificaResp();
+		this.modificaRespParrocchia.addActionListener(e -> {
+			ResponsabileParrocchia r = new ResponsabileParrocchia(this.codiceResponsabile.getText(), this.cf.getText(),
+					this.nameResponsabileP.getText(), this.surname.getText(), this.date.getText(), this.luogo.getText(),
+					this.numeroTelefono.getText(), this.username.getText(), this.password.getText());
+			if(r.modificaResponsabile() != 0) {
+				JOptionPane.showMessageDialog(this, "Inserimento andato a buon fine.");
+			} else {
+				JOptionPane.showMessageDialog(this, "Qualcosa è andato storto, controllare la correttezza dei campi.");
+			}
+		});
 	}
-	
+
 	private void modificaResp() {
 		GridBagConstraints c = new GridBagConstraints();
 		c.insets = new Insets(0, 10, 10, 10);

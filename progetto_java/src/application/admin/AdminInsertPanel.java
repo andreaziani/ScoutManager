@@ -6,7 +6,6 @@ import java.awt.Insets;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
-import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -14,11 +13,23 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
 import application.app.DBConnection;
+import table.AttivitàFormativa;
+import table.AttivitàLudica;
+import table.CC;
+import table.ContieneCC;
+import table.ContieneEG;
+import table.ContieneLC;
+import table.ContieneRS;
+import table.EG;
+import table.LC;
+import table.Parrocchia;
+import table.RS;
+import table.Residenza;
+import table.ResponsabileEventoNazionale;
+import table.ResponsabileParrocchia;
+import table.ResponsabilitàParrocchia;
 
 import java.sql.*;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 
 public class AdminInsertPanel extends JPanel {
 	/**
@@ -114,32 +125,53 @@ public class AdminInsertPanel extends JPanel {
 	public AdminInsertPanel(DBConnection con) {
 		GridBagLayout grid = new GridBagLayout();
 		this.registraRespN.addActionListener(e -> {
-			try {
-				SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-				java.util.Date parsed = sdf.parse(this.dateN.getText());
-		        java.sql.Date datesql = new java.sql.Date(parsed.getTime());
-				PreparedStatement st = con.getMsSQLConnection().prepareStatement("insert into RESPONSABILE_E_N(CF, nome, cognome, dataNascita, luogoNascita, numeroTelefono,"
-								+ "codiceResponsabile, username, password) VALUES(?, ?, ?, ?, ?, ?, ? ,?, ?)");
-				 st.setString(1, this.cfN.getText());
-				 st.setString(2, this.nameResponsabileN.getText());
-				 st.setString(3, this.surnameN.getText());
-				 st.setDate(4, datesql);
-				 st.setString(5, this.luogoN.getText());
-				 st.setString(6, this.numeroTelefonoN.getText()); 
-				 st.setString(7, this.codResponsabileN.getText());
-				 st.setString(8, this.usernameN.getText());
-				 st.setString(9, this.passwordN.getText());
-				 int rs = st.executeUpdate();
-				if(rs != 0) {
-					JOptionPane.showMessageDialog(this,"Inserimento andato a buon fine");
-				}
-			} catch (SQLException | ParseException e1) {
-				e1.printStackTrace();
-				JOptionPane.showMessageDialog(this,
-						"Qualcosa è andato storto, verifica la corretta lunghezza dei campi.");
-			}
+			ResponsabileEventoNazionale res = new ResponsabileEventoNazionale(this.codResponsabileN.getText(),
+					this.cfN.getText(), this.nameResponsabileN.getText(), this.surnameN.getText(), this.dateN.getText(),
+					this.luogoN.getText(), this.numeroTelefonoN.getText(), this.usernameN.getText(),
+					this.passwordN.getText());
+			checkCorrect(res.inserimentoResponsabile());
 		});
 
+		this.inserisciAttL.addActionListener(e -> {
+			AttivitàLudica attL = new AttivitàLudica(this.codiceAttivitaLudica.getText(),
+					this.descrizioneAttivitaLudica.getText());
+			checkCorrect(attL.inserimentoAttività());
+		});
+
+		this.inserisciAttF.addActionListener(e -> {
+			AttivitàFormativa attF = new AttivitàFormativa(this.codiceAttivitaFormativa.getText(),
+					this.descrizioneAttivitaFormativa.getText());
+			checkCorrect(attF.inserimentoAttività());
+		});
+
+		this.registraRespEParr.addActionListener(e -> {
+			ResponsabileParrocchia rp = new ResponsabileParrocchia(this.codResponsabile.getText(), this.cf.getText(),
+					this.nameResponsabileP.getText(), this.surname.getText(), this.date.getText(), this.luogo.getText(),
+					this.numeroTelefono.getText(), this.username.getText(), this.passwordAssegnata.getText());
+			Parrocchia p = new Parrocchia(this.codParrocchia.getText(), this.nameParrocchia.getText(),
+					this.viaP.getText(), this.numCivicoP.getText());
+			Residenza res = new Residenza(this.codParrocchia.getText(), this.citta.getSelectedItem().toString());
+			ResponsabilitàParrocchia rParrocchia = new ResponsabilitàParrocchia(this.codParrocchia.getText(),
+					this.codResponsabile.getText());
+			CC comCapi = new CC(this.codiceCC.getText());
+			RS roverScolte = new RS(this.codiceRS.getText());
+			EG espGuide = new EG(this.codiceEG.getText());
+			LC lCoccinelle = new LC(this.codiceLC.getText());
+			ContieneCC cc = new ContieneCC(this.codiceCC.getText(), this.codParrocchia.getText());
+			ContieneRS rs = new ContieneRS(this.codiceRS.getText(), this.codParrocchia.getText());
+			ContieneEG eg = new ContieneEG(this.codiceEG.getText(), this.codParrocchia.getText());
+			ContieneLC lc = new ContieneLC(this.codiceLC.getText(), this.codParrocchia.getText());
+			if ((rp.registrazioneResponsabile() != 0) && (p.inserisciParrocchia() != 0) && (res.inserisciResidenza() != 0)
+					&& (rParrocchia.inserisciResponsabilitàParrocchia() != 0) && (comCapi.inserisciCC() != 0)
+					&& (roverScolte.inserisciRS() != 0) && (espGuide.inserisciEG() != 0) && (lCoccinelle.inserisciLC() != 0)
+					&& (cc.inserisciContieneCC() != 0) && (rs.inserisciContieneRS() != 0) && (eg.inserisciContieneEG() != 0)
+					&& (lc.inserisciContieneLC() != 0)) {
+				JOptionPane.showMessageDialog(this, "Inserimento andato a buon fine.");
+			} else {
+				JOptionPane.showMessageDialog(this, "Si è verificato un errore, ricontrollare la correttezza dei campi.");
+			}
+		});
+		
 		this.setLayout(grid);
 		this.inserimentoResponsabileParrocchia();
 		this.inserimentoParrocchia();
@@ -152,9 +184,9 @@ public class AdminInsertPanel extends JPanel {
 			while (rs.next()) {
 				this.citta.addItem(rs.getString(1));
 			}
+			st.close();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			JOptionPane.showMessageDialog(this, "Qualcosa è andato storto con la connessione alla base dati");
 		}
 	}
 
@@ -380,7 +412,11 @@ public class AdminInsertPanel extends JPanel {
 		this.add(this.registraRespEParr, c);
 	}
 
-	private boolean checkField(String value, int size) {
-		return value.length() <= size;
+	private void checkCorrect(int number) {
+		if (number != 0) {
+			JOptionPane.showMessageDialog(this, "Inserimento andato a buon fine.");
+		} else {
+			JOptionPane.showMessageDialog(this, "Qualcosa è andato storto, verifica la correttezza dei campi.");
+		}
 	}
 }

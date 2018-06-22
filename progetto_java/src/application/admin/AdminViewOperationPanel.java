@@ -4,15 +4,18 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 
+
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
 import application.app.DBConnection;
+import table.AdminViewOperation;
 
 public class AdminViewOperationPanel extends JPanel {
-	 
+
 	/**
 	 * Automatically generated.
 	 */
@@ -21,42 +24,57 @@ public class AdminViewOperationPanel extends JPanel {
 	private JLabel parrocchiePerCitta = new JLabel("Parrocchie per citta");
 	private JLabel nomeCitta = new JLabel("citta: ");
 	private JTextField citta = new JTextField(16);
-	private JButton b1 = new JButton("visualizza parrocchie per citta");
-	
-	// parr per resp
-	private JLabel parrocchiePerResp = new JLabel("Parrocchia per responsabile");
+	private JButton b1 = new JButton("visualizza");
+
+	// evento parr per resp
+	private JLabel parrocchiePerResp = new JLabel("Evento parrocchia per responsabile");
 	private JLabel codiceResp = new JLabel("codice responsabile: ");
 	private JTextField codResponsabile = new JTextField(16);
-	private JButton b2 = new JButton("visualizza parrocchie per responsabile");
-	
+	private JButton b2 = new JButton("visualizza");
+
 	// evento nazionale per resp
 	private JLabel eventoPerResp = new JLabel("Evento nazionale per responsabile");
 	private JLabel codiceRespEN = new JLabel("codice responsabile: ");
 	private JTextField codResponsabileEN = new JTextField(16);
-	private JButton b3 = new JButton("visualizza evento nazionale per responsabile");
-	
-	// Evento Parr per data 
+	private JButton b3 = new JButton("visualizza");
+
+	// Evento Parr per data
 	private JLabel eventoParrPerData = new JLabel("Evento Parrocchia per data");
 	private JLabel dataInizio = new JLabel("data inizio evento: ");
 	private JTextField data = new JTextField(16);
-	private JButton b4 = new JButton("visualizza evento di parrocchia per data");
-	
+	private JButton b4 = new JButton("visualizza");
+
 	// evento nazionale per data
 	private JLabel eventoNazPerData = new JLabel("Evento nazionale per data");
 	private JLabel dataInizioN = new JLabel("data inizio evento: ");
 	private JTextField dataN = new JTextField(16);
-	private JButton b5 = new JButton("visualizza evento nazionale per data");
-	
-	
-	public AdminViewOperationPanel(DBConnection con) {
+	private JButton b5 = new JButton("visualizza");
+
+	public AdminViewOperationPanel(DBConnection con, JTextArea view) {
 		this.setLayout(new GridBagLayout());
 		this.parrPercitta();
 		this.parrPerResponsabile();
 		this.eventoNazionalePerResponsabile();
 		this.eventoParrocchiaPerData();
 		this.eventoNazionalePerData();
+		this.b1.addActionListener(e -> {
+			view.setText(AdminViewOperation.parrocchiaPerCittà(this.citta.getText()));
+		});
+		this.b2.addActionListener(e -> {
+			view.setText(AdminViewOperation.eventoParrocchiaPerResponsabile(this.codResponsabile.getText()));
+		});
+		this.b3.addActionListener(e -> {
+			view.setText(AdminViewOperation.eventoNazionalePerResponsabile(this.codResponsabileEN.getText()));
+		});
+		this.b4.addActionListener(e -> {
+			view.setText(AdminViewOperation.eventoDiParrocchiaPerData(this.data.getText()));
+		});
+		
+		this.b5.addActionListener(e -> {
+			view.setText(AdminViewOperation.eventoNazionalePerData(this.dataN.getText()));
+		});
 	}
-	
+
 	private void parrPercitta() {
 		GridBagConstraints c = new GridBagConstraints();
 		c.insets = new Insets(0, 10, 10, 10);
@@ -71,7 +89,7 @@ public class AdminViewOperationPanel extends JPanel {
 		c.gridy = 2;
 		this.add(this.b1, c);
 	}
-	
+
 	private void parrPerResponsabile() {
 		GridBagConstraints c = new GridBagConstraints();
 		c.insets = new Insets(0, 10, 10, 10);
@@ -88,7 +106,7 @@ public class AdminViewOperationPanel extends JPanel {
 		c.gridy = 2;
 		this.add(this.b2, c);
 	}
-	
+
 	private void eventoNazionalePerResponsabile() {
 		GridBagConstraints c = new GridBagConstraints();
 		c.insets = new Insets(0, 10, 10, 10);
@@ -103,7 +121,7 @@ public class AdminViewOperationPanel extends JPanel {
 		c.gridy = 2;
 		this.add(this.b3, c);
 	}
-	
+
 	private void eventoParrocchiaPerData() {
 		GridBagConstraints c = new GridBagConstraints();
 		c.insets = new Insets(0, 10, 10, 10);
@@ -118,7 +136,7 @@ public class AdminViewOperationPanel extends JPanel {
 		c.gridy = 6;
 		this.add(this.b4, c);
 	}
-	
+
 	private void eventoNazionalePerData() {
 		GridBagConstraints c = new GridBagConstraints();
 		c.insets = new Insets(0, 10, 10, 10);
