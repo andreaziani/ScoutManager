@@ -53,10 +53,7 @@ public class InsertNationalEvent extends JPanel{
     private static final long serialVersionUID = 1129165456568949369L;
 
     public InsertNationalEvent(ResponsabileEventoNazionale res) {
-        p = new Properties();
-        p.put("text.today", "Today");
-        p.put("text.month", "Month");
-        p.put("text.year", "Year");
+        
         
         this.buildEv_Nazionale();
         this.build();
@@ -72,7 +69,7 @@ public class InsertNationalEvent extends JPanel{
         });
     }
     
-    private void build() {      
+    private void build() {
         this.setBorder(new EtchedBorder(EtchedBorder.LOWERED));
         GridBagConstraints gbcMain = new GridBagConstraints();
         gbcMain.gridx = 0;
@@ -93,6 +90,10 @@ public class InsertNationalEvent extends JPanel{
     }
     
     private void buildEv_Nazionale() {
+        p = new Properties();
+        p.put("text.today", "Today");
+        p.put("text.month", "Month");
+        p.put("text.year", "Year");
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.weightx = 1.0;

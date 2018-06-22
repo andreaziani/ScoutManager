@@ -5,6 +5,7 @@ import java.awt.Component;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.util.Date;
 import java.util.Properties;
 
 import javax.swing.JButton;
@@ -18,11 +19,15 @@ import org.jdatepicker.impl.JDatePanelImpl;
 import org.jdatepicker.impl.JDatePickerImpl;
 import org.jdatepicker.impl.UtilDateModel;
 
+import table.ResponsabileEventoNazionale;
+import table.ResponsabilitàEventoNazionale;
+
 public class ViewEventdByDate extends JPanel{
     /**
      * 
      */
     private static final long serialVersionUID = 8835226786280861286L;
+    
     
     private GridBagConstraints gbc= new GridBagConstraints();
     private JLabel title = new JLabel("Visualizza eventi per data");
@@ -34,7 +39,7 @@ public class ViewEventdByDate extends JPanel{
     private JButton btn = new JButton("VISUALIZZA");
     
     
-    public ViewEventdByDate() {
+    public ViewEventdByDate(ResponsabileEventoNazionale res, ConsoleArea log) {
         this.setBorder(new EtchedBorder(EtchedBorder.LOWERED));
         this.setLayout(new GridBagLayout());
         p = new Properties();
@@ -43,6 +48,11 @@ public class ViewEventdByDate extends JPanel{
         p.put("text.year", "Year");
         setTitle();
         this.build();
+        this.btn.addActionListener(e->{
+            ResponsabilitàEventoNazionale r = new ResponsabilitàEventoNazionale(null, res.getCodiceResponsabile());
+            String msg = r.viewEvbyDateQuery((Date) datePicker.getModel().getValue());
+            log.insert(msg);
+        });
     }
     
     private void setTitle() {
@@ -88,4 +98,5 @@ public class ViewEventdByDate extends JPanel{
         gbc.fill = GridBagConstraints.NONE;
         add(btn, gbc);
     }
+    
 }

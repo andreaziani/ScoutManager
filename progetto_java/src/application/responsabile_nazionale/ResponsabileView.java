@@ -4,6 +4,8 @@ import java.awt.Toolkit;
 
 import javax.swing.JFrame;
 
+import application.app.DBConnection;
+import application.app.DBConnectionImpl;
 import table.ResponsabileEventoNazionale;
 
 import java.awt.GridLayout;
@@ -12,11 +14,16 @@ public class ResponsabileView extends JFrame{
     
     private int height = Toolkit.getDefaultToolkit().getScreenSize().height;
     private int width = Toolkit.getDefaultToolkit().getScreenSize().width;
+    
+    private DBConnection con = new DBConnectionImpl();
+    
     private InsertNationalEvent ne;
     private ActivityPanel ap;
     private ModifyEv me;
     private UserSignInPanel usp;
     private ViewEventdByDate vd;
+    private ConsoleArea log;
+    
     /**
      * Automatically generated
      */
@@ -26,17 +33,18 @@ public class ResponsabileView extends JFrame{
     public ResponsabileView(ResponsabileEventoNazionale responsabile) {
         build();
         ne = new InsertNationalEvent(responsabile);
-        ap = new ActivityPanel();
-        me = new ModifyEv(responsabile);
-        usp = new UserSignInPanel();
-        vd = new ViewEventdByDate();
-        
+        ap = new ActivityPanel(con);
+        me = new ModifyEv(con, responsabile);
+        usp = new UserSignInPanel(con);
+        vd = new ViewEventdByDate(responsabile, log);
+        log = new ConsoleArea();
         
         this.add(ne);
         this.add(ap);
         this.add(me);
         this.add(usp);
         this.add(vd);
+        this.add(log);
     }
     
     private void build() {

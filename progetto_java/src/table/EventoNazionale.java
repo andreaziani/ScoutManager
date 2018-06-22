@@ -44,6 +44,25 @@ public class EventoNazionale{
         }
 	    return result;
 	}
+	
+	public int updateQuery() {
+	    int result;
+            try {
+                PreparedStatement st = con.getMsSQLConnection().prepareStatement(
+                                "update E_NAZIONALE SET tipo = ? , dataInizio = ?, dataFine = ?, località = ?, descrizione = ? WHERE codiceEvento = ?");
+                st.setString(1, tipo);
+                st.setDate(2, new java.sql.Date(dataInizio.getTime()));
+                st.setDate(3, new java.sql.Date(dataFine.getTime()));
+                st.setString(4, località);
+                st.setString(5, descrizione);
+                st.setString(6, codiceEvento);
+                result = st.executeUpdate();
+                st.close();
+        } catch (SQLException e) {
+                return 0;
+        }
+            return result;
+	}
 
 	public String getCodiceEvento() {
 		return this.codiceEvento;

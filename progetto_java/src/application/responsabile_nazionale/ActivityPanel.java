@@ -1,7 +1,9 @@
 package application.responsabile_nazionale;
 
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
@@ -13,8 +15,15 @@ import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 
 import javax.swing.border.EtchedBorder;
+
+import application.app.DBConnection;
+import table.AttivitàFormativa;
+import table.FormazioneNazionale;
 
 public class ActivityPanel extends JPanel{
     private GridBagConstraints gbc= new GridBagConstraints();
@@ -27,18 +36,37 @@ public class ActivityPanel extends JPanel{
     private JLabel assegnamento = new JLabel("Assegnamento");
     private JLabel codEv = new JLabel("Codice Evento:");
     private JLabel codAtt = new JLabel("Codice Attività: ");
-    private JTextField txtCodEv = new JTextField(5);
+    private JComboBox<String> txtCodEv = new JComboBox<>();
     private JTextField txtCodAtt = new JTextField(5);
     private JButton btn = new JButton("Inserisci Attività");
     private JButton act = new JButton("Assegna attività");
+    
+    private DBConnection con;
     /**
      * 
      */
     private static final long serialVersionUID = 2872262581192016370L;
     
-    public ActivityPanel() {
+    public ActivityPanel(DBConnection con) {
+        this.con = con;
         build();
-        
+        btn.addActionListener(e->{
+            AttivitàFormativa a = new AttivitàFormativa(txtcod.getText(), descrizione.getText());
+            txtCodAtt.setText(txtcod.getText());
+            if(a.inserimentoAttività()==1) {
+                JOptionPane.showMessageDialog(this, "Inserimento andato a buon fine.");
+            } else {
+                JOptionPane.showMessageDialog(this, "Si è verificato un errore, ricontrollare la correttezza dei campi.");
+            }
+        });
+        act.addActionListener(e->{
+            FormazioneNazionale fn = new FormazioneNazionale(String.valueOf(txtCodEv.getSelectedItem()), txtCodAtt.getText());
+            if(fn.execQuery()==1) {
+                JOptionPane.showMessageDialog(this, "Inserimento andato a buon fine.");
+            } else {
+                JOptionPane.showMessageDialog(this, "Si è verificato un errore, ricontrollare la correttezza dei campi.");
+            }
+        });
     }
     
     private void build() {
@@ -101,6 +129,21 @@ public class ActivityPanel extends JPanel{
         gbc.gridy = 6;
         gbc.gridx = 0;
         txtCodEv.setMaximumSize(new Dimension(10, 20));
+        
+        try {
+            Statement st = con.getMsSQLConnection().createStatement();
+            ResultSet rs = st.executeQuery("select codiceEvento from E_NAZIONALE");
+            if(rs.isBeforeFirst()) {
+                while (rs.next()) {
+                    this.txtCodEv.addItem(rs.getString(1));
+                }} else {
+                    this.txtCodEv.addItem("<Nessun Codice Evento memorizzato>");
+                }
+            st.close();
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(this, "Qualcosa è andato storto con la connessione alla base dati");
+        }
+        
         this.add(txtCodEv, gbc);
         
         txtCodAtt.setMaximumSize(new Dimension(10, 20));
