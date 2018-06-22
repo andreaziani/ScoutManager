@@ -15,11 +15,21 @@ import javax.swing.JTextField;
 import application.app.DBConnection;
 import table.AttivitàFormativa;
 import table.AttivitàLudica;
+import table.CC;
+import table.ContieneCC;
+import table.ContieneEG;
+import table.ContieneLC;
+import table.ContieneRS;
+import table.EG;
+import table.LC;
+import table.Parrocchia;
+import table.RS;
+import table.Residenza;
 import table.ResponsabileEventoNazionale;
+import table.ResponsabileParrocchia;
+import table.ResponsabilitàParrocchia;
 
 import java.sql.*;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 
 public class AdminInsertPanel extends JPanel {
 	/**
@@ -121,17 +131,47 @@ public class AdminInsertPanel extends JPanel {
 					this.passwordN.getText());
 			checkCorrect(res.inserimentoResponsabile());
 		});
-		
+
 		this.inserisciAttL.addActionListener(e -> {
-			AttivitàLudica attL = new AttivitàLudica(this.codiceAttivitaLudica.getText(), this.descrizioneAttivitaLudica.getText());
+			AttivitàLudica attL = new AttivitàLudica(this.codiceAttivitaLudica.getText(),
+					this.descrizioneAttivitaLudica.getText());
 			checkCorrect(attL.inserimentoAttività());
 		});
-		
+
 		this.inserisciAttF.addActionListener(e -> {
-			AttivitàFormativa attF = new AttivitàFormativa(this.codiceAttivitaFormativa.getText(), this.descrizioneAttivitaFormativa.getText());
+			AttivitàFormativa attF = new AttivitàFormativa(this.codiceAttivitaFormativa.getText(),
+					this.descrizioneAttivitaFormativa.getText());
 			checkCorrect(attF.inserimentoAttività());
 		});
-		
+
+		this.registraRespEParr.addActionListener(e -> {
+			ResponsabileParrocchia rp = new ResponsabileParrocchia(this.codResponsabile.getText(), this.cf.getText(),
+					this.nameResponsabileP.getText(), this.surname.getText(), this.date.getText(), this.luogo.getText(),
+					this.numeroTelefono.getText(), this.username.getText(), this.passwordAssegnata.getText());
+			Parrocchia p = new Parrocchia(this.codParrocchia.getText(), this.nameParrocchia.getText(),
+					this.viaP.getText(), this.numCivicoP.getText());
+			Residenza res = new Residenza(this.codParrocchia.getText(), this.citta.getSelectedItem().toString());
+			ResponsabilitàParrocchia rParrocchia = new ResponsabilitàParrocchia(this.codParrocchia.getText(),
+					this.codResponsabile.getText());
+			CC comCapi = new CC(this.codiceCC.getText());
+			RS roverScolte = new RS(this.codiceRS.getText());
+			EG espGuide = new EG(this.codiceEG.getText());
+			LC lCoccinelle = new LC(this.codiceLC.getText());
+			ContieneCC cc = new ContieneCC(this.codiceCC.getText(), this.codParrocchia.getText());
+			ContieneRS rs = new ContieneRS(this.codiceRS.getText(), this.codParrocchia.getText());
+			ContieneEG eg = new ContieneEG(this.codiceEG.getText(), this.codParrocchia.getText());
+			ContieneLC lc = new ContieneLC(this.codiceLC.getText(), this.codParrocchia.getText());
+			if ((rp.registrazioneResponsabile() != 0) && (p.inserisciParrocchia() != 0) && (res.inserisciResidenza() != 0)
+					&& (rParrocchia.inserisciResponsabilitàParrocchia() != 0) && (comCapi.inserisciCC() != 0)
+					&& (roverScolte.inserisciRS() != 0) && (espGuide.inserisciEG() != 0) && (lCoccinelle.inserisciLC() != 0)
+					&& (cc.inserisciContieneCC() != 0) && (rs.inserisciContieneRS() != 0) && (eg.inserisciContieneEG() != 0)
+					&& (lc.inserisciContieneLC() != 0)) {
+				JOptionPane.showMessageDialog(this, "Inserimento andato a buon fine.");
+			} else {
+				JOptionPane.showMessageDialog(this, "Si è verificato un errore, ricontrollare la correttezza dei campi.");
+			}
+		});
+
 		this.setLayout(grid);
 		this.inserimentoResponsabileParrocchia();
 		this.inserimentoParrocchia();

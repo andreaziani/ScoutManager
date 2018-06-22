@@ -1,40 +1,40 @@
 package table;
 
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+
+import application.app.DBConnection;
+import application.app.DBConnectionImpl;
+
 public class RS {
 
 	private String codiceRS;
-	private int etàIniziale;
-	private int etàFinale;
-	
-	public RS(String codiceRS, int etàIniziale, int etàFinale) {
-		super();
+	private DBConnection con = new DBConnectionImpl();
+
+	public RS(String codiceRS) {
 		this.codiceRS = codiceRS;
-		this.etàIniziale = etàIniziale;
-		this.etàIniziale = etàIniziale;
+
+	}
+
+	public int inserisciRS() {
+		PreparedStatement st;
+		int result;
+		try {
+			st = con.getMsSQLConnection().prepareStatement("insert into RS(codiceRS) VALUES(?)");
+			st.setString(1, this.codiceRS);
+			result = st.executeUpdate();
+		} catch (SQLException e) {
+			return 0;
+		}
+		return result;
 	}
 
 	public String getCodiceRS() {
 		return codiceRS;
 	}
 
-	public int getEtàIniziale() {
-		return etàIniziale;
-	}
-
-	public int getEtàFinale() {
-		return etàFinale;
-	}
-
 	public void setCodiceRS(String codiceRS) {
 		this.codiceRS = codiceRS;
 	}
 
-	public void setEtàIniziale(int etàIniziale) {
-		this.etàIniziale = etàIniziale;
-	}
-
-	public void setEtàFinale(int etàFinale) {
-		this.etàFinale = etàFinale;
-	}
-	
 }

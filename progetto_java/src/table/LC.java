@@ -1,40 +1,42 @@
 package table;
 
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+
+import application.app.DBConnection;
+import application.app.DBConnectionImpl;
+
 public class LC {
 
 	private String codiceLC;
-	private int etàIniziale;
-	private int etàFinale;
+	private DBConnection con = new DBConnectionImpl();
 	
-	public LC(String codiceLC, int etàIniziale, int etàFinale) {
+	public LC(String codiceLC) {
 		super();
 		this.codiceLC = codiceLC;
-		this.etàIniziale = etàIniziale;
-		this.etàIniziale = etàFinale;
+
 	}
 
+	public int inserisciLC() {
+		PreparedStatement st;
+		int result;
+		try {
+			st = con.getMsSQLConnection().prepareStatement(
+					"insert into LC(codiceLC) VALUES(?) ");
+			st.setString(1, this.codiceLC);
+			result = st.executeUpdate();
+		} catch (SQLException e) {
+			return 0;
+		}
+		return result;
+	}
+	
 	public String getCodiceLC() {
 		return codiceLC;
 	}
 
-	public int getEtàIniziale() {
-		return etàIniziale;
-	}
-
-	public int getEtàFinale() {
-		return etàFinale;
-	}
-
 	public void setCodiceLC(String codiceLC) {
 		this.codiceLC = codiceLC;
-	}
-
-	public void setEtàIniziale(int etàIniziale) {
-		this.etàIniziale = etàIniziale;
-	}
-
-	public void setEtàFinale(int etàFinale) {
-		this.etàFinale = etàFinale;
 	}
 	
 }

@@ -1,40 +1,40 @@
 package table;
 
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+
+import application.app.DBConnection;
+import application.app.DBConnectionImpl;
+
 public class EG {
-	
+
 	private String codiceEG;
-	private int etàIniziale;
-	private int etàFinale;
-	
-	public EG(String codiceEG, int etàIniziale, int etàFinale) {
+	private DBConnection con = new DBConnectionImpl();
+
+	public EG(String codiceEG) {
 		super();
 		this.codiceEG = codiceEG;
-		this.etàIniziale = etàIniziale;
-		this.etàFinale = etàFinale;
+	}
+
+	public int inserisciEG() {
+		PreparedStatement st;
+		int result;
+		try {
+			st = con.getMsSQLConnection().prepareStatement("insert into EG(codiceEG) VALUES(?) ");
+			st.setString(1, this.codiceEG);
+			result = st.executeUpdate();
+		} catch (SQLException e) {
+			return 0;
+		}
+		return result;
 	}
 
 	public String getCodiceEG() {
 		return codiceEG;
 	}
 
-	public int getEtaIniziale() {
-		return etàIniziale;
-	}
-
-	public int getEtaFinale() {
-		return etàFinale;
-	}
-
 	public void setCodiceEG(String codiceEG) {
 		this.codiceEG = codiceEG;
-	}
-
-	public void setEtaIniziale(int etàIniziale) {
-		this.etàIniziale = etàIniziale;
-	}
-
-	public void setEtaFinale(int etàFinale) {
-		this.etàFinale = etàFinale;
 	}
 
 }
