@@ -10,7 +10,7 @@ import application.app.DBConnection;
 import application.app.DBConnectionImpl;
 
 public class ResponsabileParrocchia {
-	
+
 	private String codiceResponsabile;
 	private String codiceFiscale;
 	private String nome;
@@ -21,7 +21,7 @@ public class ResponsabileParrocchia {
 	private String username;
 	private String password;
 	private DBConnection con = new DBConnectionImpl();
-	
+
 	public ResponsabileParrocchia(String codiceResponsabile, String codiceFiscale, String nome, String cognome,
 			String dataNascita, String luogoNascita, String numTelefono, String username, String password) {
 		this.codiceResponsabile = codiceResponsabile;
@@ -34,13 +34,13 @@ public class ResponsabileParrocchia {
 		this.username = username;
 		this.password = password;
 	}
-	
+
 	public int registrazioneResponsabile() {
 		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 		int result;
 		try {
 			java.util.Date parsed = sdf.parse(this.dataNascita);
-	        Date datesql = new java.sql.Date(parsed.getTime());
+			Date datesql = new java.sql.Date(parsed.getTime());
 			PreparedStatement st = con.getMsSQLConnection().prepareStatement(
 					"insert into RESPONSABILE_P(codiceResponsabile, CF, nome, cognome, dataNascita, luogoNascita, numeroTelefono,"
 							+ "username, password) VALUES(?, ?, ?, ?, ?, ?, ? ,?, ?) ");
@@ -59,7 +59,34 @@ public class ResponsabileParrocchia {
 		}
 		return result;
 	}
-	
+
+	public int modificaResponsabile() {
+		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+		int result;
+		try {
+			java.util.Date parsed = sdf.parse(this.dataNascita);
+			Date datesql = new java.sql.Date(parsed.getTime());
+			PreparedStatement st = con.getMsSQLConnection().prepareStatement(
+					"UPDATE RESPONSABILE_P SET codiceResponsabile = ? , CF = ? , nome = ? , cognome = ? , dataNascita = ? , luogoNascita = ? , numeroTelefono = ? , username = ? , password = ?  WHERE codiceResponsabile = ?");
+			st.setString(1, this.codiceResponsabile);
+			st.setString(2, this.codiceFiscale);
+			st.setString(3, this.nome);
+			st.setString(4, this.cognome);
+			st.setDate(5, datesql);
+			st.setString(6, this.luogoNascita);
+			st.setString(7, this.numTelefono);
+			st.setString(8, this.username);
+			st.setString(9, this.password);
+			st.setString(10, this.codiceResponsabile);
+			result = st.executeUpdate();
+			st.close();
+		} catch (SQLException | ParseException e) {
+			e.printStackTrace();
+			return 0;
+		}
+		return result;
+	}
+
 	public String getCodiceResponsabile() {
 		return this.codiceResponsabile;
 	}
@@ -131,6 +158,5 @@ public class ResponsabileParrocchia {
 	public void setPassword(String password) {
 		this.password = password;
 	}
-		
 
 }

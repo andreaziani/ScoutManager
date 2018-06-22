@@ -25,7 +25,7 @@ public class AdminView extends JFrame {
 		JPanel panel = new JPanel();
 		panel.setLayout(new BorderLayout());
 		AdminInsertPanel insertPanel = new AdminInsertPanel(con);
-		AdminViewOperationPanel op = new AdminViewOperationPanel(con);
+		AdminViewOperationPanel op = new AdminViewOperationPanel(con, view);
 		AdminModifyOperation mod = new AdminModifyOperation(con);
 		panel.add(mod, BorderLayout.WEST);
 		panel.add(op, BorderLayout.SOUTH);

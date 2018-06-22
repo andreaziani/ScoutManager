@@ -171,7 +171,7 @@ public class AdminInsertPanel extends JPanel {
 				JOptionPane.showMessageDialog(this, "Si è verificato un errore, ricontrollare la correttezza dei campi.");
 			}
 		});
-
+		
 		this.setLayout(grid);
 		this.inserimentoResponsabileParrocchia();
 		this.inserimentoParrocchia();
@@ -184,9 +184,9 @@ public class AdminInsertPanel extends JPanel {
 			while (rs.next()) {
 				this.citta.addItem(rs.getString(1));
 			}
+			st.close();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			JOptionPane.showMessageDialog(this, "Qualcosa è andato storto con la connessione alla base dati");
 		}
 	}
 
