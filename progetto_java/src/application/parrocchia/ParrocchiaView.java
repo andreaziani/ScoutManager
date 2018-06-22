@@ -11,6 +11,8 @@ import javax.swing.JTextArea;
 import javax.swing.border.Border;
 
 import application.app.DBConnection;
+import table.ResponsabileParrocchia;
+
 
 public class ParrocchiaView extends JFrame{
 	/**
@@ -22,11 +24,11 @@ public class ParrocchiaView extends JFrame{
 	private JTextArea view = new JTextArea(100, 400);
 	private Border border = BorderFactory.createLineBorder(Color.BLACK);
 	
-	public ParrocchiaView(DBConnection con) {
+	public ParrocchiaView(ResponsabileParrocchia responsabileParrocchia, DBConnection con) {
 		JPanel panel = new JPanel();
 		panel.setLayout(new BorderLayout());
 		ParrocchiaViewOperationPanel op = new ParrocchiaViewOperationPanel();
-		ParrocchiaModifyOperation mod = new ParrocchiaModifyOperation(con);
+		ParrocchiaModifyOperation mod = new ParrocchiaModifyOperation(con, responsabileParrocchia);
 		panel.add(mod, BorderLayout.NORTH);
 		panel.add(op, BorderLayout.SOUTH);
 		this.setTitle("Admin");

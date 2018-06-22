@@ -1,10 +1,17 @@
 package table;
 
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+
+import application.app.DBConnection;
+import application.app.DBConnectionImpl;
+
 public class EGAnno {
 	
 	private String codiceEG;
 	private String codiceIscritto;
 	private int anno;
+	private DBConnection con = new DBConnectionImpl();
 	
 	public EGAnno(String codiceEG, String codiceIscritto, int anno) {
 		super();
@@ -13,28 +20,17 @@ public class EGAnno {
 		this.anno = anno;
 	}
 
-	public String getCodiceEG() {
-		return codiceEG;
+	public int iscrizioneEG() {
+		try {
+			PreparedStatement st = con.getMsSQLConnection().prepareStatement(
+					"insert into EG_ANNO(codiceEG, codiceIscritto, anno) VALUES(?, ?, ?)");
+			st.setString(1, codiceEG);
+			st.setString(2, codiceIscritto);
+			st.setInt(3, anno);
+			return st.executeUpdate();
+		} catch (SQLException e) {
+			return 0;
+		}
 	}
-
-	public String getCodiceIscritto() {
-		return codiceIscritto;
-	}
-
-	public int getAnno() {
-		return anno;
-	}
-
-	public void setCodiceEG(String codiceEG) {
-		this.codiceEG = codiceEG;
-	}
-
-	public void setCodiceIscritto(String codiceIscritto) {
-		this.codiceIscritto = codiceIscritto;
-	}
-
-	public void setAnno(int anno) {
-		this.anno = anno;
-	}	
 
 }

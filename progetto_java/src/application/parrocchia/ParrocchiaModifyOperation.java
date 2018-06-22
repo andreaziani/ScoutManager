@@ -3,10 +3,12 @@ package application.parrocchia;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Calendar;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -18,12 +20,16 @@ import javax.swing.JTextField;
 
 import application.app.DBConnection;
 import table.AttivitàLudica;
+import table.CCAnno;
+import table.EGAnno;
 import table.EventoParrocchiaEG;
 import table.EventoParrocchiaLC;
 import table.EventoParrocchiaRS;
 import table.EventoParrocchiaTutti;
 import table.Iscritto;
 import table.LCAnno;
+import table.RSAnno;
+import table.ResponsabileParrocchia;
 import table.RicreazioneLC;
 
 public class ParrocchiaModifyOperation extends JPanel{
@@ -31,13 +37,11 @@ public class ParrocchiaModifyOperation extends JPanel{
 	 * 
 	 */
 	private static final long serialVersionUID = 656762902576451100L;
+	private ResponsabileParrocchia responsabile;
 	private String codiceLC;
 	private String codiceRS;
 	private String codiceEG;
 	private String codiceCC;
-	private String us;
-	private String pa;
-	private String codiceResponsabile;
 	
 	//riconoscimento responsabile
 	private JLabel username = new JLabel("Username: ");
@@ -139,7 +143,8 @@ public class ParrocchiaModifyOperation extends JPanel{
 	private JTextField codReg = new JTextField(16);
 	private JButton iscriviEvento = new JButton("Iscrivi a evento");
 	
-	public ParrocchiaModifyOperation(DBConnection con) {
+	public ParrocchiaModifyOperation(DBConnection con, ResponsabileParrocchia responsabileParrocchia) {
+		this.responsabile = responsabileParrocchia;
 		GridBagLayout grid = new GridBagLayout();
 		this.setLayout(grid);
 		branca.addItem("LC");
@@ -150,13 +155,7 @@ public class ParrocchiaModifyOperation extends JPanel{
 		brancheI.addItem("EG");
 		brancheI.addItem("RS");
 		brancheI.addItem("CC");
-		year.addItem("2012");
-		year.addItem("2013");
-		year.addItem("2014");
-		year.addItem("2015");
-		year.addItem("2016");
-		year.addItem("2017");
-		this.inserimentoResponsabile();
+		year.addItem("2018");
 		this.inserimentoEvento();
 		this.registrazioneIscrittoBranca();
 		this.registrazioneIscritto();
@@ -165,19 +164,6 @@ public class ParrocchiaModifyOperation extends JPanel{
 		this.assegnamentoAttività();
 		this.registrazioneIscrittoEvento();
 		this.cancellazioneEvento();
-		
-		try {
-			PreparedStatement st = con.getMsSQLConnection().prepareStatement("select codiceResponsabile from RESPONSABILE_P where username = ? and password = ?");
-			st.setString(1, this.us);
-			st.setString(2, this.pa);
-			ResultSet rs = st.executeQuery();
-			while (rs.next()) {
-				this.codiceResponsabile = rs.getString(1);
-				
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
 		
 		try {
 			Statement st = con.getMsSQLConnection().createStatement();
@@ -194,15 +180,15 @@ public class ParrocchiaModifyOperation extends JPanel{
 		}
 		try {
 			PreparedStatement st = con.getMsSQLConnection().prepareStatement("select codiceParrocchia from Responsabilità_parrocchia where codiceResponsabile = ?");
-			st.setString(1, this.codiceResponsabile);
+			st.setString(1, this.responsabile.getCodiceResponsabile());
 			ResultSet rs = st.executeQuery();
 			while (rs.next()) {
-				this.codiceParrocchia = rs.getString(1);
-				
+				this.codiceParrocchia = rs.getString(1);				
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+		
 		try {
 			PreparedStatement st = con.getMsSQLConnection().prepareStatement("select codiceLC from Contiene_LC where codiceParrocchia = ?");
 			st.setString(1, this.codiceParrocchia);
@@ -270,6 +256,7 @@ public class ParrocchiaModifyOperation extends JPanel{
 		this.assegnaAttF.addActionListener(e -> {
 			
 		});
+		
 		this.inserisciEvento.addActionListener(e -> {
 			if(branca.getSelectedItem().equals("LC")) {
 				EventoParrocchiaLC eventoLC = new EventoParrocchiaLC(this.codiceParrocchia, codEvento.getText(), tipo.getText(), dInizio.getText(), dFine.getText(), loc.getText(), desc.getText());
@@ -300,13 +287,20 @@ public class ParrocchiaModifyOperation extends JPanel{
 				LCAnno lc = new LCAnno(this.codiceLC, (String)this.codIscB.getSelectedItem(), Integer.parseInt((String)this.year.getSelectedItem()));
 				checkCorrect(lc.iscrizioneLC());
 			}
-			
+			else if(branca.getSelectedItem().equals("EG")) {
+				EGAnno eg = new EGAnno(this.codiceEG, (String)this.codIscB.getSelectedItem(), Integer.parseInt((String)this.year.getSelectedItem()));
+				checkCorrect(eg.iscrizioneEG());
+			}
+			else if(branca.getSelectedItem().equals("RS")) {
+				RSAnno rs = new RSAnno(this.codiceRS, (String)this.codIscB.getSelectedItem(), Integer.parseInt((String)this.year.getSelectedItem()));
+				checkCorrect(rs.iscrizioneRS());
+			}
+			else if(branca.getSelectedItem().equals("CC")) {
+				CCAnno cc = new CCAnno(this.codiceCC, (String)this.codIscB.getSelectedItem(), Integer.parseInt((String)this.year.getSelectedItem()));
+				checkCorrect(cc.iscrizioneCC());
+			}
 		});
-		
-		this.resp.addActionListener(e -> {
-			this.us = this.user.getText();
-			this.pa = this.pw.getText();
-		});
+
 	}
 	
 	private void assegnamentoAttività() {
@@ -559,26 +553,6 @@ public class ParrocchiaModifyOperation extends JPanel{
 		this.cancella.addActionListener(e -> {
 			
 		});
-	}
-		
-	private void inserimentoResponsabile() {
-		GridBagConstraints c = new GridBagConstraints();
-		c.gridx = 0;
-		c.insets = new Insets(0, 10, 10, 10);
-		c.gridx = 0;
-		c.gridy = 0;
-		this.add(this.username, c);
-		c.gridx = 1;
-		this.add(this.user, c);
-		c.gridx = 0;
-		c.gridy = 1;
-		this.add(this.password, c);
-		c.gridx = 1;
-		this.add(this.pw, c);
-		c.gridx = 0;
-		c.gridy = 2;
-		this.add(this.resp, c);
-		
 	}
 	
 	private void checkCorrect(int number) {
