@@ -1,5 +1,6 @@
 package application.admin;
 
+import java.awt.Color;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -51,6 +52,12 @@ public class AdminViewOperationPanel extends JPanel {
 	private JButton b5 = new JButton("visualizza");
 
 	public AdminViewOperationPanel(DBConnection con, JTextArea view) {
+		parrocchiePerCitta.setForeground(Color.RED);
+		parrocchiePerResp.setForeground(Color.RED);
+		eventoPerResp.setForeground(Color.RED);
+		eventoParrPerData.setForeground(Color.RED);
+		eventoNazPerData.setForeground(Color.RED);
+		
 		this.setLayout(new GridBagLayout());
 		this.parrPercitta();
 		this.parrPerResponsabile();
