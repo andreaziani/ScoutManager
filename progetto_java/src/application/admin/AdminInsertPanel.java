@@ -1,5 +1,6 @@
 package application.admin;
 
+import java.awt.Color;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -124,6 +125,13 @@ public class AdminInsertPanel extends JPanel {
 
 	public AdminInsertPanel(DBConnection con) {
 		GridBagLayout grid = new GridBagLayout();
+		insertResponsabile.setForeground(Color.red);
+		insertParrocchia.setForeground(Color.RED);
+		residenza.setForeground(Color.RED);
+		attL.setForeground(Color.RED);
+		attF.setForeground(Color.RED);
+		insertResponsabileN.setForeground(Color.RED);
+		
 		this.registraRespN.addActionListener(e -> {
 			ResponsabileEventoNazionale res = new ResponsabileEventoNazionale(
 					this.cfN.getText(), this.nameResponsabileN.getText(), this.surnameN.getText(), this.dateN.getText(),

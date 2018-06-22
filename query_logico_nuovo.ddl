@@ -385,23 +385,6 @@ alter table E_NAZIONALE add constraint IDE_NAZIONALE_CHK
      check(exists(select * from Formazione_Nazionale
                   where Formazione_Nazionale.codiceEvento = codiceEvento)); 
 
-create FUNCTION IDE_Nazionale_check(@codiceEvento varchar(10))
-    RETURNS varchar(5)
-    AS
-    BEGIN
-    DECLARE @return varchar(5);
-    IF EXISTS (select * from Responsabilità_E_N
-                  where Responsabilità_E_N.codiceEvento =  @codiceEvento)
-	SET
-	@return = 'true';
-	ELSE
-	SET @return = 'false';
-
-    RETURN @return;
-
-    END;
-    GO
-
 // queste tre sotto non le ho messe perchè vincolano a registrare prima la ricreazione rispetto all'evento di parrocchia
 alter table E_P_EG add constraint IDE_P_EG_CHK
      check(exists(select * from Ricreazione_EG
