@@ -91,7 +91,7 @@ public class LoginWindow extends JFrame {
                 }
         	if(txtUsername.getText().equals("parrocchia") && String.valueOf(passwordField.getPassword()).equals("parr")) {
         		this.dispose();
-        		new ParrocchiaView();
+        		new ParrocchiaView(con);
         	}
         });
         btnLogin.setAlignmentX(Component.CENTER_ALIGNMENT);

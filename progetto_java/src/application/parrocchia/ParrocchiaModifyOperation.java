@@ -3,11 +3,20 @@ package application.parrocchia;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
+
+import application.app.DBConnection;
+import table.EventoParrocchiaLC;
 
 public class ParrocchiaModifyOperation extends JPanel{
 	/**
@@ -16,6 +25,7 @@ public class ParrocchiaModifyOperation extends JPanel{
 	private static final long serialVersionUID = 656762902576451100L;
 	
 	//inserimento iscritti
+	private String codiceParrocchia;
 	private JLabel registrazioneIscritti = new JLabel("Registrazione iscritti");
 	private JLabel iscrittoCodice = new JLabel("Codice iscrizione :");
 	private JTextField iscCodice = new JTextField(16);
@@ -55,30 +65,40 @@ public class ParrocchiaModifyOperation extends JPanel{
 	
 	//inserimento evento
 	private JLabel evento = new JLabel("Inserimento evento di parrocchia");
+	private JLabel codiceEvento= new JLabel("Codice evento: ");
+	private JTextField codEvento = new JTextField(16);
 	private JLabel dataInizio = new JLabel("Data inizio: ");
 	private JTextField dInizio = new JTextField(16);
 	private JLabel dataFine= new JLabel("Data fine: ");
 	private JTextField dFine = new JTextField(16);
-	private JLabel codiceEvento= new JLabel("Codice evento: ");
-	private JTextField codEvento = new JTextField(16);
-	private JLabel codiceAttività = new JLabel("Inserire attività: ");
-	private JTextField codAttività = new JTextField(16);
+	private JLabel tipologia = new JLabel("Tipo: ");
+	private JTextField tipo = new JTextField(16);
+	private JLabel località = new JLabel("Località: ");
+	private JTextField loc = new JTextField(16);
+	private JLabel descrizione = new JLabel("Descrizione: ");
+	private JTextField desc = new JTextField(16);
+	private JLabel branche = new JLabel("Branca: ");
+	private JLabel attLE= new JLabel("Attività ludica: ");
+	private JLabel attFE= new JLabel("Attività formativa: ");
+	private JComboBox<String> attLudicaE = new JComboBox<>();
+	private JComboBox<String> attFormativaE = new JComboBox<>();
+	private JComboBox<String> attLudica = new JComboBox<>();
+	private JComboBox<String> attFormativa = new JComboBox<>();
+	private JComboBox<String> branca = new JComboBox<>();
 	private JButton inserisciEvento = new JButton("Inserisci evento");
 	
 	//assegnamento attività ludica
 	private JLabel attivitàLudica = new JLabel("Assegnamento attività ludica");
-	private JLabel codiceAttivitàL= new JLabel("Codice attività: ");
-	private JTextField codAttL = new JTextField(16);
-	private JLabel codEvL = new JLabel("Codice evento ");
-	private JTextField cEvL = new JTextField(16);
+	private JLabel codiceEventoL= new JLabel("Codice evento: ");
+	private JTextField codEventoL = new JTextField(16);
+	private JLabel attL= new JLabel("Attività ludica: ");
 	private JButton assegnaAttL = new JButton("Assegna attività ludica");
 	
 	//attività formativa
 	private JLabel attivitàFormativa = new JLabel("Assegnamento attività formativa");
-	private JLabel codiceAttivitàF= new JLabel("Codice attività: ");
-	private JTextField codAttF = new JTextField(16);
-	private JLabel codEvF = new JLabel("Codice evento ");
-	private JTextField cEvF = new JTextField(16);
+	private JLabel codiceEventoF= new JLabel("Codice evento: ");
+	private JTextField codEventoF = new JTextField(16);
+	private JLabel attF= new JLabel("Attività formativa: ");
 	private JButton assegnaAttF = new JButton("Assegna attività formativa");
 	
 	//cancellazione evento
@@ -97,9 +117,13 @@ public class ParrocchiaModifyOperation extends JPanel{
 	private JTextField codReg = new JTextField(16);
 	private JButton iscriviEvento = new JButton("Iscrivi a evento");
 	
-	public ParrocchiaModifyOperation() {
+	public ParrocchiaModifyOperation(DBConnection con) {
 		GridBagLayout grid = new GridBagLayout();
 		this.setLayout(grid);
+		branca.addItem("LC");
+		branca.addItem("EG");
+		branca.addItem("RS");
+		this.inserimentoEvento();
 		this.registrazioneIscrittoBranca();
 		this.registrazioneIscritto();
 		this.assegnamentoCompetenza();
@@ -107,7 +131,41 @@ public class ParrocchiaModifyOperation extends JPanel{
 		this.assegnamentoAttività();
 		this.registrazioneIscrittoEvento();
 		this.cancellazioneEvento();
-		
+		try {
+			Statement st = con.getMsSQLConnection().createStatement();
+			ResultSet rs = st.executeQuery("select * from ATT_FORMATIVA");
+			while (rs.next()) {
+				int i = 1;
+				this.attFormativa.addItem(rs.getString(i));
+				i++;
+				
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		try {
+			Statement st = con.getMsSQLConnection().createStatement();
+			ResultSet rs = st.executeQuery("select codiceParrocchia from PARROCCHIA, RESPONSABILE_P where username = 'parrocchia'");
+			while (rs.next()) {
+				this.codiceParrocchia = rs.getString(1);
+				
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		this.assegnaAttL.addActionListener(e -> {
+			
+		});
+		this.assegnaAttF.addActionListener(e -> {
+			
+		});
+		this.inserisciEvento.addActionListener(e -> {
+			if(branca.getSelectedItem().equals("LC")) {
+				EventoParrocchiaLC eventoLC = new EventoParrocchiaLC(this.codiceParrocchia, codEvento.getText(), tipo.getText(), dInizio.getText(), dFine.getText(), loc.getText(), desc.getText());
+				checkCorrect(eventoLC.inserimentoEvento());
+			}
+			
+		});
 	}
 	
 	private void assegnamentoAttività() {
@@ -118,34 +176,30 @@ public class ParrocchiaModifyOperation extends JPanel{
 		this.add(this.attivitàLudica, c);
 		c.insets = new Insets(0, 0, 0, 0);
 		c.gridy = 23;
-		this.add(this.codiceAttivitàL, c);
+		this.add(this.codiceEventoL, c);
 		c.gridy = 24;
-		this.add(this.codAttL, c);
+		this.add(this.codEventoL, c);
 		c.gridy = 25;
-		this.add(this.codEvL, c);
+		this.add(this.attL, c);
 		c.gridy = 26;
-		this.add(this.cEvL, c);
-		c.gridy = 27;
+		this.add(this.attLudica, c);
+		c.gridy = 28;
 		this.add(this.assegnaAttL, c);
-		this.assegnaAttL.addActionListener(e -> {
-			
-		});
 		c.gridx = 1;
 		c.gridy = 22;
 		this.add(this.attivitàFormativa, c);
+		c.insets = new Insets(0, 0, 0, 0);
 		c.gridy = 23;
-		this.add(this.codiceAttivitàF, c);
+		this.add(this.codiceEventoF, c);
 		c.gridy = 24;
-		this.add(this.codAttF, c);
+		this.add(this.codEventoF, c);
 		c.gridy = 25;
-		this.add(this.codEvF, c);
+		this.add(this.attF, c);
 		c.gridy = 26;
-		this.add(this.cEvF, c);
-		c.gridy = 27;
+		this.add(this.attFormativa, c);
+		c.gridy = 28;
 		this.add(this.assegnaAttF, c);
-		this.assegnaAttF.addActionListener(e -> {
-			
-		});
+		
 		
 	}
 	
@@ -159,30 +213,53 @@ public class ParrocchiaModifyOperation extends JPanel{
 		c.insets = new Insets(0, 0, 0, 0);
 		c.gridx = 4;
 		c.gridy = 1;
-		this.add(this.dataInizio, c);
-		c.gridx = 5;
-		this.add(this.dInizio, c);
-		c.gridx = 4;
-		c.gridy = 2;
-		this.add(this.dataFine, c);
-		c.gridx = 5;
-		this.add(this.dFine, c);
-		c.gridx = 4;
-		c.gridy = 3;
 		this.add(this.codiceEvento, c);
 		c.gridx = 5;
 		this.add(this.codEvento, c);
 		c.gridx = 4;
-		c.gridy = 4;
-		this.add(this.codiceAttività, c);
+		c.gridy = 2;
+		this.add(this.dataInizio, c);
 		c.gridx = 5;
-		this.add(this.codAttività, c);
+		this.add(this.dInizio, c);
+		c.gridx = 4;
+		c.gridy = 3;
+		this.add(this.dataFine, c);
+		c.gridx = 5;
+		this.add(this.dFine, c);
+		c.gridx = 4;
+		c.gridy = 4;
+		this.add(this.tipologia, c);
+		c.gridx = 5;
+		this.add(this.tipo, c);
+		c.gridx = 4;
+		c.gridy = 5;
+		this.add(this.località, c);
+		c.gridx = 5;
+		this.add(this.loc, c);
+		c.gridx = 4;
+		c.gridy = 6;
+		this.add(this.branche, c);
+		c.gridx = 5;
+		this.add(this.branca, c);
+		c.gridx = 4;
+		c.gridy = 7;
+		this.add(attLE, c);
+		c.gridx = 5;
+		this.add(this.attLudicaE, c);
 		c.gridx = 4;
 		c.gridy = 8;
+		this.add(attFE, c);
+		c.gridx = 5;
+		this.add(this.attFormativaE, c);
+		c.gridx = 4;
+		c.gridy = 9;
+		this.add(this.descrizione, c);
+		c.gridx = 5;
+		this.add(this.desc, c);
+		c.gridx = 4;
+		c.gridy = 20;
 		this.add(this.inserisciEvento, c);
-		this.inserisciEvento.addActionListener(e -> {
-			
-		});
+		
 	}
 	
 	private void assegnamentoCompetenza() {
@@ -346,5 +423,12 @@ public class ParrocchiaModifyOperation extends JPanel{
 		});
 	}
 	
+	private void checkCorrect(int number) {
+		if (number != 0) {
+			JOptionPane.showMessageDialog(this, "Inserimento andato a buon fine.");
+		} else {
+			JOptionPane.showMessageDialog(this, "Qualcosa è andato storto, verifica la correttezza dei campi.");
+		}
+	}
 
 }
