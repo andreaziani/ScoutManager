@@ -20,6 +20,8 @@ import org.jdatepicker.impl.JDatePickerImpl;
 import org.jdatepicker.impl.UtilDateModel;
 
 import table.EventoNazionale;
+import table.ResponsabileEventoNazionale;
+import table.ResponsabilitàEventoNazionale;
 
 import java.awt.Component;
 import java.awt.Dimension;
@@ -50,7 +52,7 @@ public class InsertNationalEvent extends JPanel{
      */
     private static final long serialVersionUID = 1129165456568949369L;
 
-    public InsertNationalEvent() {
+    public InsertNationalEvent(ResponsabileEventoNazionale res) {
         p = new Properties();
         p.put("text.today", "Today");
         p.put("text.month", "Month");
@@ -60,7 +62,9 @@ public class InsertNationalEvent extends JPanel{
         this.build();
         this.btn.addActionListener(e->{
             EventoNazionale ev = new EventoNazionale(txtCod.getText(), txttipo.getText(),(java.util.Date) datePicker.getModel().getValue(), (java.util.Date) datePicker2.getModel().getValue(), txtLocalità.getText(), txtdescrizione.getText());
-            if(ev.execQuery()==1) {
+            ResponsabilitàEventoNazionale re = new ResponsabilitàEventoNazionale(txtCod.getText(), res.getCodiceResponsabile());
+            
+            if(ev.execQuery()==1 && re.execQuery()==1) {
                 JOptionPane.showMessageDialog(this, "Inserimento andato a buon fine.");
             }else {
                 JOptionPane.showMessageDialog(this, "Si è verificato un errore, ricontrollare la correttezza dei campi.");

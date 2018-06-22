@@ -12,11 +12,11 @@ public class ResponsabileView extends JFrame{
     
     private int height = Toolkit.getDefaultToolkit().getScreenSize().height;
     private int width = Toolkit.getDefaultToolkit().getScreenSize().width;
-    private InsertNationalEvent ne = new InsertNationalEvent();
+    private InsertNationalEvent ne;
     private ActivityPanel ap;
-    private ModifyEv me = new ModifyEv();
-    private UserSignInPanel usp = new UserSignInPanel();
-    private ViewEventdByDate vd = new ViewEventdByDate();
+    private ModifyEv me;
+    private UserSignInPanel usp;
+    private ViewEventdByDate vd;
     /**
      * Automatically generated
      */
@@ -25,8 +25,9 @@ public class ResponsabileView extends JFrame{
     
     public ResponsabileView(ResponsabileEventoNazionale responsabile) {
         build();
+        ne = new InsertNationalEvent(responsabile);
         ap = new ActivityPanel();
-        me = new ModifyEv();
+        me = new ModifyEv(responsabile);
         usp = new UserSignInPanel();
         vd = new ViewEventdByDate();
         
