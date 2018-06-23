@@ -1,5 +1,4 @@
 - Modificare gli schemi della relazione con quelli aggiornati
-- Finire le query delle operazioni
 - Ricontrollare attentamente la relazione
 - Scrivere indice relazione
 - inserire la query p17 nella relazione

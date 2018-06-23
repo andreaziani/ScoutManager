@@ -5,13 +5,19 @@ import java.awt.Component;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
-
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.border.EtchedBorder;
+
+import model.DBConnection;
+import model.RegistrazioneEventoNazionale;
+import model.UpdateBoxes;
+import model.UpdateUsers;
 
 public class UserSignInPanel extends JPanel{
     private GridBagConstraints gbc= new GridBagConstraints();
@@ -21,20 +27,30 @@ public class UserSignInPanel extends JPanel{
     private JLabel codRegistrazione = new JLabel("Codice Registrazione");
     private JLabel codEvento = new JLabel("Codice Evento");
     
-    private JTextField txtCodIsc = new JTextField(5);
-    private JTextField txtCodEv = new JTextField(5);
+    private JComboBox<String> txtCodIsc = new JComboBox<>();
+    private JComboBox<String> txtCodEv = new JComboBox<>();
     private JTextField txtCodReg = new JTextField(5);
     private JButton regbtn = new JButton("Regitra iscritto ad evento");
+    private DBConnection con; 
     /**
      * 
      */
     private static final long serialVersionUID = 995155670126020353L;
 
-    public UserSignInPanel() {
+    public UserSignInPanel(DBConnection con) {
+        this.con = con;
         this.setBorder(new EtchedBorder(EtchedBorder.LOWERED));
         this.setLayout(new GridBagLayout());
         setTitle();
         buildInterface();
+        regbtn.addActionListener(e->{
+            RegistrazioneEventoNazionale r = new RegistrazioneEventoNazionale(String.valueOf(txtCodEv.getSelectedItem()), String.valueOf(txtCodIsc.getSelectedItem()), txtCodReg.getText());
+            if(r.execQuery()==1) {
+                JOptionPane.showMessageDialog(this, "Inserimento andato a buon fine.");
+            } else {
+                JOptionPane.showMessageDialog(this, "Si è verificato un errore, ricontrollare la correttezza dei campi.");
+            }
+        });
     }
     
     private void setTitle() {
@@ -66,8 +82,15 @@ public class UserSignInPanel extends JPanel{
         this.add(codRegistrazione, gbc);
         gbc.gridy = 2;
         gbc.gridx = 0;
+        
+        UpdateUsers.updateIscritti(con).forEach(e->txtCodIsc.addItem(e));
+        
         this.add(txtCodIsc, gbc);
         gbc.gridx = 1;
+        
+        UpdateBoxes.updateEventiNazionali(con).forEach(e -> this.txtCodEv.addItem(e));
+        
+        txtCodEv.setSize(5, 10);
         this.add(txtCodEv, gbc);
         gbc.gridx = 2;
         this.add(txtCodReg, gbc);
@@ -77,5 +100,10 @@ public class UserSignInPanel extends JPanel{
         gbc.gridwidth = GridBagConstraints.REMAINDER;
         gbc.fill = GridBagConstraints.NONE;
         this.add(regbtn, gbc);
+    }
+    
+    public void updateBoxes() {
+    	this.txtCodEv.removeAllItems();
+    	UpdateBoxes.updateEventiNazionali(con).forEach(e -> this.txtCodEv.addItem(e));
     }
 }

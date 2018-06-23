@@ -1,7 +1,9 @@
 package view.responsabilenazionale;
 
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
@@ -16,6 +18,11 @@ import java.awt.Insets;
 
 import javax.swing.border.EtchedBorder;
 
+import model.AttivitàFormativa;
+import model.DBConnection;
+import model.FormazioneNazionale;
+import model.UpdateBoxes;
+
 public class ActivityPanel extends JPanel{
     private GridBagConstraints gbc= new GridBagConstraints();
     private JLabel title = new JLabel("Attività");
@@ -27,18 +34,37 @@ public class ActivityPanel extends JPanel{
     private JLabel assegnamento = new JLabel("Assegnamento");
     private JLabel codEv = new JLabel("Codice Evento:");
     private JLabel codAtt = new JLabel("Codice Attività: ");
-    private JTextField txtCodEv = new JTextField(5);
+    private JComboBox<String> txtCodEv = new JComboBox<>();
     private JTextField txtCodAtt = new JTextField(5);
     private JButton btn = new JButton("Inserisci Attività");
     private JButton act = new JButton("Assegna attività");
+    
+    private DBConnection con;
     /**
      * 
      */
     private static final long serialVersionUID = 2872262581192016370L;
     
-    public ActivityPanel() {
+    public ActivityPanel(DBConnection con) {
+        this.con = con;
         build();
-        
+        btn.addActionListener(e->{
+            AttivitàFormativa a = new AttivitàFormativa(txtcod.getText(), descrizione.getText());
+            txtCodAtt.setText(txtcod.getText());
+            if(a.inserimentoAttività()==1) {
+                JOptionPane.showMessageDialog(this, "Inserimento andato a buon fine.");
+            } else {
+                JOptionPane.showMessageDialog(this, "Si è verificato un errore, ricontrollare la correttezza dei campi.");
+            }
+        });
+        act.addActionListener(e->{
+            FormazioneNazionale fn = new FormazioneNazionale(String.valueOf(txtCodEv.getSelectedItem()), txtCodAtt.getText());
+            if(fn.execQuery()==1) {
+                JOptionPane.showMessageDialog(this, "Inserimento andato a buon fine.");
+            } else {
+                JOptionPane.showMessageDialog(this, "Si è verificato un errore, ricontrollare la correttezza dei campi.");
+            }
+        });
     }
     
     private void build() {
@@ -101,6 +127,9 @@ public class ActivityPanel extends JPanel{
         gbc.gridy = 6;
         gbc.gridx = 0;
         txtCodEv.setMaximumSize(new Dimension(10, 20));
+        
+        UpdateBoxes.updateEventiNazionali(con).forEach(e -> this.txtCodEv.addItem(e));
+        
         this.add(txtCodEv, gbc);
         
         txtCodAtt.setMaximumSize(new Dimension(10, 20));
@@ -117,5 +146,9 @@ public class ActivityPanel extends JPanel{
         gbc.gridheight = GridBagConstraints.REMAINDER;
         this.add(act, gbc);
     }
-
+    
+    public void updateBox() {
+    	this.txtCodEv.removeAllItems();
+    	UpdateBoxes.updateEventiNazionali(con).forEach(e -> this.txtCodEv.addItem(e));
+    }
 }

@@ -84,7 +84,7 @@ public class LoginWindow extends JFrame {
 		// Login
 		JButton btnLogin = new JButton("Login");
 		btnLogin.addActionListener(e -> {
-			if (txtUsername.getText().equals("admin") && String.valueOf(passwordField.getPassword()).equals("admin")) {
+		    if (txtUsername.getText().equals("admin") && String.valueOf(passwordField.getPassword()).equals("admin")) {
 				this.dispose();
 				new AdminView(con);
 			} else if (LoginControl.checkNazID(txtUsername.getText(), String.valueOf(this.passwordField.getPassword()))) {

@@ -41,13 +41,14 @@ public class AdminModifyOperation extends JPanel {
 	private JButton modificaRespParrocchia = new JButton("Modifica responsabile e parrocchia");
 
 	public AdminModifyOperation(DBConnection con) {
+		this.date.setText("GG/MM/ANNO");
 		modifyResp.setForeground(Color.RED);
 		this.setLayout(new GridBagLayout());
 		this.modificaResp();
 		this.modificaRespParrocchia.addActionListener(e -> {
-			ResponsabileParrocchia r = new ResponsabileParrocchia(this.cf.getText(),
+			ResponsabileParrocchia r = new ResponsabileParrocchia(this.codResponsabile.getText(), this.cf.getText(),
 					this.nameResponsabileP.getText(), this.surname.getText(), this.date.getText(), this.luogo.getText(),
-					this.numeroTelefono.getText(), this.codResponsabile.getText(), this.username.getText(), this.password.getText());
+					this.numeroTelefono.getText(), this.username.getText(), this.password.getText());
 			if(r.modificaResponsabile() != 0) {
 				JOptionPane.showMessageDialog(this, "Inserimento andato a buon fine.");
 			} else {

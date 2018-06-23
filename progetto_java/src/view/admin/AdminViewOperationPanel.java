@@ -22,8 +22,8 @@ public class AdminViewOperationPanel extends JPanel {
 	 */
 	private static final long serialVersionUID = 2907987461933376055L;
 	// parr per citta
-	private JLabel parrocchiePerCitta = new JLabel("Parrocchie per citta");
-	private JLabel nomeCitta = new JLabel("citta: ");
+	private JLabel parrocchiePerCitta = new JLabel("Parrocchie per città");
+	private JLabel nomeCitta = new JLabel("città: ");
 	private JTextField citta = new JTextField(16);
 	private JButton b1 = new JButton("visualizza");
 
@@ -52,6 +52,8 @@ public class AdminViewOperationPanel extends JPanel {
 	private JButton b5 = new JButton("visualizza");
 
 	public AdminViewOperationPanel(DBConnection con, JTextArea view) {
+		this.data.setText("GG/MM/ANNO");
+		this.dataN.setText("GG/MM/ANNO");
 		parrocchiePerCitta.setForeground(Color.RED);
 		parrocchiePerResp.setForeground(Color.RED);
 		eventoPerResp.setForeground(Color.RED);

@@ -13,6 +13,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
+import model.AdminViewOperation;
 import model.AttivitàFormativa;
 import model.AttivitàLudica;
 import model.CC;
@@ -29,8 +30,6 @@ import model.Residenza;
 import model.ResponsabileEventoNazionale;
 import model.ResponsabileParrocchia;
 import model.ResponsabilitàParrocchia;
-
-import java.sql.*;
 
 public class AdminInsertPanel extends JPanel {
 	/**
@@ -82,24 +81,24 @@ public class AdminInsertPanel extends JPanel {
 	private JLabel residenza = new JLabel("Inserisci Residenza");
 	private JLabel cPar = new JLabel("codice parrocchia: ");
 	private JTextField cParrocchia = new JTextField(16);
-	private JLabel cities = new JLabel("citta: ");
+	private JLabel cities = new JLabel("città: ");
 	private JComboBox<String> citta = new JComboBox<>();
 
 	// attivit� ludica
-	private JLabel attL = new JLabel("Inserimento attivita ludica");
-	private JLabel codiceAttL = new JLabel("Codice attivita: ");
+	private JLabel attL = new JLabel("Inserimento attività ludica");
+	private JLabel codiceAttL = new JLabel("Codice attività: ");
 	private JTextField codiceAttivitaLudica = new JTextField(16);
-	private JLabel descAttL = new JLabel("Descrizione attivita: ");
+	private JLabel descAttL = new JLabel("Descrizione attività: ");
 	private JTextArea descrizioneAttivitaLudica = new JTextArea(1, 30);
-	private JButton inserisciAttL = new JButton("Inserisci attivita ludica");
+	private JButton inserisciAttL = new JButton("Inserisci attività ludica");
 
 	// attivit� formativa
-	private JLabel attF = new JLabel("Inserimento attivita formativa");
-	private JLabel codiceAttF = new JLabel("Codice attivita: ");
+	private JLabel attF = new JLabel("Inserimento attività formativa");
+	private JLabel codiceAttF = new JLabel("Codice attività: ");
 	private JTextField codiceAttivitaFormativa = new JTextField(16);
-	private JLabel descAttF = new JLabel("Descrizione attivita: ");
+	private JLabel descAttF = new JLabel("Descrizione attività: ");
 	private JTextArea descrizioneAttivitaFormativa = new JTextArea(1, 30);
-	private JButton inserisciAttF = new JButton("Inserisci attivita formativa");
+	private JButton inserisciAttF = new JButton("Inserisci attività formativa");
 
 	// responsabile nazionale
 	private JLabel insertResponsabileN = new JLabel("Inserimento Responsabile Nazionale");
@@ -124,6 +123,8 @@ public class AdminInsertPanel extends JPanel {
 	private JButton registraRespN = new JButton("Registra responsabile nazionale");
 
 	public AdminInsertPanel(DBConnection con) {
+		this.date.setText("GG/MM/ANNO");
+		this.dateN.setText("GG/MM/ANNO");
 		GridBagLayout grid = new GridBagLayout();
 		insertResponsabile.setForeground(Color.red);
 		insertParrocchia.setForeground(Color.RED);
@@ -131,12 +132,12 @@ public class AdminInsertPanel extends JPanel {
 		attL.setForeground(Color.RED);
 		attF.setForeground(Color.RED);
 		insertResponsabileN.setForeground(Color.RED);
-		
+
 		this.registraRespN.addActionListener(e -> {
-			ResponsabileEventoNazionale res = new ResponsabileEventoNazionale(
-					this.cfN.getText(), this.nameResponsabileN.getText(), this.surnameN.getText(), this.dateN.getText(),
-					this.luogoN.getText(), this.numeroTelefonoN.getText(), this.codResponsabileN.getText(), this.usernameN.getText(),
-					this.passwordN.getText());
+			ResponsabileEventoNazionale res = new ResponsabileEventoNazionale(this.cfN.getText(),
+					this.nameResponsabileN.getText(), this.surnameN.getText(), this.dateN.getText(),
+					this.luogoN.getText(), this.numeroTelefonoN.getText(), this.codResponsabileN.getText(),
+					this.usernameN.getText(), this.passwordN.getText());
 			checkCorrect(res.inserimentoResponsabile());
 		});
 
@@ -169,33 +170,26 @@ public class AdminInsertPanel extends JPanel {
 			ContieneRS rs = new ContieneRS(this.codiceRS.getText(), this.codParrocchia.getText());
 			ContieneEG eg = new ContieneEG(this.codiceEG.getText(), this.codParrocchia.getText());
 			ContieneLC lc = new ContieneLC(this.codiceLC.getText(), this.codParrocchia.getText());
-			if ((rp.registrazioneResponsabile() != 0) && (p.inserisciParrocchia() != 0) && (res.inserisciResidenza() != 0)
-					&& (rParrocchia.inserisciResponsabilitàParrocchia() != 0) && (comCapi.inserisciCC() != 0)
-					&& (roverScolte.inserisciRS() != 0) && (espGuide.inserisciEG() != 0) && (lCoccinelle.inserisciLC() != 0)
-					&& (cc.inserisciContieneCC() != 0) && (rs.inserisciContieneRS() != 0) && (eg.inserisciContieneEG() != 0)
+			if ((rp.registrazioneResponsabile() != 0) && (p.inserisciParrocchia() != 0)
+					&& (res.inserisciResidenza() != 0) && (rParrocchia.inserisciResponsabilitàParrocchia() != 0)
+					&& (comCapi.inserisciCC() != 0) && (roverScolte.inserisciRS() != 0) && (espGuide.inserisciEG() != 0)
+					&& (lCoccinelle.inserisciLC() != 0) && (cc.inserisciContieneCC() != 0)
+					&& (rs.inserisciContieneRS() != 0) && (eg.inserisciContieneEG() != 0)
 					&& (lc.inserisciContieneLC() != 0)) {
 				JOptionPane.showMessageDialog(this, "Inserimento andato a buon fine.");
 			} else {
-				JOptionPane.showMessageDialog(this, "Si è verificato un errore, ricontrollare la correttezza dei campi.");
+				JOptionPane.showMessageDialog(this,
+						"Si è verificato un errore, ricontrollare la correttezza dei campi.");
 			}
 		});
-		
+
 		this.setLayout(grid);
 		this.inserimentoResponsabileParrocchia();
 		this.inserimentoParrocchia();
 		this.inserimentoResidenza();
 		this.inserimentoAttivita();
 		this.inserimentoResponsabileNazionale();
-		try {
-			Statement st = con.getMsSQLConnection().createStatement();
-			ResultSet rs = st.executeQuery("select * from LUOGO");
-			while (rs.next()) {
-				this.citta.addItem(rs.getString(1));
-			}
-			st.close();
-		} catch (SQLException e) {
-			JOptionPane.showMessageDialog(this, "Qualcosa è andato storto con la connessione alla base dati");
-		}
+		AdminViewOperation.updateLuogo().forEach(e -> this.citta.addItem(e));
 	}
 
 	private void inserimentoResponsabileNazionale() {

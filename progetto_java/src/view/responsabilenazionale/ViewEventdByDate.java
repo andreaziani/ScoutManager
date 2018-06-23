@@ -5,12 +5,12 @@ import java.awt.Component;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.util.Date;
 import java.util.Properties;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.border.EtchedBorder;
 
@@ -18,23 +18,26 @@ import org.jdatepicker.impl.JDatePanelImpl;
 import org.jdatepicker.impl.JDatePickerImpl;
 import org.jdatepicker.impl.UtilDateModel;
 
+import model.ResponsabileEventoNazionale;
+import model.ResponsabilitàEventoNazionale;
+import view.DateLabelFormatter;
+
 public class ViewEventdByDate extends JPanel{
     /**
      * 
      */
     private static final long serialVersionUID = 8835226786280861286L;
     
+    
     private GridBagConstraints gbc= new GridBagConstraints();
     private JLabel title = new JLabel("Visualizza eventi per data");
     private JLabel dataInizio = new JLabel("Data di inizio:");
-    private JLabel codiceRes = new JLabel("Codice Responsabile:");
     private Properties p;
     private JDatePickerImpl datePicker;
-    private JTextField txtCod = new JTextField(16);
     private JButton btn = new JButton("VISUALIZZA");
     
     
-    public ViewEventdByDate() {
+    public ViewEventdByDate(ResponsabileEventoNazionale res, ConsoleArea log) {
         this.setBorder(new EtchedBorder(EtchedBorder.LOWERED));
         this.setLayout(new GridBagLayout());
         p = new Properties();
@@ -43,6 +46,11 @@ public class ViewEventdByDate extends JPanel{
         p.put("text.year", "Year");
         setTitle();
         this.build();
+        this.btn.addActionListener(e->{
+            ResponsabilitàEventoNazionale r = new ResponsabilitàEventoNazionale(null, res.getCodiceResponsabile());
+            String msg = r.viewEvbyDateQuery((Date) datePicker.getModel().getValue());
+            log.insert(msg);
+        });
     }
     
     private void setTitle() {
@@ -70,16 +78,11 @@ public class ViewEventdByDate extends JPanel{
         datePicker = new JDatePickerImpl(new JDatePanelImpl(new UtilDateModel(), p), new DateLabelFormatter());
         
         add(dataInizio, gbc);
-        gbc.gridx = 1;
-        add(codiceRes, gbc);
         
         gbc.gridy = 2;
         gbc.gridx = 0;
         
         add(datePicker, gbc);
-        
-        gbc.gridx = 1;
-        add(txtCod, gbc);
         
         gbc.gridy = 3;
         gbc.gridx = 0;
@@ -88,4 +91,5 @@ public class ViewEventdByDate extends JPanel{
         gbc.fill = GridBagConstraints.NONE;
         add(btn, gbc);
     }
+    
 }

@@ -59,4 +59,84 @@ public class ResponsabileEventoNazionale {
 		}
 		return rs;
 	}
+
+    public String getCodiceResponsabile() {
+        return codiceResponsabile;
+    }
+
+    public void setCodiceResponsabile(String codiceResponsabile) {
+        this.codiceResponsabile = codiceResponsabile;
+    }
+
+    public String getCodiceFiscale() {
+        return codiceFiscale;
+    }
+
+    public void setCodiceFiscale(String codiceFiscale) {
+        this.codiceFiscale = codiceFiscale;
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    public String getCognome() {
+        return cognome;
+    }
+
+    public void setCognome(String cognome) {
+        this.cognome = cognome;
+    }
+
+    public String getDataNascita() {
+        return dataNascita;
+    }
+
+    public void setDataNascita(String dataNascita) {
+        this.dataNascita = dataNascita;
+    }
+
+    public String getLuogoNascita() {
+        return luogoNascita;
+    }
+
+    public void setLuogoNascita(String luogoNascita) {
+        this.luogoNascita = luogoNascita;
+    }
+
+    public String getNumTelefono() {
+        return numTelefono;
+    }
+
+    public void setNumTelefono(String numTelefono) {
+        this.numTelefono = numTelefono;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public DBConnection getCon() {
+        return con;
+    }
+
+    public void setCon(DBConnection con) {
+        this.con = con;
+    }
 }
