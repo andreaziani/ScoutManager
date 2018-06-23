@@ -15,6 +15,7 @@ import model.DBConnection;
 
 public class UpdateComboBoxParrocchia {
 	
+	private static List<String> anno = new ArrayList<>(Arrays.asList("2009", "2010", "2011", "2012", "2013", "2014", "2015", "2016", "2017", "2018"));
 	private static List<String> branca = new ArrayList<>(Arrays.asList("LC", "EG", "RS", "CC"));
 	private static List<String> tipoEvento = new ArrayList<>(Arrays.asList("LC", "EG", "RS", "Tutti"));
 	private static List<String> eventoLudica = new ArrayList<>(Arrays.asList("LC", "EG", "Tutti"));
@@ -30,6 +31,10 @@ public class UpdateComboBoxParrocchia {
 	private static List<String> areaCompetenza = new ArrayList<>();
 	private static List<String> codiceEvento = new ArrayList<>();
 	private static Set<String> codiceIscritto = new HashSet<>();
+	
+	public static List<String> anno(){
+		return anno;
+	}
 	
 	public static List<String> branche(){
 		return branca;
