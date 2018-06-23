@@ -139,25 +139,43 @@ public class ParrocchiaViewOperation {
 		return iscritto;
 	}
 	
-	static public String iscrittiBranca(String codiceBranca, int anno) {
+	static public String iscrittiBranca(String branca, String codiceParrocchia, int anno) {
 		String iscritto = "Codice iscritto \n";
-		try {
-			PreparedStatement st = con.getMsSQLConnection()
-					.prepareStatement("SELECT codiceIscritto FROM CC_Anno WHERE codiceCC = ? and anno = ?");
-			st.setString(1, codiceBranca);
-			st.setInt(2, anno);
-			ResultSet rs = st.executeQuery();
-			ResultSetMetaData rsMetaData = rs.getMetaData();
-			while (rs.next()) {
-				for (int i = 1; i <= rsMetaData.getColumnCount(); i++) {
-					iscritto += rs.getString(i) + "\t";
+		ResultSetMetaData rsMetaData;
+		ResultSet rs;
+		if(branca.equals("CC")) {
+			try {
+				PreparedStatement st = con.getMsSQLConnection()
+						.prepareStatement("select codiceIscritto" + 
+								" from CC_ANNO, Contiene_CC" + 
+								" where Contiene_CC.codiceCC = CC_ANNO.codiceCC" + 
+								" and Contiene_CC.codiceParrocchia = ?" + 
+								" and anno = ?");
+				st.setString(1, codiceParrocchia);
+				st.setInt(2, anno);
+				rs = st.executeQuery();
+				rsMetaData = rs.getMetaData();
+				while (rs.next()) {
+					for (int i = 1; i <= rsMetaData.getColumnCount(); i++) {
+						iscritto += rs.getString(i) + "\t";
+					}
+					iscritto += "\n";
 				}
-				iscritto += "\n";
+				st.close();
 			}
-			st.close();
+			catch (SQLException e1) {
+				return " ";
+			}
+		}
+		else if(branca.equals("RS")) {
+			try {
 			PreparedStatement st2 = con.getMsSQLConnection()
-					.prepareStatement("SELECT codiceIscritto FROM RS_Anno WHERE codiceRS = ? and anno = ?");
-			st2.setString(1, codiceBranca);
+					.prepareStatement("select codiceIscritto" + 
+							" from RS_ANNO, Contiene_RS" + 
+							" where Contiene_RS.codiceRS = RS_ANNO.codiceRS" + 
+							" and Contiene_RS.codiceParrocchia = ?" + 
+							" and anno = ?");
+			st2.setString(1, codiceParrocchia);
 			st2.setInt(2, anno);
 			rs = st2.executeQuery();
 			rsMetaData = rs.getMetaData();
@@ -168,24 +186,45 @@ public class ParrocchiaViewOperation {
 				iscritto += "\n";
 			}
 			st2.close();
-
-			PreparedStatement st3 = con.getMsSQLConnection()
-					.prepareStatement("SELECT codiceIscritto FROM EG_Anno WHERE codiceEG = ? and anno = ?");
-					st3.setString(1, codiceBranca);
-					st3.setInt(2, anno);
-			rs = st3.executeQuery();
-			rsMetaData = rs.getMetaData();
-			while (rs.next()) {
-				for (int i = 1; i <= rsMetaData.getColumnCount(); i++) {
-					iscritto += rs.getString(i) + "\t";
+		}
+		catch (SQLException e1) {
+			return " ";
+		}
+	}
+		else if(branca.equals("EG")) {
+			try {
+				PreparedStatement st3 = con.getMsSQLConnection()
+						.prepareStatement("select codiceIscritto" + 
+								" from EG_ANNO, Contiene_EG" + 
+								" where Contiene_EG.codiceEG = EG_ANNO.codiceEG" + 
+								" and Contiene_EG.codiceParrocchia = ?" + 
+								" and anno = ?");
+				st3.setString(1, codiceParrocchia);
+				st3.setInt(2, anno);
+				rs = st3.executeQuery();
+				rsMetaData = rs.getMetaData();
+				while (rs.next()) {
+					for (int i = 1; i <= rsMetaData.getColumnCount(); i++) {
+						iscritto += rs.getString(i) + "\t";
+					}
+					iscritto += "\n";
 				}
-				iscritto += "\n";
+				st3.close();
 			}
-			st3.close();
+			catch (SQLException e1) {
+				return " ";
+			}
+		}
 
+		else if(branca.equals("LC")) {
+			try {
 			PreparedStatement st4 = con.getMsSQLConnection()
-					.prepareStatement("SELECT codiceIscritto FROM LC_Anno WHERE codiceLC = ? and anno = ?");
-			st4.setString(1, codiceBranca);
+					.prepareStatement("select codiceIscritto" + 
+							" from LC_ANNO, Contiene_LC" + 
+							" where Contiene_LC.codiceLC = LC_ANNO.codiceLC" + 
+							" and Contiene_LC.codiceParrocchia = ?" + 
+							" and anno = ?");
+			st4.setString(1, codiceParrocchia);
 			st4.setInt(2, anno);
 			rs = st4.executeQuery();
 			rsMetaData = rs.getMetaData();
@@ -199,7 +238,7 @@ public class ParrocchiaViewOperation {
 		} catch (SQLException e1) {
 			return " ";
 		}
+	}
 		return iscritto;
 	}
-
 }

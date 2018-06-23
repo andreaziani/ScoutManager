@@ -4,10 +4,6 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.sql.Date;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
@@ -36,6 +32,10 @@ import model.RegistrazioneEventoParrocchiaLC;
 import model.RegistrazioneEventoParrocchiaRS;
 import model.RegistrazioneEventoParrocchiaTutti;
 import model.ResponsabileParrocchia;
+import model.ResponsabilitàEventoParrocchiaEG;
+import model.ResponsabilitàEventoParrocchiaLC;
+import model.ResponsabilitàEventoParrocchiaRS;
+import model.ResponsabilitàEventoParrocchiaTutti;
 import model.RicreazioneEG;
 import model.RicreazioneLC;
 import model.RicreazioneTutti;
@@ -52,7 +52,7 @@ public class ParrocchiaModifyOperation extends JPanel{
 	private String codiceCC;
 	
 	//inserimento iscritti
-	private static String codiceParrocchia;
+	private String codiceParrocchia;
 	private JLabel registrazioneIscritti = new JLabel("Registrazione iscritti");
 	private JLabel iscrittoCodice = new JLabel("Codice iscrizione :");
 	private JTextField iscCodice = new JTextField(16);
@@ -119,7 +119,7 @@ public class ParrocchiaModifyOperation extends JPanel{
 	private JLabel codiceEventoL= new JLabel("Codice evento: ");
 	private JComboBox<String> codEventoL = new JComboBox<>();
 	private JLabel attL= new JLabel("Attività ludica: ");
-	private JLabel brancaL= new JLabel("Attività ludica: ");
+	private JLabel brancaL= new JLabel("Branca: ");
 	private JComboBox<String> brancheL = new JComboBox<>();
 	private JButton assegnaAttL = new JButton("Assegna attività ludica");
 	
@@ -128,7 +128,7 @@ public class ParrocchiaModifyOperation extends JPanel{
 	private JLabel codiceEventoF= new JLabel("Codice evento: ");
 	private JComboBox<String> codEventoF = new JComboBox<>();
 	private JLabel attF= new JLabel("Attività formativa: ");
-	private JLabel brancaF= new JLabel("Attività formativa: ");
+	private JLabel brancaF= new JLabel("Branca: ");
 	private JComboBox<String> brancheF = new JComboBox<>();
 	private JButton assegnaAttF = new JButton("Assegna attività formativa");
 	
@@ -152,45 +152,80 @@ public class ParrocchiaModifyOperation extends JPanel{
 	
 	public ParrocchiaModifyOperation(DBConnection con, ResponsabileParrocchia responsabileParrocchia) {
 		this.responsabile = responsabileParrocchia;
+		codiceParrocchia = QueryParrocchia.calculateCodiceParrocchia(con, responsabileParrocchia);
+		this.codiceLC = QueryParrocchia.calculateCodiceLC(con);
+		this.codiceEG = QueryParrocchia.calculateCodiceEG(con);
+		this.codiceRS = QueryParrocchia.calculateCodiceRS(con);
+		this.codiceCC = QueryParrocchia.calculateCodiceCC(con);
 		GridBagLayout grid = new GridBagLayout();
 		this.setLayout(grid);
-		brancheF.addItem("RS");
-		brancheF.addItem("EG");
-		brancheL.addItem("EG");
-		brancheL.addItem("LC");
-		brancheL.addItem("Tutti");
-		branca.addItem("LC");
-		branca.addItem("EG");
-		branca.addItem("RS");
-		branca.addItem("Tutti");
-		brancheI.addItem("LC");
-		brancheI.addItem("EG");
-		brancheI.addItem("RS");
-		brancheI.addItem("CC");
-		brancheE.addItem("LC");
-		brancheE.addItem("EG");
-		brancheE.addItem("RS");
-		brancheE.addItem("Tutti");
+		iscDataN.setText("dd/mm/yyyy");
+		dInizio.setText("dd/mm/yyyy");
+		dFine.setText("dd/mm/yyyy");
+		brancheF.addItem("");
+		brancheF.setSelectedItem(0);
+		brancheL.addItem("");
+		brancheL.setSelectedItem(0);
+		UpdateComboBoxParrocchia.branche().forEach(b -> brancheI.addItem(b));
+		UpdateComboBoxParrocchia.tipoEventi().forEach(e -> branca.addItem(e));
+		UpdateComboBoxParrocchia.tipoEventiF().forEach(f -> brancheF.addItem(f));
+		UpdateComboBoxParrocchia.tipoEventiL().forEach(l -> brancheL.addItem(l));
+		brancheE.addItem(" ");
+		brancheE.setSelectedItem(0);
+		UpdateComboBoxParrocchia.tipoEventi().forEach(e -> brancheE.addItem(e));
+		UpdateComboBoxParrocchia.attivitàFormativa(con).forEach(a -> attFormativa.addItem(a));
+		UpdateComboBoxParrocchia.attivitàFormativa(con).forEach(a -> attFormativaE.addItem(a));
+		UpdateComboBoxParrocchia.attivitàLudica(con).forEach(a -> attLudica.addItem(a));
+		UpdateComboBoxParrocchia.attivitàLudica(con).forEach(a -> attLudicaE.addItem(a));
+		codiceEP.addItem(" ");
+		codiceEP.setSelectedItem(0);
+		cIscr.addItem(" ");
+		cIscr.setSelectedItem(0);
 		this.attLudicaE.setEnabled(true);
 		this.attFormativaE.setEnabled(false);
 		year.addItem("2018");
-		this.attLudicaE.addItem(" ");
-		this.attLudicaE.setSelectedIndex(0);
-		this.attFormativaE.addItem(" ");
-		this.attFormativaE.setSelectedIndex(0);
 		this.nomeComp.addActionListener(e -> {
 			this.areaComp.removeAllItems();
-			try {
-				PreparedStatement st = con.getMsSQLConnection().prepareStatement("select areaCompetenza from COMPETENZE where nomeCompetenza = ?");
-				st.setString(1, String.valueOf(this.nomeComp.getSelectedItem()));
-				ResultSet rs = st.executeQuery();
-				while (rs.next()) {
-					this.areaComp.addItem(rs.getString(1));
-				}
-			} catch (SQLException e1) {
-				e1.printStackTrace();
+			UpdateComboBoxParrocchia.areaCompetenza(con, String.valueOf(nomeComp.getSelectedItem())).forEach(a -> areaComp.addItem(a));
+		});
+		this.brancheF.addActionListener(e -> {
+			this.codEventoF.removeAllItems();
+			UpdateComboBoxParrocchia.eventoAttivitàFormativa(con, String.valueOf(this.brancheF.getSelectedItem()), codiceParrocchia).forEach(x -> codEventoF.addItem(x));			
+		});
+		this.brancheL.addActionListener(e -> {
+			this.codEventoL.removeAllItems();
+			UpdateComboBoxParrocchia.eventoAttivitàLudica(con, String.valueOf(this.brancheL.getSelectedItem()), codiceParrocchia).forEach(x -> codEventoL.addItem(x));
+		});
+		this.brancheE.addActionListener(e -> {
+			codiceEP.removeAllItems();
+			cIscr.removeAllItems();
+			UpdateComboBoxParrocchia.codiceEventoRegistrazione(con, String.valueOf(this.brancheE.getSelectedItem()), codiceParrocchia).forEach(c -> codiceEP.addItem(c));
+			UpdateComboBoxParrocchia.codiceIscrittoRegistrazione(con, String.valueOf(this.brancheE.getSelectedItem()), codiceParrocchia).forEach(c -> cIscr.addItem(c));
+		});
+		this.branca.addActionListener(e -> {
+			if(String.valueOf(branca.getSelectedItem()).equals("LC")) {
+				this.attFormativaE.setEnabled(false);
+				this.attLudicaE.setEnabled(true);
+			}
+			else if(String.valueOf(branca.getSelectedItem()).equals("EG")) {
+				this.attFormativaE.setEnabled(true);
+				this.attLudicaE.setEnabled(true);
+			}
+			else if(String.valueOf(branca.getSelectedItem()).equals("RS")) {
+				this.attFormativaE.setEnabled(true);
+				this.attLudicaE.setEnabled(false);
+			}
+			else if(String.valueOf(branca.getSelectedItem()).equals("Tutti")) {
+				this.attFormativaE.setEnabled(false);
+				this.attLudicaE.setEnabled(true);
 			}
 		});
+		UpdateComboBoxParrocchia.codiceEvento(con, codiceParrocchia).forEach(e -> codiceEP.addItem(e));
+		UpdateComboBoxParrocchia.codiceIscrittoRegistrazione(con, String.valueOf(brancheE.getSelectedItem()), codiceParrocchia).forEach(i -> cIscr.addItem(i));
+		UpdateComboBoxParrocchia.nomeCompetenza(con).forEach(n -> nomeComp.addItem(n));
+		UpdateComboBoxParrocchia.codiceIscritto(con).forEach(i -> codIscB.addItem(i));
+		UpdateComboBoxParrocchia.iscrittoBranca(con, codiceParrocchia).forEach(i -> codIsc.addItem(i));
+		UpdateComboBoxParrocchia.codiceEvento(con, codiceParrocchia).forEach(e -> codE.addItem(e));
 		this.inserimentoEvento();
 		this.registrazioneIscrittoBranca();
 		this.registrazioneIscritto();
@@ -199,305 +234,6 @@ public class ParrocchiaModifyOperation extends JPanel{
 		this.assegnamentoAttività();
 		this.registrazioneIscrittoEvento();
 		this.cancellazioneEvento();
-		this.brancheF.addActionListener(e -> {
-			if(String.valueOf(this.brancheF.getSelectedItem()).equals("EG")){
-				try {
-					PreparedStatement st = con.getMsSQLConnection().prepareStatement("select codiceEvento from E_P_EG where codiceParrocchia = ?");
-					st.setString(1, codiceParrocchia);
-					ResultSet rs = st.executeQuery();
-					while (rs.next()) {
-						this.codEventoF.addItem(rs.getString(1));
-						
-					}
-				} catch (SQLException e1) {
-					e1.printStackTrace();
-				}
-			}
-			
-			else if(String.valueOf(this.brancheF.getSelectedItem()).equals("RS")){
-				try {
-					PreparedStatement st = con.getMsSQLConnection().prepareStatement("select codiceEvento from E_P_RS where codiceParrocchia = ?");
-					st.setString(1, codiceParrocchia);
-					ResultSet rs = st.executeQuery();
-					while (rs.next()) {
-						this.codEventoF.addItem(rs.getString(1));
-						
-					}
-				} catch (SQLException e1) {
-					e1.printStackTrace();
-				}
-			}
-			
-		});
-		
-		this.brancheL.addActionListener(e -> {
-			if(String.valueOf(this.brancheL.getSelectedItem()).equals("EG")) {
-			try {
-				PreparedStatement st = con.getMsSQLConnection().prepareStatement("select codiceEvento from E_P_EG where codiceParrocchia = ?");
-				st.setString(1, codiceParrocchia);
-				ResultSet rs = st.executeQuery();
-				while (rs.next()) {
-					this.codEventoL.addItem(rs.getString(1));
-					
-				}
-			} catch (SQLException e1) {
-				e1.printStackTrace();
-			}
-		}
-			else if(String.valueOf(this.brancheL.getSelectedItem()).equals("LC")) {
-				try {
-					PreparedStatement st = con.getMsSQLConnection().prepareStatement("select codiceEvento from E_P_LC where codiceParrocchia = ?");
-					st.setString(1, codiceParrocchia);
-					ResultSet rs = st.executeQuery();
-					while (rs.next()) {
-						this.codEventoL.addItem(rs.getString(1));
-						
-					}
-				} catch (SQLException e1) {
-					e1.printStackTrace();
-				}
-			}
-			
-			else if(String.valueOf(this.brancheL.getSelectedItem()).equals("Tutti")) {
-				try {
-					PreparedStatement st = con.getMsSQLConnection().prepareStatement("select codiceEvento from E_P_TUTTI where codiceParrocchia = ?");
-					st.setString(1, codiceParrocchia);
-					ResultSet rs = st.executeQuery();
-					while (rs.next()) {
-						this.codEventoL.addItem(rs.getString(1));
-						
-					}
-				} catch (SQLException e1) {
-					e1.printStackTrace();
-				}
-			}
-		});
-		
-		try {
-			PreparedStatement st = con.getMsSQLConnection().prepareStatement("select codiceParrocchia from Responsabilità_parrocchia where codiceResponsabile = ?");
-			st.setString(1, this.responsabile.getCodiceResponsabile());
-			ResultSet rs = st.executeQuery();
-			while (rs.next()) {
-				codiceParrocchia = rs.getString(1);
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		
-		try {
-			PreparedStatement st = con.getMsSQLConnection().prepareStatement("select codiceLC from Contiene_LC where codiceParrocchia = ?");
-			st.setString(1, codiceParrocchia);
-			ResultSet rs = st.executeQuery();
-			while (rs.next()) {
-				this.codiceLC = rs.getString(1);
-				
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		
-		try {
-			Statement st = con.getMsSQLConnection().createStatement();
-			ResultSet rs = st.executeQuery("select codiceEvento from E_P_TUTTI");
-			while (rs.next()) {
-				this.codiceEP.addItem(rs.getString(1));
-				
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		try {
-			Statement st = con.getMsSQLConnection().createStatement();
-			ResultSet rs = st.executeQuery("select codiceEvento from E_P_RS");
-			while (rs.next()) {
-				this.codiceEP.addItem(rs.getString(1));
-				
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		try {
-			Statement st = con.getMsSQLConnection().createStatement();
-			ResultSet rs = st.executeQuery("select codiceEvento from E_P_EG");
-			while (rs.next()) {
-				this.codiceEP.addItem(rs.getString(1));
-				
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		try {
-			Statement st = con.getMsSQLConnection().createStatement();
-			ResultSet rs = st.executeQuery("select codiceEvento from E_P_LC");
-			while (rs.next()) {
-				this.codiceEP.addItem(rs.getString(1));
-				
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		
-		try {
-			PreparedStatement st = con.getMsSQLConnection().prepareStatement("select codiceEG from Contiene_EG where codiceParrocchia = ?");
-			st.setString(1, codiceParrocchia);
-			ResultSet rs = st.executeQuery();
-			while (rs.next()) {
-				this.codiceEG = rs.getString(1);
-				
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		
-		try {
-			PreparedStatement st = con.getMsSQLConnection().prepareStatement("select codiceRS from Contiene_RS where codiceParrocchia = ?");
-			st.setString(1, codiceParrocchia);
-			ResultSet rs = st.executeQuery();
-			while (rs.next()) {
-				this.codiceRS = rs.getString(1);
-				
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		
-		try {
-			Statement st = con.getMsSQLConnection().createStatement();
-			ResultSet rs = st.executeQuery("select codiceIscritto from Iscritto");
-			while (rs.next()) {
-				this.cIscr.addItem(rs.getString(1));
-				
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		
-		try {
-			PreparedStatement st = con.getMsSQLConnection().prepareStatement("select codiceCC from Contiene_CC where codiceParrocchia = ?");
-			st.setString(1, codiceParrocchia);
-			ResultSet rs = st.executeQuery();
-			while (rs.next()) {
-				this.codiceCC = rs.getString(1);
-				
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		
-		
-		
-		try {
-			Statement st = con.getMsSQLConnection().createStatement();
-			ResultSet rs = st.executeQuery("select codiceAttività from ATT_FORMATIVA");
-			while (rs.next()) {
-				this.attFormativa.addItem(rs.getString(1));
-				this.attFormativaE.addItem(rs.getString(1));
-				
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-	
-		
-		try {
-			Statement st = con.getMsSQLConnection().createStatement();
-			ResultSet rs = st.executeQuery("select codiceAttività from ATT_LUDICA");
-			while (rs.next()) {
-				this.attLudica.addItem(rs.getString(1));
-				this.attLudicaE.addItem(rs.getString(1));
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		
-		try {
-			Statement st = con.getMsSQLConnection().createStatement();
-			ResultSet rs = st.executeQuery("select nomeCompetenza from COMPETENZE");
-			while (rs.next()) {
-				this.nomeComp.addItem(rs.getString(1));
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		
-		
-		
-		try {
-			Statement st = con.getMsSQLConnection().createStatement();
-			ResultSet rs = st.executeQuery("select codiceIscritto from ISCRITTO");
-			while (rs.next()) {
-				this.codIsc.addItem(rs.getString(1));
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		
-		try {
-			Statement st = con.getMsSQLConnection().createStatement();
-			ResultSet rs = st.executeQuery("select codiceEvento from E_P_LC");
-			while (rs.next()) {
-				this.codE.addItem(rs.getString(1));
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		try {
-			Statement st = con.getMsSQLConnection().createStatement();
-			ResultSet rs = st.executeQuery("select codiceEvento from E_P_EG");
-			while (rs.next()) {
-				this.codE.addItem(rs.getString(1));
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		
-		try {
-			Statement st = con.getMsSQLConnection().createStatement();
-			ResultSet rs = st.executeQuery("select codiceEvento from E_P_RS");
-			while (rs.next()) {
-				this.codE.addItem(rs.getString(1));
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		
-		try {
-			Statement st = con.getMsSQLConnection().createStatement();
-			ResultSet rs = st.executeQuery("select codiceEvento from E_P_TUTTI");
-			while (rs.next()) {
-				this.codE.addItem(rs.getString(1));
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		
-		/*try {
-			PreparedStatement st = con.getMsSQLConnection().prepareStatement("select codiceEvento from E_P_LC, E_P_EG, E_P_RS, E_P_TUTTI where codiceParrocchia = ?");
-			st.setString(1, this.codiceParrocchia);
-			ResultSet rs = st.executeQuery();
-			while (rs.next()) {
-				int i = 1;
-				this.codE.addItem(rs.getString(i));	
-				i++;
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}*/
-		
-		
-		
-		
-		
-		try {
-			Statement st = con.getMsSQLConnection().createStatement();
-			ResultSet rs = st.executeQuery("select codiceIscritto from ISCRITTO");
-			while (rs.next()) {
-				this.codIscB.addItem(rs.getString(1)); 				
-				
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
 		
 		this.assegnaAttL.addActionListener(e -> {
 			if(String.valueOf(this.brancheL.getSelectedItem()).equals("LC")) {
@@ -517,6 +253,7 @@ public class ParrocchiaModifyOperation extends JPanel{
 			}
 			
 		});
+		
 		this.assegnaAttF.addActionListener(e -> {
 			if(String.valueOf(this.brancheF.getSelectedItem()).equals("RS")) {
 				FormazioneParrocchialeRS fpRS = new FormazioneParrocchialeRS(String.valueOf(this.codEventoF.getSelectedItem()), 
@@ -528,26 +265,7 @@ public class ParrocchiaModifyOperation extends JPanel{
 						String.valueOf(this.attFormativa.getSelectedItem()), codiceParrocchia);
 				this.checkCorrect(fpEG.assegnamentoAttivitàFormativaEG());
 			}
-		});
-		
-		this.branca.addActionListener(e -> {
-			if(String.valueOf(branca.getSelectedItem()).equals("LC")) {
-				this.attFormativaE.setEnabled(false);
-				this.attLudicaE.setEnabled(true);
-			}
-			else if(String.valueOf(branca.getSelectedItem()).equals("EG")) {
-				this.attFormativaE.setEnabled(true);
-				this.attLudicaE.setEnabled(true);
-			}
-			else if(String.valueOf(branca.getSelectedItem()).equals("RS")) {
-				this.attFormativaE.setEnabled(true);
-				this.attLudicaE.setEnabled(false);
-			}
-			else if(String.valueOf(branca.getSelectedItem()).equals("Tutti")) {
-				this.attFormativaE.setEnabled(false);
-				this.attLudicaE.setEnabled(true);
-			}
-		});
+		});	
 		
 		this.inserisciEvento.addActionListener(e -> {
 			SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
@@ -560,22 +278,28 @@ public class ParrocchiaModifyOperation extends JPanel{
 				Date dateFine = new java.sql.Date(parsedFine.getTime());
 				if(String.valueOf(branca.getSelectedItem()).equals("LC")) {
 					EventoParrocchiaLC eventoLC = new EventoParrocchiaLC(codiceParrocchia, codEvento.getText(), tipo.getText(), dateInizio, dateFine, loc.getText(), desc.getText());
-					checkCorrect(eventoLC.inserimentoEvento());
+					ResponsabilitàEventoParrocchiaLC respLC = new ResponsabilitàEventoParrocchiaLC(codEvento.getText(), codiceParrocchia, this.responsabile.getCodiceResponsabile());
+					checkDoubleCorrect(eventoLC.inserimentoEvento(), respLC.responsabilità_E_P_LC());
 				}
 				else if(String.valueOf(branca.getSelectedItem()).equals("EG")) {
 					EventoParrocchiaEG eventoEG = new EventoParrocchiaEG(codiceParrocchia, codEvento.getText(), tipo.getText(), dateInizio, dateFine, loc.getText(), desc.getText());
-					checkCorrect(eventoEG.inserimentoEvento());
+					ResponsabilitàEventoParrocchiaEG respEG = new ResponsabilitàEventoParrocchiaEG(codEvento.getText(), codiceParrocchia, this.responsabile.getCodiceResponsabile());
+					checkDoubleCorrect(eventoEG.inserimentoEvento(), respEG.responsabilità_E_P_EG());
 				}
 				else if(String.valueOf(branca.getSelectedItem()).equals("RS")) {
-					this.attLudicaE.setEnabled(false);
 					EventoParrocchiaRS eventoRS = new EventoParrocchiaRS(codiceParrocchia, codEvento.getText(), tipo.getText(), dateInizio, dateFine, loc.getText(), desc.getText());
-					checkCorrect(eventoRS.inserimentoEvento());
+					ResponsabilitàEventoParrocchiaRS respRS = new ResponsabilitàEventoParrocchiaRS(codEvento.getText(), codiceParrocchia, this.responsabile.getCodiceResponsabile());
+					checkDoubleCorrect(eventoRS.inserimentoEvento(), respRS.responsabilità_E_P_RS());
 				}
 				else if(String.valueOf(branca.getSelectedItem()).equals("Tutti")) {
-					this.attFormativaE.setEnabled(false);
 					EventoParrocchiaTutti eventoTutti = new EventoParrocchiaTutti(codiceParrocchia, codEvento.getText(), tipo.getText(), dateInizio, dateFine, loc.getText(), desc.getText());
-					checkCorrect(eventoTutti.inserimentoEvento());
+					ResponsabilitàEventoParrocchiaTutti respTutti = new ResponsabilitàEventoParrocchiaTutti(codEvento.getText(), codiceParrocchia, this.responsabile.getCodiceResponsabile());
+					checkDoubleCorrect(eventoTutti.inserimentoEvento(), respTutti.responsabilità_E_P_Tutti());
 				}
+				this.codiceEP.removeAllItems();
+				UpdateComboBoxParrocchia.codiceEvento(con, codiceParrocchia).forEach(x -> codiceEP.addItem(x));
+				this.codE.removeAllItems();
+				UpdateComboBoxParrocchia.codiceEvento(con, codiceParrocchia).forEach(x -> codE.addItem(x));
 			} catch (ParseException e1) {
 				e1.printStackTrace();
 			}
@@ -590,6 +314,9 @@ public class ParrocchiaModifyOperation extends JPanel{
 				Date datesql = new java.sql.Date(parsed.getTime());
 				Iscritto is = new Iscritto(this.iscCodice.getText(), this.iscCF.getText(), this.iscNome.getText(), this.iscCognome.getText(), datesql, this.iscLuogoN.getText(), this.iscNTelefono.getText());
 				checkCorrect(is.registrazioneIscritto());
+				this.codIscB.removeAllItems();
+				UpdateComboBoxParrocchia.codiceIscritto(con).forEach(i -> codIscB.addItem(i));
+				
 			} catch (ParseException e1) {
 				e1.printStackTrace();
 			}
@@ -597,21 +324,25 @@ public class ParrocchiaModifyOperation extends JPanel{
 		
 		this.iscrivi.addActionListener(e -> {
 			if(String.valueOf(brancheI.getSelectedItem()).equals("LC")) {
-				LCAnno lc = new LCAnno(this.codiceLC, String.valueOf(this.codIscB.getSelectedItem()), Integer.parseInt(String.valueOf(this.year.getSelectedItem())));
+				LCAnno lc = new LCAnno(codiceLC, String.valueOf(this.codIscB.getSelectedItem()), Integer.parseInt(String.valueOf(this.year.getSelectedItem())));
 				checkCorrect(lc.iscrizioneLC());
 			}
 			else if(String.valueOf(brancheI.getSelectedItem()).equals("EG")) {
-				EGAnno eg = new EGAnno(this.codiceEG, String.valueOf(this.codIscB.getSelectedItem()), Integer.parseInt(String.valueOf(this.year.getSelectedItem())));
+				EGAnno eg = new EGAnno(codiceEG, String.valueOf(this.codIscB.getSelectedItem()), Integer.parseInt(String.valueOf(this.year.getSelectedItem())));
 				checkCorrect(eg.iscrizioneEG());
 			}
 			else if(String.valueOf(brancheI.getSelectedItem()).equals("RS")) {
-				RSAnno rs = new RSAnno(this.codiceRS, String.valueOf(this.codIscB.getSelectedItem()), Integer.parseInt(String.valueOf(this.year.getSelectedItem())));
+				RSAnno rs = new RSAnno(codiceRS, String.valueOf(this.codIscB.getSelectedItem()), Integer.parseInt(String.valueOf(this.year.getSelectedItem())));
 				checkCorrect(rs.iscrizioneRS());
 			}
 			else if(String.valueOf(brancheI.getSelectedItem()).equals("CC")) {
-				CCAnno cc = new CCAnno(this.codiceCC, String.valueOf(this.codIscB.getSelectedItem()), Integer.parseInt(String.valueOf(this.year.getSelectedItem())));
+				CCAnno cc = new CCAnno(codiceCC, String.valueOf(this.codIscB.getSelectedItem()), Integer.parseInt(String.valueOf(this.year.getSelectedItem())));
 				checkCorrect(cc.iscrizioneCC());
 			}
+			this.codIsc.removeAllItems();
+			this.cIscr.removeAllItems();
+			UpdateComboBoxParrocchia.iscrittoBranca(con, codiceParrocchia).forEach(i -> codIsc.addItem(i));
+			UpdateComboBoxParrocchia.codiceIscrittoRegistrazione(con, String.valueOf(this.brancheE.getSelectedItem()), codiceParrocchia).forEach(c -> cIscr.addItem(c));
 		});
 		
 		this.iscriviEvento.addActionListener(e -> {
@@ -639,41 +370,11 @@ public class ParrocchiaModifyOperation extends JPanel{
 		});
 
 		this.cancella.addActionListener(e -> {
-			/*
-			try {
-				PreparedStatement st = con.getMsSQLConnection().prepareStatement("delete from E_P_TUTTI where codiceEvento = ?");
-				st.setString(1, String.valueOf(this.codE.getSelectedItem()));
-				ResultSet rs = st.executeQuery();
-				st.close();
-			} catch (SQLException e1) {
-				e1.printStackTrace();
-			}
-			try {
-				PreparedStatement st = con.getMsSQLConnection().prepareStatement("delete from E_P_RS where codiceEvento = ?");
-				st.setString(1, String.valueOf(this.codE.getSelectedItem()));
-				ResultSet rs = st.executeQuery();
-				st.close();
-			} catch (SQLException e1) {
-				e1.printStackTrace();
-			}
-			try {
-				PreparedStatement st = con.getMsSQLConnection().prepareStatement("delete from E_P_EG where codiceEvento = ?");
-				st.setString(1, String.valueOf(this.codE.getSelectedItem()));
-				ResultSet rs = st.executeQuery();
-				st.close();
-			} catch (SQLException e1) {
-				e1.printStackTrace();
-			}
-			try {
-				PreparedStatement st = con.getMsSQLConnection().prepareStatement("delete from E_P_LC where codiceEvento = ?");
-				st.setString(1, String.valueOf(this.codE.getSelectedItem()));
-				ResultSet rs = st.executeQuery();
-				st.close();
-			} catch (SQLException e1) {
-				e1.printStackTrace();
-			}
-			
-			*/		
+			this.checkCancellazione(ParrocchiaDeleteOperation.cancellaEvento(con, String.valueOf(codE.getSelectedItem()), codiceParrocchia));
+			this.codE.removeAllItems();
+			UpdateComboBoxParrocchia.codiceEvento(con, codiceParrocchia).forEach(x -> codE.addItem(x));
+			this.codiceEP.removeAllItems();
+			UpdateComboBoxParrocchia.codiceEvento(con, codiceParrocchia).forEach(x-> codiceEP.addItem(x));
 		});
 	}
 	
@@ -944,8 +645,20 @@ public class ParrocchiaModifyOperation extends JPanel{
 		}
 	}
 	
-	public static String getCodiceParrocchia() {
-		return codiceParrocchia;
+	private void checkCancellazione(int number) {
+		if (number != 0) {
+			JOptionPane.showMessageDialog(this, "Cancellazione andata a buon fine.");
+		} else {
+			JOptionPane.showMessageDialog(this, "Qualcosa è andato storto, verifica la correttezza dei campi.");
+		}
 	}
-
+	
+	private void checkDoubleCorrect(int number1, int number2) {
+		if (number1 != 0 && number2 != 0) {
+			JOptionPane.showMessageDialog(this, "Inserimento andato a buon fine.");
+		} else {
+			JOptionPane.showMessageDialog(this, "Qualcosa è andato storto, verifica la correttezza dei campi.");
+		}
+	}
+		
 }

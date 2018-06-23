@@ -1,10 +1,14 @@
 package model;
 
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+
 public class ResponsabilitàEventoParrocchiaRS {
 	
 	private String codiceEvento;
 	private String codiceParrocchia;
 	private String codiceResponsabile;
+	private DBConnection con = new DBConnectionImpl();
 	
 	public ResponsabilitàEventoParrocchiaRS(String codiceEvento, String codiceParrocchia, String codiceResponsabile) {
 		super();
@@ -13,28 +17,20 @@ public class ResponsabilitàEventoParrocchiaRS {
 		this.codiceResponsabile = codiceResponsabile;
 	}
 
-	public String getCodiceEvento() {
-		return codiceEvento;
+	public int responsabilità_E_P_RS() {
+		int rs;
+		try {
+			PreparedStatement st = con.getMsSQLConnection().prepareStatement(
+					"insert into Responsabilità_E_P_RS(codiceEvento, codiceParrocchia, codiceResponsabile) VALUES(?, ?, ?)");
+			st.setString(1, codiceEvento);
+			st.setString(2, codiceParrocchia);
+			st.setString(3, codiceResponsabile);
+			rs = st.executeUpdate();
+			st.close();
+		} catch (SQLException e) {
+			return 0;
+		}
+		return rs;
 	}
-
-	public String getCodiceParrocchia() {
-		return codiceParrocchia;
-	}
-
-	public String getCodiceResponsabile() {
-		return codiceResponsabile;
-	}
-
-	public void setCodiceEvento(String codiceEvento) {
-		this.codiceEvento = codiceEvento;
-	}
-
-	public void setCodiceParrocchia(String codiceParrocchia) {
-		this.codiceParrocchia = codiceParrocchia;
-	}
-
-	public void setCodiceResponsabile(String codiceResponsabile) {
-		this.codiceResponsabile = codiceResponsabile;
-	}	
 
 }
