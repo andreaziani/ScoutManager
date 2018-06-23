@@ -123,6 +123,8 @@ public class AdminInsertPanel extends JPanel {
 	private JButton registraRespN = new JButton("Registra responsabile nazionale");
 
 	public AdminInsertPanel(DBConnection con) {
+		this.date.setText("GG/MM/ANNO");
+		this.dateN.setText("GG/MM/ANNO");
 		GridBagLayout grid = new GridBagLayout();
 		insertResponsabile.setForeground(Color.red);
 		insertParrocchia.setForeground(Color.RED);

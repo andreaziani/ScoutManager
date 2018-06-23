@@ -22,6 +22,7 @@ import org.jdatepicker.impl.UtilDateModel;
 import model.EventoNazionale;
 import model.ResponsabileEventoNazionale;
 import model.ResponsabilitàEventoNazionale;
+import view.DateLabelFormatter;
 
 import java.awt.Component;
 import java.awt.Dimension;

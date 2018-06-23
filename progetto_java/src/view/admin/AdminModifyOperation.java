@@ -41,6 +41,7 @@ public class AdminModifyOperation extends JPanel {
 	private JButton modificaRespParrocchia = new JButton("Modifica responsabile e parrocchia");
 
 	public AdminModifyOperation(DBConnection con) {
+		this.date.setText("GG/MM/ANNO");
 		modifyResp.setForeground(Color.RED);
 		this.setLayout(new GridBagLayout());
 		this.modificaResp();
