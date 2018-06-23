@@ -39,7 +39,6 @@ public class ResponsabileView extends JFrame{
         vd = new ViewEventdByDate(responsabile, log);
         ne = new InsertNationalEvent(responsabile, ap, me, usp);
         
-        
         this.add(ne);
         this.add(ap);
         this.add(me);
@@ -53,7 +52,7 @@ public class ResponsabileView extends JFrame{
         getContentPane().setLayout(new GridLayout(2, 3, 0, 0));
         this.setTitle("Responsabile Nazionale");
         this.setSize(this.height, this.width);
-        this.setVisible(true);
         this.setLocationRelativeTo(null);
+        this.setVisible(true);
     }
 }
