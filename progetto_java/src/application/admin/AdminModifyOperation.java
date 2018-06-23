@@ -12,7 +12,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import application.app.DBConnection;
-import table.ResponsabileParrocchia;
+import model.ResponsabileParrocchia;
 
 public class AdminModifyOperation extends JPanel {
 	/**

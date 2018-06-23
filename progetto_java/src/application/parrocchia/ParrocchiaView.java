@@ -11,7 +11,7 @@ import javax.swing.JTextArea;
 import javax.swing.border.Border;
 
 import application.app.DBConnection;
-import table.ResponsabileParrocchia;
+import model.ResponsabileParrocchia;
 
 
 public class ParrocchiaView extends JFrame{

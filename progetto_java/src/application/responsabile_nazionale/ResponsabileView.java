@@ -4,7 +4,7 @@ import java.awt.Toolkit;
 
 import javax.swing.JFrame;
 
-import table.ResponsabileEventoNazionale;
+import model.ResponsabileEventoNazionale;
 
 import java.awt.GridLayout;
 

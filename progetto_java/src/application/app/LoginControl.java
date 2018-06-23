@@ -4,8 +4,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import table.ResponsabileEventoNazionale;
-import table.ResponsabileParrocchia;
+import model.ResponsabileEventoNazionale;
+import model.ResponsabileParrocchia;
 
 public class LoginControl {
 	static private DBConnection con = new DBConnectionImpl();

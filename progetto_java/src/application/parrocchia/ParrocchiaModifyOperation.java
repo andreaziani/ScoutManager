@@ -19,26 +19,26 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import application.app.DBConnection;
-import table.Acquisizione;
-import table.CCAnno;
-import table.EGAnno;
-import table.EventoParrocchiaEG;
-import table.EventoParrocchiaLC;
-import table.EventoParrocchiaRS;
-import table.EventoParrocchiaTutti;
-import table.FormazioneParrocchialeEG;
-import table.FormazioneParrocchialeRS;
-import table.Iscritto;
-import table.LCAnno;
-import table.RSAnno;
-import table.RegistrazioneEventoParrocchiaEG;
-import table.RegistrazioneEventoParrocchiaLC;
-import table.RegistrazioneEventoParrocchiaRS;
-import table.RegistrazioneEventoParrocchiaTutti;
-import table.ResponsabileParrocchia;
-import table.RicreazioneEG;
-import table.RicreazioneLC;
-import table.RicreazioneTutti;
+import model.Acquisizione;
+import model.CCAnno;
+import model.EGAnno;
+import model.EventoParrocchiaEG;
+import model.EventoParrocchiaLC;
+import model.EventoParrocchiaRS;
+import model.EventoParrocchiaTutti;
+import model.FormazioneParrocchialeEG;
+import model.FormazioneParrocchialeRS;
+import model.Iscritto;
+import model.LCAnno;
+import model.RSAnno;
+import model.RegistrazioneEventoParrocchiaEG;
+import model.RegistrazioneEventoParrocchiaLC;
+import model.RegistrazioneEventoParrocchiaRS;
+import model.RegistrazioneEventoParrocchiaTutti;
+import model.ResponsabileParrocchia;
+import model.RicreazioneEG;
+import model.RicreazioneLC;
+import model.RicreazioneTutti;
 
 public class ParrocchiaModifyOperation extends JPanel{
 	/**

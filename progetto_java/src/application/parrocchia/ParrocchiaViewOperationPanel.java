@@ -11,7 +11,7 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
 import application.app.DBConnection;
-import table.ResponsabileParrocchia;
+import model.ResponsabileParrocchia;
 
 public class ParrocchiaViewOperationPanel extends JPanel{
 	

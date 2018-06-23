@@ -13,7 +13,7 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
 import application.app.DBConnection;
-import table.AdminViewOperation;
+import model.AdminViewOperation;
 
 public class AdminViewOperationPanel extends JPanel {
 

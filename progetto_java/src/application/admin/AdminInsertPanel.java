@@ -14,21 +14,21 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
 import application.app.DBConnection;
-import table.AttivitàFormativa;
-import table.AttivitàLudica;
-import table.CC;
-import table.ContieneCC;
-import table.ContieneEG;
-import table.ContieneLC;
-import table.ContieneRS;
-import table.EG;
-import table.LC;
-import table.Parrocchia;
-import table.RS;
-import table.Residenza;
-import table.ResponsabileEventoNazionale;
-import table.ResponsabileParrocchia;
-import table.ResponsabilitàParrocchia;
+import model.AttivitàFormativa;
+import model.AttivitàLudica;
+import model.CC;
+import model.ContieneCC;
+import model.ContieneEG;
+import model.ContieneLC;
+import model.ContieneRS;
+import model.EG;
+import model.LC;
+import model.Parrocchia;
+import model.RS;
+import model.Residenza;
+import model.ResponsabileEventoNazionale;
+import model.ResponsabileParrocchia;
+import model.ResponsabilitàParrocchia;
 
 import java.sql.*;
 
