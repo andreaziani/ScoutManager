@@ -11,7 +11,6 @@ import java.util.Properties;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.border.EtchedBorder;
 
@@ -33,10 +32,8 @@ public class ViewEventdByDate extends JPanel{
     private GridBagConstraints gbc= new GridBagConstraints();
     private JLabel title = new JLabel("Visualizza eventi per data");
     private JLabel dataInizio = new JLabel("Data di inizio:");
-    private JLabel codiceRes = new JLabel("Codice Responsabile:");
     private Properties p;
     private JDatePickerImpl datePicker;
-    private JTextField txtCod = new JTextField(16);
     private JButton btn = new JButton("VISUALIZZA");
     
     
@@ -81,16 +78,11 @@ public class ViewEventdByDate extends JPanel{
         datePicker = new JDatePickerImpl(new JDatePanelImpl(new UtilDateModel(), p), new DateLabelFormatter());
         
         add(dataInizio, gbc);
-        gbc.gridx = 1;
-        add(codiceRes, gbc);
         
         gbc.gridy = 2;
         gbc.gridx = 0;
         
         add(datePicker, gbc);
-        
-        gbc.gridx = 1;
-        add(txtCod, gbc);
         
         gbc.gridy = 3;
         gbc.gridx = 0;

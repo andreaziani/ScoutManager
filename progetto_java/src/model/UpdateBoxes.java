@@ -1,12 +1,10 @@
-package view.responsabilenazionale;
+package model;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
-
-import model.DBConnection;
 
 public class UpdateBoxes {
 	public static List<String> updateEventiNazionali(DBConnection con) {

@@ -21,6 +21,7 @@ import javax.swing.border.EtchedBorder;
 import model.AttivitàFormativa;
 import model.DBConnection;
 import model.FormazioneNazionale;
+import model.UpdateBoxes;
 
 public class ActivityPanel extends JPanel{
     private GridBagConstraints gbc= new GridBagConstraints();

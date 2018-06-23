@@ -24,6 +24,7 @@ import org.jdatepicker.impl.UtilDateModel;
 import model.DBConnection;
 import model.EventoNazionale;
 import model.ResponsabileEventoNazionale;
+import model.UpdateBoxes;
 import view.DateLabelFormatter;
 
 public class ModifyEv extends JPanel {
