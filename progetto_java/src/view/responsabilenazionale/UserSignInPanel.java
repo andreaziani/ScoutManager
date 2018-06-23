@@ -102,19 +102,8 @@ public class UserSignInPanel extends JPanel{
         this.add(txtCodIsc, gbc);
         gbc.gridx = 1;
         
-        try {
-            Statement st = con.getMsSQLConnection().createStatement();
-            ResultSet rs = st.executeQuery("select codiceEvento from E_NAZIONALE");
-            if(rs.isBeforeFirst()) {
-                while (rs.next()) {
-                    this.txtCodEv.addItem(rs.getString(1));
-                }} else {
-                    this.txtCodEv.addItem("<Nessun Codice Evento memorizzato>");
-                }
-            st.close();
-        } catch (SQLException e) {
-            JOptionPane.showMessageDialog(this, "Qualcosa è andato storto con la connessione alla base dati");
-        }
+        UpdateBoxes.updateEventiNazionali(con).forEach(e -> this.txtCodEv.addItem(e));
+        
         txtCodEv.setSize(5, 10);
         this.add(txtCodEv, gbc);
         gbc.gridx = 2;
@@ -125,5 +114,10 @@ public class UserSignInPanel extends JPanel{
         gbc.gridwidth = GridBagConstraints.REMAINDER;
         gbc.fill = GridBagConstraints.NONE;
         this.add(regbtn, gbc);
+    }
+    
+    public void updateBoxes() {
+    	this.txtCodEv.removeAllItems();
+    	UpdateBoxes.updateEventiNazionali(con).forEach(e -> this.txtCodEv.addItem(e));
     }
 }

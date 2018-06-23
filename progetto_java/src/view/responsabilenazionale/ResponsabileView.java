@@ -33,12 +33,12 @@ public class ResponsabileView extends JFrame{
     
     public ResponsabileView(ResponsabileEventoNazionale responsabile) {
         build();
-        ne = new InsertNationalEvent(responsabile);
         ap = new ActivityPanel(con);
         me = new ModifyEv(con, responsabile);
         usp = new UserSignInPanel(con);
         log = new ConsoleArea();
         vd = new ViewEventdByDate(responsabile, log);
+        ne = new InsertNationalEvent(responsabile, ap, me, usp);
         
         
         this.add(ne);

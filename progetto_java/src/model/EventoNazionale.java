@@ -37,6 +37,7 @@ public class EventoNazionale{
                 result = st.executeUpdate();
                 st.close();
         } catch (SQLException e) {
+        		e.printStackTrace();
                 return 0;
         }
 	    return result;
