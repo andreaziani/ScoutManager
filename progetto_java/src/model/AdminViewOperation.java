@@ -1,16 +1,37 @@
 package model;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.swing.JOptionPane;
+
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
 public class AdminViewOperation {
 	static DBConnection con = new DBConnectionImpl();
-
+	
+	static public List<String> updateLuogo() {
+		List<String> luoghi = new ArrayList<>();
+		try {
+			Statement st = con.getMsSQLConnection().createStatement();
+			ResultSet rs = st.executeQuery("select * from LUOGO");
+			while (rs.next()) {
+				luoghi.add(rs.getString(1));
+			}
+			st.close();
+		} catch (SQLException e) {
+			return luoghi;
+		}
+		return luoghi;
+	}
+	
 	static public String parrocchiaPerCittà(String città) {
 		String row = "Codice \t Nome \t Via \t NumeroCivico \n";
 		try {
