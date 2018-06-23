@@ -82,24 +82,24 @@ public class AdminInsertPanel extends JPanel {
 	private JLabel residenza = new JLabel("Inserisci Residenza");
 	private JLabel cPar = new JLabel("codice parrocchia: ");
 	private JTextField cParrocchia = new JTextField(16);
-	private JLabel cities = new JLabel("citta: ");
+	private JLabel cities = new JLabel("città: ");
 	private JComboBox<String> citta = new JComboBox<>();
 
 	// attivit� ludica
-	private JLabel attL = new JLabel("Inserimento attivita ludica");
-	private JLabel codiceAttL = new JLabel("Codice attivita: ");
+	private JLabel attL = new JLabel("Inserimento attività ludica");
+	private JLabel codiceAttL = new JLabel("Codice attività: ");
 	private JTextField codiceAttivitaLudica = new JTextField(16);
-	private JLabel descAttL = new JLabel("Descrizione attivita: ");
+	private JLabel descAttL = new JLabel("Descrizione attività: ");
 	private JTextArea descrizioneAttivitaLudica = new JTextArea(1, 30);
-	private JButton inserisciAttL = new JButton("Inserisci attivita ludica");
+	private JButton inserisciAttL = new JButton("Inserisci attività ludica");
 
 	// attivit� formativa
-	private JLabel attF = new JLabel("Inserimento attivita formativa");
-	private JLabel codiceAttF = new JLabel("Codice attivita: ");
+	private JLabel attF = new JLabel("Inserimento attività formativa");
+	private JLabel codiceAttF = new JLabel("Codice attività: ");
 	private JTextField codiceAttivitaFormativa = new JTextField(16);
-	private JLabel descAttF = new JLabel("Descrizione attivita: ");
+	private JLabel descAttF = new JLabel("Descrizione attività: ");
 	private JTextArea descrizioneAttivitaFormativa = new JTextArea(1, 30);
-	private JButton inserisciAttF = new JButton("Inserisci attivita formativa");
+	private JButton inserisciAttF = new JButton("Inserisci attività formativa");
 
 	// responsabile nazionale
 	private JLabel insertResponsabileN = new JLabel("Inserimento Responsabile Nazionale");

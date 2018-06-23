@@ -20,7 +20,7 @@ public class AdminViewOperation {
 			ResultSet rs = st.executeQuery();
 			ResultSetMetaData rsMetaData = rs.getMetaData();
 			while (rs.next()) {
-				for (int i = 1; i < rsMetaData.getColumnCount(); i++) {
+				for (int i = 1; i <= rsMetaData.getColumnCount(); i++) {
 					row += rs.getString(i) + "\t";
 				}
 				row += "\n";
@@ -33,22 +33,65 @@ public class AdminViewOperation {
 	}
 
 	static public String eventoParrocchiaPerResponsabile(String codiceResponsabile) {
-		String row = "";
+		String row = "CodParr \t Tipo \t Luogo \t descrizione \t dataInizio \t dataFine \t codEvento \t codResponsabile	\n";
 		try {
 			PreparedStatement st = con.getMsSQLConnection().prepareStatement("SELECT E.*, RP.codiceResponsabile "
-					+ "FROM Responsabilità_E_P_TUTTI RP JOIN E_P_TUTTI E ON (E.codiceParrocchia = RP.codiceParrocchia) "
-					+ "WHERE RP.codiceResponsabile = ? " + "");
+					+ " FROM Responsabilità_E_P_TUTTI RP JOIN E_P_TUTTI E ON (E.codiceParrocchia = RP.codiceParrocchia) "
+					+ " WHERE RP.codiceResponsabile = ? ");
 			st.setString(1, codiceResponsabile);
 			ResultSet rs = st.executeQuery();
 			ResultSetMetaData rsMetaData = rs.getMetaData();
 			while (rs.next()) {
-				for (int i = 1; i < rsMetaData.getColumnCount(); i++) {
+				for (int i = 1; i <= rsMetaData.getColumnCount(); i++) {
 					row += rs.getString(i) + "\t";
 				}
 				row += "\n";
 			}
 			st.close();
+			
+			PreparedStatement st2 = con.getMsSQLConnection().prepareStatement("SELECT E.*, RP.codiceResponsabile "
+					+ " FROM Responsabilità_E_P_RS RP JOIN E_P_RS E ON (E.codiceParrocchia = RP.codiceParrocchia) "
+					+ " WHERE RP.codiceResponsabile = ? ");
+			st2.setString(1, codiceResponsabile);
+			rs = st2.executeQuery();
+			rsMetaData = rs.getMetaData();
+			while (rs.next()) {
+				for (int i = 1; i <= rsMetaData.getColumnCount(); i++) {
+					row += rs.getString(i) + "\t";
+				}
+				row += "\n";
+			}
+			st2.close();
+			
+			PreparedStatement st3 = con.getMsSQLConnection().prepareStatement("SELECT E.*, RP.codiceResponsabile "
+					+ " FROM Responsabilità_E_P_LC RP JOIN E_P_LC E ON (E.codiceParrocchia = RP.codiceParrocchia) "
+					+ " WHERE RP.codiceResponsabile = ? ");
+			st3.setString(1, codiceResponsabile);
+			rs = st3.executeQuery();
+			rsMetaData = rs.getMetaData();
+			while (rs.next()) {
+				for (int i = 1; i <= rsMetaData.getColumnCount(); i++) {
+					row += rs.getString(i) + "\t";
+				}
+				row += "\n";
+			}
+			st3.close();
+			
+			PreparedStatement st4 = con.getMsSQLConnection().prepareStatement("SELECT E.*, RP.codiceResponsabile "
+					+ " FROM Responsabilità_E_P_EG RP JOIN E_P_EG E ON (E.codiceParrocchia = RP.codiceParrocchia) "
+					+ " WHERE RP.codiceResponsabile = ? ");
+			st4.setString(1, codiceResponsabile);
+			rs = st4.executeQuery();
+			rsMetaData = rs.getMetaData();
+			while (rs.next()) {
+				for (int i = 1; i <= rsMetaData.getColumnCount(); i++) {
+					row += rs.getString(i) + "\t";
+				}
+				row += "\n";
+			}
+			st4.close();
 		} catch (SQLException e1) {
+			e1.printStackTrace();
 			return " ";
 		}
 		return row;
@@ -65,7 +108,7 @@ public class AdminViewOperation {
 			ResultSet rs = st.executeQuery();
 			ResultSetMetaData rsMetaData = rs.getMetaData();
 			while (rs.next()) {
-				for (int i = 1; i < rsMetaData.getColumnCount(); i++) {
+				for (int i = 1; i <= rsMetaData.getColumnCount(); i++) {
 					row += rs.getString(i) + "\t";
 				}
 				row += "\n";
@@ -84,24 +127,24 @@ public class AdminViewOperation {
 			java.util.Date parsed = sdf.parse(data);
 			Date datesql = new java.sql.Date(parsed.getTime());
 			PreparedStatement st = con.getMsSQLConnection()
-					.prepareStatement("SELECT * " + "FROM E_P_TUTTI" + "WHERE dataInizio = ? ");
+					.prepareStatement("SELECT * " + "FROM E_P_TUTTI" + " WHERE dataInizio = ? ");
 			st.setDate(1, datesql);
 			ResultSet rs = st.executeQuery();
 			ResultSetMetaData rsMetaData = rs.getMetaData();
 			while (rs.next()) {
-				for (int i = 1; i < rsMetaData.getColumnCount(); i++) {
+				for (int i = 1; i <= rsMetaData.getColumnCount(); i++) {
 					row += rs.getString(i) + "\t";
 				}
 				row += "\n";
 			}
 			st.close();
 			PreparedStatement st2 = con.getMsSQLConnection()
-					.prepareStatement("SELECT * " + "FROM E_P_LC" + "WHERE dataInizio = ? ");
+					.prepareStatement("SELECT * " + "FROM E_P_LC" + " WHERE dataInizio = ? ");
 			st2.setDate(1, datesql);
 			rs = st2.executeQuery();
 			rsMetaData = rs.getMetaData();
 			while (rs.next()) {
-				for (int i = 1; i < rsMetaData.getColumnCount(); i++) {
+				for (int i = 1; i <= rsMetaData.getColumnCount(); i++) {
 					row += rs.getString(i) + "\t";
 				}
 				row += "\n";
@@ -109,12 +152,12 @@ public class AdminViewOperation {
 			st2.close();
 
 			PreparedStatement st3 = con.getMsSQLConnection()
-					.prepareStatement("SELECT * " + "FROM E_P_RS" + "WHERE dataInizio = ? ");
+					.prepareStatement("SELECT * " + "FROM E_P_RS " + " WHERE dataInizio = ? ");
 			st3.setDate(1, datesql);
 			rs = st3.executeQuery();
 			rsMetaData = rs.getMetaData();
 			while (rs.next()) {
-				for (int i = 1; i < rsMetaData.getColumnCount(); i++) {
+				for (int i = 1; i <= rsMetaData.getColumnCount(); i++) {
 					row += rs.getString(i) + "\t";
 				}
 				row += "\n";
@@ -122,12 +165,12 @@ public class AdminViewOperation {
 			st3.close();
 
 			PreparedStatement st4 = con.getMsSQLConnection()
-					.prepareStatement("SELECT * " + "FROM E_P_EG" + "WHERE dataInizio = ? ");
+					.prepareStatement("SELECT * " + " FROM E_P_EG" + " WHERE dataInizio = ? ");
 			st4.setDate(1, datesql);
 			rs = st4.executeQuery();
 			rsMetaData = rs.getMetaData();
 			while (rs.next()) {
-				for (int i = 1; i < rsMetaData.getColumnCount(); i++) {
+				for (int i = 1; i <= rsMetaData.getColumnCount(); i++) {
 					row += rs.getString(i) + "\t";
 				}
 				row += "\n";
@@ -146,12 +189,12 @@ public class AdminViewOperation {
 			java.util.Date parsed = sdf.parse(data);
 			Date datesql = new java.sql.Date(parsed.getTime());
 			PreparedStatement st = con.getMsSQLConnection()
-					.prepareStatement("SELECT * " + "FROM E_NAZIONALE" + "WHERE dataInizio = ? ");
+					.prepareStatement("SELECT * " + "FROM E_NAZIONALE" + " WHERE dataInizio = ? ");
 			st.setDate(1, datesql);
 			ResultSet rs = st.executeQuery();
 			ResultSetMetaData rsMetaData = rs.getMetaData();
 			while (rs.next()) {
-				for (int i = 1; i < rsMetaData.getColumnCount(); i++) {
+				for (int i = 1; i <= rsMetaData.getColumnCount(); i++) {
 					row += rs.getString(i) + "\t";
 				}
 				row += "\n";
