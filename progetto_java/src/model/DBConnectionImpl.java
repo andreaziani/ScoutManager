@@ -15,7 +15,7 @@ public class DBConnectionImpl implements DBConnection {
         	String dbUri = "jdbc:sqlserver://localhost:1433;databasename="+dbName;
         	
         	String userName = "sa";
-        	String password = "andrea1997";
+        	String password = "1234";
              
             Connection connection = null;
              try {
