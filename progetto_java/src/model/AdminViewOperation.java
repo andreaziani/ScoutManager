@@ -2,9 +2,6 @@ package model;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import javax.swing.JOptionPane;
-
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -119,10 +116,10 @@ public class AdminViewOperation {
 	}
 
 	static public String eventoNazionalePerResponsabile(String codiceResponsabile) {
-		String row = "";
+		String row = "CodEvento \t Tipo \t dataInizio \t dataFine \t località \t descrizione \n";
 		try {
 			PreparedStatement st = con.getMsSQLConnection()
-					.prepareStatement("SELECT E.*, RN.codiceResponsabile "
+					.prepareStatement("SELECT E.* "
 							+ "FROM Responsabilità_E_N RN JOIN E_NAZIONALE E ON (E.codiceEvento = RN.codiceEvento) "
 							+ "WHERE RN.codiceResponsabile = ? ");
 			st.setString(1, codiceResponsabile);
@@ -142,7 +139,7 @@ public class AdminViewOperation {
 	}
 
 	static public String eventoDiParrocchiaPerData(String data) {
-		String row = "";
+		String row = "CodParr \t Tipo \t Luogo \t descrizione \t dataInizio \t dataFine \t codEvento \n";
 		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 		try {
 			java.util.Date parsed = sdf.parse(data);
@@ -204,7 +201,7 @@ public class AdminViewOperation {
 	}
 
 	static public String eventoNazionalePerData(String data) {
-		String row = "";
+		String row =  "CodEvento \t Tipo \t dataInizio \t dataFine \t località \t descrizione \n";
 		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 		try {
 			java.util.Date parsed = sdf.parse(data);
