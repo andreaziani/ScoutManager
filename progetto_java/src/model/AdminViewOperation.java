@@ -20,7 +20,7 @@ public class AdminViewOperation {
 			ResultSet rs = st.executeQuery();
 			ResultSetMetaData rsMetaData = rs.getMetaData();
 			while (rs.next()) {
-				for (int i = 1; i < rsMetaData.getColumnCount(); i++) {
+				for (int i = 1; i <= rsMetaData.getColumnCount(); i++) {
 					row += rs.getString(i) + "\t";
 				}
 				row += "\n";
@@ -42,12 +42,26 @@ public class AdminViewOperation {
 			ResultSet rs = st.executeQuery();
 			ResultSetMetaData rsMetaData = rs.getMetaData();
 			while (rs.next()) {
-				for (int i = 1; i < rsMetaData.getColumnCount(); i++) {
+				for (int i = 1; i <= rsMetaData.getColumnCount(); i++) {
 					row += rs.getString(i) + "\t";
 				}
 				row += "\n";
 			}
 			st.close();
+			
+			PreparedStatement st2 = con.getMsSQLConnection().prepareStatement("SELECT E.*, RP.codiceResponsabile "
+					+ "FROM Responsabilità_E_P_RS RP JOIN E_P_RS E ON (E.codiceParrocchia = RP.codiceParrocchia) "
+					+ "WHERE RP.codiceResponsabile = ? " + "");
+			st.setString(1, codiceResponsabile);
+			ResultSet rs2 = st2.executeQuery();
+			ResultSetMetaData rsMetaData2 = rs.getMetaData();
+			while (rs2.next()) {
+				for (int i = 1; i <= rsMetaData2.getColumnCount(); i++) {
+					row += rs.getString(i) + "\t";
+				}
+				row += "\n";
+			}
+			st2.close();
 		} catch (SQLException e1) {
 			return " ";
 		}
@@ -65,7 +79,7 @@ public class AdminViewOperation {
 			ResultSet rs = st.executeQuery();
 			ResultSetMetaData rsMetaData = rs.getMetaData();
 			while (rs.next()) {
-				for (int i = 1; i < rsMetaData.getColumnCount(); i++) {
+				for (int i = 1; i <= rsMetaData.getColumnCount(); i++) {
 					row += rs.getString(i) + "\t";
 				}
 				row += "\n";
@@ -84,24 +98,24 @@ public class AdminViewOperation {
 			java.util.Date parsed = sdf.parse(data);
 			Date datesql = new java.sql.Date(parsed.getTime());
 			PreparedStatement st = con.getMsSQLConnection()
-					.prepareStatement("SELECT * " + "FROM E_P_TUTTI" + "WHERE dataInizio = ? ");
+					.prepareStatement("SELECT * " + "FROM E_P_TUTTI" + " WHERE dataInizio = ? ");
 			st.setDate(1, datesql);
 			ResultSet rs = st.executeQuery();
 			ResultSetMetaData rsMetaData = rs.getMetaData();
 			while (rs.next()) {
-				for (int i = 1; i < rsMetaData.getColumnCount(); i++) {
+				for (int i = 1; i <= rsMetaData.getColumnCount(); i++) {
 					row += rs.getString(i) + "\t";
 				}
 				row += "\n";
 			}
 			st.close();
 			PreparedStatement st2 = con.getMsSQLConnection()
-					.prepareStatement("SELECT * " + "FROM E_P_LC" + "WHERE dataInizio = ? ");
+					.prepareStatement("SELECT * " + "FROM E_P_LC" + " WHERE dataInizio = ? ");
 			st2.setDate(1, datesql);
 			rs = st2.executeQuery();
 			rsMetaData = rs.getMetaData();
 			while (rs.next()) {
-				for (int i = 1; i < rsMetaData.getColumnCount(); i++) {
+				for (int i = 1; i <= rsMetaData.getColumnCount(); i++) {
 					row += rs.getString(i) + "\t";
 				}
 				row += "\n";
@@ -109,12 +123,12 @@ public class AdminViewOperation {
 			st2.close();
 
 			PreparedStatement st3 = con.getMsSQLConnection()
-					.prepareStatement("SELECT * " + "FROM E_P_RS" + "WHERE dataInizio = ? ");
+					.prepareStatement("SELECT * " + "FROM E_P_RS " + " WHERE dataInizio = ? ");
 			st3.setDate(1, datesql);
 			rs = st3.executeQuery();
 			rsMetaData = rs.getMetaData();
 			while (rs.next()) {
-				for (int i = 1; i < rsMetaData.getColumnCount(); i++) {
+				for (int i = 1; i <= rsMetaData.getColumnCount(); i++) {
 					row += rs.getString(i) + "\t";
 				}
 				row += "\n";
@@ -122,12 +136,12 @@ public class AdminViewOperation {
 			st3.close();
 
 			PreparedStatement st4 = con.getMsSQLConnection()
-					.prepareStatement("SELECT * " + "FROM E_P_EG" + "WHERE dataInizio = ? ");
+					.prepareStatement("SELECT * " + " FROM E_P_EG" + " WHERE dataInizio = ? ");
 			st4.setDate(1, datesql);
 			rs = st4.executeQuery();
 			rsMetaData = rs.getMetaData();
 			while (rs.next()) {
-				for (int i = 1; i < rsMetaData.getColumnCount(); i++) {
+				for (int i = 1; i <= rsMetaData.getColumnCount(); i++) {
 					row += rs.getString(i) + "\t";
 				}
 				row += "\n";
@@ -146,12 +160,12 @@ public class AdminViewOperation {
 			java.util.Date parsed = sdf.parse(data);
 			Date datesql = new java.sql.Date(parsed.getTime());
 			PreparedStatement st = con.getMsSQLConnection()
-					.prepareStatement("SELECT * " + "FROM E_NAZIONALE" + "WHERE dataInizio = ? ");
+					.prepareStatement("SELECT * " + "FROM E_NAZIONALE" + " WHERE dataInizio = ? ");
 			st.setDate(1, datesql);
 			ResultSet rs = st.executeQuery();
 			ResultSetMetaData rsMetaData = rs.getMetaData();
 			while (rs.next()) {
-				for (int i = 1; i < rsMetaData.getColumnCount(); i++) {
+				for (int i = 1; i <= rsMetaData.getColumnCount(); i++) {
 					row += rs.getString(i) + "\t";
 				}
 				row += "\n";
