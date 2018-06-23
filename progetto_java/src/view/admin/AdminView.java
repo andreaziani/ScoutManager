@@ -2,6 +2,7 @@ package view.admin;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Toolkit;
 
 import javax.swing.BorderFactory;
 import javax.swing.JFrame;
@@ -16,8 +17,8 @@ public class AdminView extends JFrame {
 	 * Automatically generated.
 	 */
 	private static final long serialVersionUID = 8177523068486028650L;
-//	private int height = Toolkit.getDefaultToolkit().getScreenSize().height;
-//	private int width = Toolkit.getDefaultToolkit().getScreenSize().width;
+	private int height = Toolkit.getDefaultToolkit().getScreenSize().height;
+	private int width = Toolkit.getDefaultToolkit().getScreenSize().width;
 	private JTextArea view = new JTextArea(100, 400);
 	private Border border = BorderFactory.createLineBorder(Color.BLACK);
 	public AdminView(DBConnection con) {
@@ -36,7 +37,7 @@ public class AdminView extends JFrame {
 		panel.add(this.view, BorderLayout.CENTER);
 		panel.add(insertPanel, BorderLayout.NORTH);
 		this.add(panel);
-//		this.setSize(width, height);
+		this.setSize(width, height);
 		this.setLocationRelativeTo(null);
 		this.setVisible(true);
 	}
