@@ -5,10 +5,6 @@ import java.awt.Component;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
@@ -20,6 +16,8 @@ import javax.swing.border.EtchedBorder;
 
 import model.DBConnection;
 import model.RegistrazioneEventoNazionale;
+import model.UpdateBoxes;
+import model.UpdateUsers;
 
 public class UserSignInPanel extends JPanel{
     private GridBagConstraints gbc= new GridBagConstraints();
@@ -85,19 +83,7 @@ public class UserSignInPanel extends JPanel{
         gbc.gridy = 2;
         gbc.gridx = 0;
         
-        try {
-            Statement st = con.getMsSQLConnection().createStatement();
-            ResultSet rs = st.executeQuery("select codiceIscritto from ISCRITTO");
-            if(rs.isBeforeFirst()) {
-                while (rs.next()) {
-                    this.txtCodIsc.addItem(rs.getString(1));
-                }} else {
-                    this.txtCodIsc.addItem("<Nessun Iscritto memorizzato>");
-                }
-            st.close();
-        } catch (SQLException e) {
-            JOptionPane.showMessageDialog(this, "Qualcosa è andato storto con la connessione alla base dati");
-        }
+        UpdateUsers.updateIscritti(con).forEach(e->txtCodIsc.addItem(e));
         
         this.add(txtCodIsc, gbc);
         gbc.gridx = 1;

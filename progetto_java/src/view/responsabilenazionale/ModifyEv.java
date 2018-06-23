@@ -5,9 +5,6 @@ import java.awt.Component;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.Properties;
 
 import javax.swing.JButton;
@@ -27,6 +24,7 @@ import org.jdatepicker.impl.UtilDateModel;
 import model.DBConnection;
 import model.EventoNazionale;
 import model.ResponsabileEventoNazionale;
+import model.UpdateBoxes;
 
 public class ModifyEv extends JPanel {
 	/**
