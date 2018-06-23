@@ -12,10 +12,10 @@ public class DBConnectionImpl implements DBConnection {
  
     public Connection getMsSQLConnection()  {
         	String driver = "com.microsoft.sqlserver.jdbc.SQLServerDriver";
-        	String dbUri = "jdbc:sqlserver://DESKTOP-TDVDBKD;databaseName="+dbName;
+        	String dbUri = "jdbc:sqlserver://DESKTOP-CBBL63Q;databaseName="+dbName;
         	
         	String userName = "sa";
-        	String password = "1234";
+        	String password = "andrea1997";
              
             Connection connection = null;
              try {
