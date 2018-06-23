@@ -4,7 +4,6 @@ import java.awt.Toolkit;
 
 import javax.swing.JFrame;
 
-import application.responsabile_nazionale.ConsoleArea;
 import model.ResponsabileEventoNazionale;
 import model.DBConnection;
 import model.DBConnectionImpl;
