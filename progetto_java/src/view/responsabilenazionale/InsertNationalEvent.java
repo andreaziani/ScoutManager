@@ -1,4 +1,4 @@
-package application.responsabile_nazionale;
+package view.responsabilenazionale;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;

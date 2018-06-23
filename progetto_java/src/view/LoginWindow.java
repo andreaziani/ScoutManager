@@ -1,4 +1,4 @@
-package application.app;
+package view;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -16,9 +16,11 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
-import application.admin.AdminView;
-import application.responsabile_nazionale.ResponsabileView;
-import application.parrocchia.ParrocchiaView;
+import model.DBConnection;
+import model.LoginControl;
+import view.admin.AdminView;
+import view.responsabilenazionale.ResponsabileView;
+import view.responsabileparrocchia.ParrocchiaView;
 
 /**
  * Login window.

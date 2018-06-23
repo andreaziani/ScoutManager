@@ -1,4 +1,4 @@
-package application.parrocchia;
+package view.responsabileparrocchia;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -10,7 +10,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.border.Border;
 
-import application.app.DBConnection;
+import model.DBConnection;
 import model.ResponsabileParrocchia;
 
 

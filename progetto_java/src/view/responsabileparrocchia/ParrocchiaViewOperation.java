@@ -1,4 +1,4 @@
-package application.parrocchia;
+package view.responsabileparrocchia;
 
 import java.sql.Date;
 import java.sql.PreparedStatement;
@@ -8,8 +8,8 @@ import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
-import application.app.DBConnection;
-import application.app.DBConnectionImpl;
+import model.DBConnection;
+import model.DBConnectionImpl;
 
 public class ParrocchiaViewOperation {
 	static DBConnection con = new DBConnectionImpl();

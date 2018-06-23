@@ -1,4 +1,4 @@
-package application.admin;
+package view.admin;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -10,7 +10,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.border.Border;
 
-import application.app.DBConnection;
+import model.DBConnection;
 
 public class AdminView extends JFrame {
 	/**

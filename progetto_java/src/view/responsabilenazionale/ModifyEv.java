@@ -1,4 +1,4 @@
-package application.responsabile_nazionale;
+package view.responsabilenazionale;
 
 public class ModifyEv extends InsertNationalEvent{
     /**

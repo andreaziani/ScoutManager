@@ -1,4 +1,4 @@
-package application.admin;
+package view.admin;
 
 import java.awt.Color;
 import java.awt.GridBagConstraints;
@@ -11,7 +11,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-import application.app.DBConnection;
+import model.DBConnection;
 import model.ResponsabileParrocchia;
 
 public class AdminModifyOperation extends JPanel {

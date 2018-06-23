@@ -3,9 +3,6 @@ package model;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
-import application.app.DBConnection;
-import application.app.DBConnectionImpl;
-
 public class ContieneEG {
 	
 	private String codiceEG;

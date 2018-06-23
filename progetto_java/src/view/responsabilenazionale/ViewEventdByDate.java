@@ -1,10 +1,11 @@
-package application.responsabile_nazionale;
+package view.responsabilenazionale;
 
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.util.Properties;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -13,28 +14,35 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.border.EtchedBorder;
 
-public class UserSignInPanel extends JPanel{
-    private GridBagConstraints gbc= new GridBagConstraints();
-    private JLabel title = new JLabel("Registra Iscritto ad Evento Nazionale");
-    
-    private JLabel codIscritto = new JLabel("Codice Iscritto");
-    private JLabel codRegistrazione = new JLabel("Codice Registrazione");
-    private JLabel codEvento = new JLabel("Codice Evento");
-    
-    private JTextField txtCodIsc = new JTextField(5);
-    private JTextField txtCodEv = new JTextField(5);
-    private JTextField txtCodReg = new JTextField(5);
-    private JButton regbtn = new JButton("Regitra iscritto ad evento");
+import org.jdatepicker.impl.JDatePanelImpl;
+import org.jdatepicker.impl.JDatePickerImpl;
+import org.jdatepicker.impl.UtilDateModel;
+
+public class ViewEventdByDate extends JPanel{
     /**
      * 
      */
-    private static final long serialVersionUID = 995155670126020353L;
-
-    public UserSignInPanel() {
+    private static final long serialVersionUID = 8835226786280861286L;
+    
+    private GridBagConstraints gbc= new GridBagConstraints();
+    private JLabel title = new JLabel("Visualizza eventi per data");
+    private JLabel dataInizio = new JLabel("Data di inizio:");
+    private JLabel codiceRes = new JLabel("Codice Responsabile:");
+    private Properties p;
+    private JDatePickerImpl datePicker;
+    private JTextField txtCod = new JTextField(16);
+    private JButton btn = new JButton("VISUALIZZA");
+    
+    
+    public ViewEventdByDate() {
         this.setBorder(new EtchedBorder(EtchedBorder.LOWERED));
         this.setLayout(new GridBagLayout());
+        p = new Properties();
+        p.put("text.today", "Today");
+        p.put("text.month", "Month");
+        p.put("text.year", "Year");
         setTitle();
-        buildInterface();
+        this.build();
     }
     
     private void setTitle() {
@@ -53,29 +61,31 @@ public class UserSignInPanel extends JPanel{
         this.add(title, gbcMain);
     }
     
-    private void buildInterface() {
+    private void build() {
         gbc.insets = new Insets(3, 3, 3, 3);
+        gbc.gridy = 1;
         gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.weightx = 1.0;
-        gbc.gridx = 0;
-        gbc.gridy = 1;
-        this.add(codIscritto, gbc);
+        
+        datePicker = new JDatePickerImpl(new JDatePanelImpl(new UtilDateModel(), p), new DateLabelFormatter());
+        
+        add(dataInizio, gbc);
         gbc.gridx = 1;
-        this.add(codEvento, gbc);
-        gbc.gridx = 2;
-        this.add(codRegistrazione, gbc);
+        add(codiceRes, gbc);
+        
         gbc.gridy = 2;
         gbc.gridx = 0;
-        this.add(txtCodIsc, gbc);
+        
+        add(datePicker, gbc);
+        
         gbc.gridx = 1;
-        this.add(txtCodEv, gbc);
-        gbc.gridx = 2;
-        this.add(txtCodReg, gbc);
+        add(txtCod, gbc);
         
         gbc.gridy = 3;
         gbc.gridx = 0;
         gbc.gridwidth = GridBagConstraints.REMAINDER;
+        gbc.gridheight = GridBagConstraints.REMAINDER;
         gbc.fill = GridBagConstraints.NONE;
-        this.add(regbtn, gbc);
+        add(btn, gbc);
     }
 }

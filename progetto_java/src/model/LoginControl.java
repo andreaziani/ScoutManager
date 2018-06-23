@@ -1,11 +1,8 @@
-package application.app;
+package model;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-
-import model.ResponsabileEventoNazionale;
-import model.ResponsabileParrocchia;
 
 public class LoginControl {
 	static private DBConnection con = new DBConnectionImpl();

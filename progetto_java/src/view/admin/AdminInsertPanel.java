@@ -1,4 +1,4 @@
-package application.admin;
+package view.admin;
 
 import java.awt.Color;
 import java.awt.GridBagConstraints;
@@ -13,7 +13,6 @@ import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
-import application.app.DBConnection;
 import model.AttivitàFormativa;
 import model.AttivitàLudica;
 import model.CC;
@@ -21,6 +20,7 @@ import model.ContieneCC;
 import model.ContieneEG;
 import model.ContieneLC;
 import model.ContieneRS;
+import model.DBConnection;
 import model.EG;
 import model.LC;
 import model.Parrocchia;

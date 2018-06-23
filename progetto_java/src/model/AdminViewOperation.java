@@ -8,9 +8,6 @@ import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
-import application.app.DBConnection;
-import application.app.DBConnectionImpl;
-
 public class AdminViewOperation {
 	static DBConnection con = new DBConnectionImpl();
 

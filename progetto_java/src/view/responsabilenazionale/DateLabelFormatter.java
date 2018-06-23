@@ -1,4 +1,4 @@
-package application.responsabile_nazionale;
+package view.responsabilenazionale;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;

@@ -1,4 +1,4 @@
-package application.app;
+package model;
 
 import java.sql.Connection;
 /**

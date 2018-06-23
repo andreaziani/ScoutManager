@@ -1,4 +1,4 @@
-package application.parrocchia;
+package view.responsabileparrocchia;
 
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -18,9 +18,9 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-import application.app.DBConnection;
 import model.Acquisizione;
 import model.CCAnno;
+import model.DBConnection;
 import model.EGAnno;
 import model.EventoParrocchiaEG;
 import model.EventoParrocchiaLC;

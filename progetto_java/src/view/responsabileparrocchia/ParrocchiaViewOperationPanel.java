@@ -1,4 +1,4 @@
-package application.parrocchia;
+package view.responsabileparrocchia;
 
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -10,7 +10,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
-import application.app.DBConnection;
+import model.DBConnection;
 import model.ResponsabileParrocchia;
 
 public class ParrocchiaViewOperationPanel extends JPanel{

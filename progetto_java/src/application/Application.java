@@ -1,5 +1,8 @@
-package application.app;
+package application;
 
+import model.DBConnection;
+import model.DBConnectionImpl;
+import view.LoginWindow;
 
 public class Application {
     /**
