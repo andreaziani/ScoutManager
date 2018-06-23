@@ -52,6 +52,8 @@ public class AdminViewOperationPanel extends JPanel {
 	private JButton b5 = new JButton("visualizza");
 
 	public AdminViewOperationPanel(DBConnection con, JTextArea view) {
+		this.data.setText("GG/MM/ANNO");
+		this.dataN.setText("GG/MM/ANNO");
 		parrocchiePerCitta.setForeground(Color.RED);
 		parrocchiePerResp.setForeground(Color.RED);
 		eventoPerResp.setForeground(Color.RED);

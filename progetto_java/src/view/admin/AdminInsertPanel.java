@@ -13,6 +13,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
+import model.AdminViewOperation;
 import model.AttivitàFormativa;
 import model.AttivitàLudica;
 import model.CC;
@@ -29,8 +30,6 @@ import model.Residenza;
 import model.ResponsabileEventoNazionale;
 import model.ResponsabileParrocchia;
 import model.ResponsabilitàParrocchia;
-
-import java.sql.*;
 
 public class AdminInsertPanel extends JPanel {
 	/**
@@ -124,6 +123,8 @@ public class AdminInsertPanel extends JPanel {
 	private JButton registraRespN = new JButton("Registra responsabile nazionale");
 
 	public AdminInsertPanel(DBConnection con) {
+		this.date.setText("GG/MM/ANNO");
+		this.dateN.setText("GG/MM/ANNO");
 		GridBagLayout grid = new GridBagLayout();
 		insertResponsabile.setForeground(Color.red);
 		insertParrocchia.setForeground(Color.RED);
@@ -131,12 +132,12 @@ public class AdminInsertPanel extends JPanel {
 		attL.setForeground(Color.RED);
 		attF.setForeground(Color.RED);
 		insertResponsabileN.setForeground(Color.RED);
-		
+
 		this.registraRespN.addActionListener(e -> {
-			ResponsabileEventoNazionale res = new ResponsabileEventoNazionale(
-					this.cfN.getText(), this.nameResponsabileN.getText(), this.surnameN.getText(), this.dateN.getText(),
-					this.luogoN.getText(), this.numeroTelefonoN.getText(), this.codResponsabileN.getText(), this.usernameN.getText(),
-					this.passwordN.getText());
+			ResponsabileEventoNazionale res = new ResponsabileEventoNazionale(this.cfN.getText(),
+					this.nameResponsabileN.getText(), this.surnameN.getText(), this.dateN.getText(),
+					this.luogoN.getText(), this.numeroTelefonoN.getText(), this.codResponsabileN.getText(),
+					this.usernameN.getText(), this.passwordN.getText());
 			checkCorrect(res.inserimentoResponsabile());
 		});
 
@@ -169,33 +170,26 @@ public class AdminInsertPanel extends JPanel {
 			ContieneRS rs = new ContieneRS(this.codiceRS.getText(), this.codParrocchia.getText());
 			ContieneEG eg = new ContieneEG(this.codiceEG.getText(), this.codParrocchia.getText());
 			ContieneLC lc = new ContieneLC(this.codiceLC.getText(), this.codParrocchia.getText());
-			if ((rp.registrazioneResponsabile() != 0) && (p.inserisciParrocchia() != 0) && (res.inserisciResidenza() != 0)
-					&& (rParrocchia.inserisciResponsabilitàParrocchia() != 0) && (comCapi.inserisciCC() != 0)
-					&& (roverScolte.inserisciRS() != 0) && (espGuide.inserisciEG() != 0) && (lCoccinelle.inserisciLC() != 0)
-					&& (cc.inserisciContieneCC() != 0) && (rs.inserisciContieneRS() != 0) && (eg.inserisciContieneEG() != 0)
+			if ((rp.registrazioneResponsabile() != 0) && (p.inserisciParrocchia() != 0)
+					&& (res.inserisciResidenza() != 0) && (rParrocchia.inserisciResponsabilitàParrocchia() != 0)
+					&& (comCapi.inserisciCC() != 0) && (roverScolte.inserisciRS() != 0) && (espGuide.inserisciEG() != 0)
+					&& (lCoccinelle.inserisciLC() != 0) && (cc.inserisciContieneCC() != 0)
+					&& (rs.inserisciContieneRS() != 0) && (eg.inserisciContieneEG() != 0)
 					&& (lc.inserisciContieneLC() != 0)) {
 				JOptionPane.showMessageDialog(this, "Inserimento andato a buon fine.");
 			} else {
-				JOptionPane.showMessageDialog(this, "Si è verificato un errore, ricontrollare la correttezza dei campi.");
+				JOptionPane.showMessageDialog(this,
+						"Si è verificato un errore, ricontrollare la correttezza dei campi.");
 			}
 		});
-		
+
 		this.setLayout(grid);
 		this.inserimentoResponsabileParrocchia();
 		this.inserimentoParrocchia();
 		this.inserimentoResidenza();
 		this.inserimentoAttivita();
 		this.inserimentoResponsabileNazionale();
-		try {
-			Statement st = con.getMsSQLConnection().createStatement();
-			ResultSet rs = st.executeQuery("select * from LUOGO");
-			while (rs.next()) {
-				this.citta.addItem(rs.getString(1));
-			}
-			st.close();
-		} catch (SQLException e) {
-			JOptionPane.showMessageDialog(this, "Qualcosa è andato storto con la connessione alla base dati");
-		}
+		AdminViewOperation.updateLuogo().forEach(e -> this.citta.addItem(e));
 	}
 
 	private void inserimentoResponsabileNazionale() {

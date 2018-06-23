@@ -20,6 +20,7 @@ import org.jdatepicker.impl.UtilDateModel;
 
 import model.ResponsabileEventoNazionale;
 import model.ResponsabilitàEventoNazionale;
+import view.DateLabelFormatter;
 
 public class ViewEventdByDate extends JPanel{
     /**
