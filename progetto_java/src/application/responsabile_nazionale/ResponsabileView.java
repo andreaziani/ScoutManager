@@ -36,8 +36,9 @@ public class ResponsabileView extends JFrame{
         ap = new ActivityPanel(con);
         me = new ModifyEv(con, responsabile);
         usp = new UserSignInPanel(con);
-        vd = new ViewEventdByDate(responsabile, log);
         log = new ConsoleArea();
+        vd = new ViewEventdByDate(responsabile, log);
+        
         
         this.add(ne);
         this.add(ap);

@@ -23,11 +23,15 @@ public class ConsoleArea extends JPanel{
         gbc.fill = GridBagConstraints.BOTH;
         log.setRows(20);
         log.setSize(this.getWidth()-20, this.getHeight()-20);
-        log.setEditable(false);
+        log.setEditable(true);
+        log.setLineWrap(true);
+        log.setWrapStyleWord(true);
         this.add(log, gbc);
     }
     
     public void insert(String msg) {
         log.setText(msg);
+        this.revalidate();
+        this.repaint();
     }
 }
