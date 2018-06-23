@@ -35,7 +35,7 @@ public class ResponsabilitàEventoNazionale {
 	    
 	    try {
                     PreparedStatement st = con.getMsSQLConnection().prepareStatement(
-                                    "select * from E_NAZIONALE E JOIN Responsabilità_E_N RN ON (E.codiceEvento = RN.codiceEvento) " + 
+                                    "select E.codiceEvento, E.tipo, E.dataInizio, E.dataFine, E.località from E_NAZIONALE E JOIN Responsabilità_E_N RN ON (E.codiceEvento = RN.codiceEvento) " + 
                                     "WHERE dataInizio = ? and RN.codiceResponsabile = ?");
                     st.setDate(1, new java.sql.Date(date.getTime()));
                     st.setString(2, codiceResponasbile);
@@ -43,7 +43,7 @@ public class ResponsabilitàEventoNazionale {
                     
                     ResultSetMetaData rsMetaData = rs.getMetaData();
                     while (rs.next()) {
-                            for (int i = 1; i < rsMetaData.getColumnCount(); i++) {
+                            for (int i = 1; i <= rsMetaData.getColumnCount(); i++) {
                                     row += rs.getString(i) + "\t";
                             }
                             row += "\n";
