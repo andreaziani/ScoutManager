@@ -6,7 +6,10 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import model.DBConnection;
 
@@ -16,7 +19,6 @@ public class UpdateComboBoxParrocchia {
 	private static List<String> tipoEvento = new ArrayList<>(Arrays.asList("LC", "EG", "RS", "Tutti"));
 	private static List<String> eventoLudica = new ArrayList<>(Arrays.asList("LC", "EG", "Tutti"));
 	private static List<String> eventoFormativa = new ArrayList<>(Arrays.asList("EG", "RS"));
-	private static List<String> iscritto = new ArrayList<>();
 	private static List<String> iscrittoBranca = new ArrayList<>();
 	private static List<String> attivitàFormativa = new ArrayList<>();
 	private static List<String> attivitàLudica = new ArrayList<>();
@@ -27,6 +29,7 @@ public class UpdateComboBoxParrocchia {
 	private static List<String> nomeCompetenza = new ArrayList<>();
 	private static List<String> areaCompetenza = new ArrayList<>();
 	private static List<String> codiceEvento = new ArrayList<>();
+	private static Set<String> codiceIscritto = new HashSet<>();
 	
 	public static List<String> branche(){
 		return branca;
@@ -44,18 +47,66 @@ public class UpdateComboBoxParrocchia {
 		return eventoFormativa;
 	}
 	
-	public static List<String> codiceIscritto(DBConnection con) {
-		iscritto.removeAll(iscritto);
-		try {
-			Statement st = con.getMsSQLConnection().createStatement();
-			ResultSet rs = st.executeQuery("select codiceIscritto from ISCRITTO");
-			while (rs.next()) {
-				iscritto.add(rs.getString(1));
+	public static List<String> codiceIscritto(DBConnection con, String branca, int anno) {
+		codiceIscritto.removeAll(codiceIscritto);
+		ResultSet rs;
+		if(branca.equals("LC")) {
+			try {
+				PreparedStatement st2 = con.getMsSQLConnection().prepareStatement("select codiceIscritto from ISCRITTO where codiceIscritto not in (select codiceIscritto from LC_ANNO "
+						+ "where LC_ANNO.anno = ?)");
+				st2.setInt(1, anno);
+				rs = st2.executeQuery();
+				while (rs.next()) {
+					codiceIscritto.add(rs.getString(1));
+				}
+				st2.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
 			}
-		} catch (SQLException e) {
-			e.printStackTrace();
 		}
-		return iscritto;
+		else if(branca.equals("EG")) {
+			try {
+				PreparedStatement st = con.getMsSQLConnection().prepareStatement("select codiceIscritto from ISCRITTO where codiceIscritto not in (select codiceIscritto from EG_ANNO "
+						+ "where EG_ANNO.anno = ?)");
+				st.setInt(1, anno);
+				rs = st.executeQuery();
+				while (rs.next()) {
+					codiceIscritto.add(rs.getString(1));
+				}
+				st.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		else if(branca.equals("RS")) {
+			try {
+				PreparedStatement st3 = con.getMsSQLConnection().prepareStatement("select codiceIscritto from ISCRITTO where codiceIscritto not in (select codiceIscritto from RS_ANNO "
+						+ "where RS_ANNO.anno = ?)");
+				st3.setInt(1, anno);
+				rs = st3.executeQuery();
+				while (rs.next()) {
+					codiceIscritto.add(rs.getString(1));
+				}
+				st3.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		else if(branca.equals("CC")) {
+			try {
+				PreparedStatement st4 = con.getMsSQLConnection().prepareStatement("select codiceIscritto from ISCRITTO where codiceIscritto not in (select codiceIscritto from CC_ANNO "
+						+ "where CC_ANNO.anno = ?)");
+				st4.setInt(1, anno);
+				rs = st4.executeQuery();
+				while (rs.next()) {
+					codiceIscritto.add(rs.getString(1));
+				}
+				st4.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return codiceIscritto.stream().collect(Collectors.toList());
 	}
 	
 	public static List<String> iscrittoBranca(DBConnection con, String codiceParrocchia){

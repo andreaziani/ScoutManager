@@ -202,6 +202,12 @@ public class ParrocchiaModifyOperation extends JPanel{
 			UpdateComboBoxParrocchia.codiceEventoRegistrazione(con, String.valueOf(this.brancheE.getSelectedItem()), codiceParrocchia).forEach(c -> codiceEP.addItem(c));
 			UpdateComboBoxParrocchia.codiceIscrittoRegistrazione(con, String.valueOf(this.brancheE.getSelectedItem()), codiceParrocchia).forEach(c -> cIscr.addItem(c));
 		});
+		this.brancheI.addActionListener(e -> {
+			codIscB.removeAllItems();
+			UpdateComboBoxParrocchia.codiceIscritto(con, String.valueOf(brancheI.getSelectedItem()), Integer.parseInt(String.valueOf(year.getSelectedItem())))
+			.forEach(x -> codIscB.addItem(x));
+		});
+				
 		this.branca.addActionListener(e -> {
 			if(String.valueOf(branca.getSelectedItem()).equals("LC")) {
 				this.attFormativaE.setEnabled(false);
@@ -223,7 +229,7 @@ public class ParrocchiaModifyOperation extends JPanel{
 		UpdateComboBoxParrocchia.codiceEvento(con, codiceParrocchia).forEach(e -> codiceEP.addItem(e));
 		UpdateComboBoxParrocchia.codiceIscrittoRegistrazione(con, String.valueOf(brancheE.getSelectedItem()), codiceParrocchia).forEach(i -> cIscr.addItem(i));
 		UpdateComboBoxParrocchia.nomeCompetenza(con).forEach(n -> nomeComp.addItem(n));
-		UpdateComboBoxParrocchia.codiceIscritto(con).forEach(i -> codIscB.addItem(i));
+		UpdateComboBoxParrocchia.codiceIscritto(con, String.valueOf(brancheI.getSelectedItem()), Integer.parseInt(String.valueOf(year.getSelectedItem()))).forEach(i -> codIscB.addItem(i));
 		UpdateComboBoxParrocchia.iscrittoBranca(con, codiceParrocchia).forEach(i -> codIsc.addItem(i));
 		UpdateComboBoxParrocchia.codiceEvento(con, codiceParrocchia).forEach(e -> codE.addItem(e));
 		this.inserimentoEvento();
@@ -315,7 +321,7 @@ public class ParrocchiaModifyOperation extends JPanel{
 				Iscritto is = new Iscritto(this.iscCodice.getText(), this.iscCF.getText(), this.iscNome.getText(), this.iscCognome.getText(), datesql, this.iscLuogoN.getText(), this.iscNTelefono.getText());
 				checkCorrect(is.registrazioneIscritto());
 				this.codIscB.removeAllItems();
-				UpdateComboBoxParrocchia.codiceIscritto(con).forEach(i -> codIscB.addItem(i));
+				UpdateComboBoxParrocchia.codiceIscritto(con, String.valueOf(brancheI.getSelectedItem()), Integer.parseInt(String.valueOf(year.getSelectedItem()))).forEach(i -> codIscB.addItem(i));
 				
 			} catch (ParseException e1) {
 				e1.printStackTrace();
