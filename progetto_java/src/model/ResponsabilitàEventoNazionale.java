@@ -43,7 +43,7 @@ public class ResponsabilitàEventoNazionale {
                     
                     ResultSetMetaData rsMetaData = rs.getMetaData();
                     while (rs.next()) {
-                            for (int i = 1; i < rsMetaData.getColumnCount(); i++) {
+                            for (int i = 1; i <= rsMetaData.getColumnCount(); i++) {
                                     row += rs.getString(i) + "\t";
                             }
                             row += "\n";

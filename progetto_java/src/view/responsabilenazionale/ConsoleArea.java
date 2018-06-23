@@ -31,7 +31,5 @@ public class ConsoleArea extends JPanel{
     
     public void insert(String msg) {
         log.setText(msg);
-        this.revalidate();
-        this.repaint();
     }
 }
