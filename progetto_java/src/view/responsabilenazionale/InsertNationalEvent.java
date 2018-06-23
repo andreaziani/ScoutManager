@@ -27,7 +27,7 @@ import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Color;
 
-public class InsertNationalEvent extends JPanel{
+public class InsertNationalEvent extends JPanel {
     protected JLabel title = new JLabel("Eventi Nazionali");
     
     //EVENTO NAZIONALE
@@ -52,9 +52,8 @@ public class InsertNationalEvent extends JPanel{
      */
     private static final long serialVersionUID = 1129165456568949369L;
 
-    public InsertNationalEvent(ResponsabileEventoNazionale res) {
-        
-        
+    public InsertNationalEvent(ResponsabileEventoNazionale res, ActivityPanel ap, ModifyEv me, UserSignInPanel usp) {
+
         this.buildEv_Nazionale();
         this.build();
         this.btn.addActionListener(e->{
@@ -63,6 +62,9 @@ public class InsertNationalEvent extends JPanel{
             
             if(ev.execQuery()==1 && re.execQuery()==1) {
                 JOptionPane.showMessageDialog(this, "Inserimento andato a buon fine.");
+                ap.updateBox();
+                me.updateBox();
+                usp.updateBoxes();
             }else {
                 JOptionPane.showMessageDialog(this, "Si è verificato un errore, ricontrollare la correttezza dei campi.");
             }

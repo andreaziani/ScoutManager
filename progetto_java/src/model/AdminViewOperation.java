@@ -33,9 +33,9 @@ public class AdminViewOperation {
 	}
 
 	static public String eventoParrocchiaPerResponsabile(String codiceResponsabile) {
-		String row = "CodParr \t Tipo \t Luogo \t descrizione \t dataInizio \t dataFine \t codEvento \t codResponsabile	\n";
+		String row = "CodParr \t Tipo \t Luogo \t descrizione \t dataInizio \t dataFine \t codEvento \n";
 		try {
-			PreparedStatement st = con.getMsSQLConnection().prepareStatement("SELECT E.*, RP.codiceResponsabile "
+			PreparedStatement st = con.getMsSQLConnection().prepareStatement("SELECT E.* "
 					+ " FROM Responsabilità_E_P_TUTTI RP JOIN E_P_TUTTI E ON (E.codiceParrocchia = RP.codiceParrocchia) "
 					+ " WHERE RP.codiceResponsabile = ? ");
 			st.setString(1, codiceResponsabile);
@@ -49,7 +49,7 @@ public class AdminViewOperation {
 			}
 			st.close();
 			
-			PreparedStatement st2 = con.getMsSQLConnection().prepareStatement("SELECT E.*, RP.codiceResponsabile "
+			PreparedStatement st2 = con.getMsSQLConnection().prepareStatement("SELECT E.* "
 					+ " FROM Responsabilità_E_P_RS RP JOIN E_P_RS E ON (E.codiceParrocchia = RP.codiceParrocchia) "
 					+ " WHERE RP.codiceResponsabile = ? ");
 			st2.setString(1, codiceResponsabile);
@@ -63,7 +63,7 @@ public class AdminViewOperation {
 			}
 			st2.close();
 			
-			PreparedStatement st3 = con.getMsSQLConnection().prepareStatement("SELECT E.*, RP.codiceResponsabile "
+			PreparedStatement st3 = con.getMsSQLConnection().prepareStatement("SELECT E.* "
 					+ " FROM Responsabilità_E_P_LC RP JOIN E_P_LC E ON (E.codiceParrocchia = RP.codiceParrocchia) "
 					+ " WHERE RP.codiceResponsabile = ? ");
 			st3.setString(1, codiceResponsabile);
@@ -77,7 +77,7 @@ public class AdminViewOperation {
 			}
 			st3.close();
 			
-			PreparedStatement st4 = con.getMsSQLConnection().prepareStatement("SELECT E.*, RP.codiceResponsabile "
+			PreparedStatement st4 = con.getMsSQLConnection().prepareStatement("SELECT E.* "
 					+ " FROM Responsabilità_E_P_EG RP JOIN E_P_EG E ON (E.codiceParrocchia = RP.codiceParrocchia) "
 					+ " WHERE RP.codiceResponsabile = ? ");
 			st4.setString(1, codiceResponsabile);

@@ -15,9 +15,6 @@ import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
 
 import javax.swing.border.EtchedBorder;
 
@@ -130,19 +127,7 @@ public class ActivityPanel extends JPanel{
         gbc.gridx = 0;
         txtCodEv.setMaximumSize(new Dimension(10, 20));
         
-        try {
-            Statement st = con.getMsSQLConnection().createStatement();
-            ResultSet rs = st.executeQuery("select codiceEvento from E_NAZIONALE");
-            if(rs.isBeforeFirst()) {
-                while (rs.next()) {
-                    this.txtCodEv.addItem(rs.getString(1));
-                }} else {
-                    this.txtCodEv.addItem("<Nessun Codice Evento memorizzato>");
-                }
-            st.close();
-        } catch (SQLException e) {
-            JOptionPane.showMessageDialog(this, "Qualcosa è andato storto con la connessione alla base dati");
-        }
+        UpdateBoxes.updateEventiNazionali(con).forEach(e -> this.txtCodEv.addItem(e));
         
         this.add(txtCodEv, gbc);
         
@@ -160,5 +145,9 @@ public class ActivityPanel extends JPanel{
         gbc.gridheight = GridBagConstraints.REMAINDER;
         this.add(act, gbc);
     }
-
+    
+    public void updateBox() {
+    	this.txtCodEv.removeAllItems();
+    	UpdateBoxes.updateEventiNazionali(con).forEach(e -> this.txtCodEv.addItem(e));
+    }
 }
