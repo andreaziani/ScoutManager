@@ -58,7 +58,9 @@ public class AdminModifyOperation extends JPanel {
 	}
 
 	private void modificaResp() {
+		
 		GridBagConstraints c = new GridBagConstraints();
+		c.weightx = 1.0;
 		c.insets = new Insets(0, 10, 10, 10);
 		c.gridx = 0;
 		c.gridy = 0;
@@ -110,6 +112,7 @@ public class AdminModifyOperation extends JPanel {
 		this.add(this.password, c);
 		c.gridx = 0;
 		c.gridy = 10;
+		c.gridheight = GridBagConstraints.REMAINDER;
 		this.add(this.modificaRespParrocchia, c);
 	}
 }
