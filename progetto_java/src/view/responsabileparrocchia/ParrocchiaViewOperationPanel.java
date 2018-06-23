@@ -24,7 +24,7 @@ public class ParrocchiaViewOperationPanel extends JPanel{
 	//visualizzazione iscritti
 	private JLabel visualizzazioneIscritti = new JLabel("Visualizza iscritti branca per anno");
 	private JLabel anno = new JLabel("Anno :");
-	private JTextField year = new JTextField(16);
+	private JComboBox<String> year = new JComboBox<>();
 	private JLabel branca = new JLabel("Branca :");
 	private JComboBox<String> branche = new JComboBox<>();
 	private JButton visualizzaIscritti = new JButton("Visualizza iscritti");
@@ -48,6 +48,7 @@ public class ParrocchiaViewOperationPanel extends JPanel{
 		this.visualizzaIscrittiEvento();
 		this.visualizzaEventoPerData();
 		UpdateComboBoxParrocchia.branche().forEach(b -> branche.addItem(b));
+		UpdateComboBoxParrocchia.anno().forEach(a -> year.addItem(a));
 		this.visualizzaEventoData.addActionListener(e -> {
 			view.setText(ParrocchiaViewOperation.eventoDiParrocchiaPerData(this.date.getText()));
 		});
@@ -58,7 +59,7 @@ public class ParrocchiaViewOperationPanel extends JPanel{
 		});
 		
 		this.visualizzaIscritti.addActionListener(e -> {
-			view.setText(ParrocchiaViewOperation.iscrittiBranca(String.valueOf(branche.getSelectedItem()), QueryParrocchia.calculateCodiceParrocchia(con, responsabileParrocchia), Integer.parseInt(year.getText())));
+			view.setText(ParrocchiaViewOperation.iscrittiBranca(String.valueOf(branche.getSelectedItem()), QueryParrocchia.calculateCodiceParrocchia(con, responsabileParrocchia), Integer.parseInt(String.valueOf(year.getSelectedItem()))));
 			view.revalidate();
 			view.repaint();
 		});
