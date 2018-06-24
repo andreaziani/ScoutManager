@@ -51,7 +51,7 @@ public class ParrocchiaViewOperationPanel extends JPanel{
 		this.visualizzaIscrittiEvento();
 		this.visualizzaEventoPerData();
 		UpdateComboBoxParrocchia.branche().forEach(b -> branche.addItem(b));
-		UpdateComboBoxParrocchia.anno().forEach(a -> year.addItem(a));
+		year.addItem(UpdateComboBoxParrocchia.anno());
 		this.visualizzaEventoData.addActionListener(e -> {
 			view.setText(ParrocchiaViewOperation.eventoDiParrocchiaPerData(this.date.getText()));
 		});

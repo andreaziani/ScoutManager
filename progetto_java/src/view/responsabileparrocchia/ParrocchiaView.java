@@ -32,7 +32,7 @@ public class ParrocchiaView extends JFrame{
 		ParrocchiaModifyOperation mod = new ParrocchiaModifyOperation(con, responsabileParrocchia);
 		panel.add(mod, BorderLayout.NORTH);
 		panel.add(op, BorderLayout.SOUTH);
-		this.setTitle("Admin");
+		this.setTitle("Responsabile Parrocchia");
 		this.view.setBorder(this.border);
 		panel.add(this.view, BorderLayout.CENTER);
 		this.add(panel);

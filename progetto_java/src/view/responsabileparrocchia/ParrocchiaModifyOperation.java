@@ -186,7 +186,7 @@ public class ParrocchiaModifyOperation extends JPanel{
 		cIscr.setSelectedItem(0);
 		this.attLudicaE.setEnabled(true);
 		this.attFormativaE.setEnabled(false);
-		UpdateComboBoxParrocchia.anno().forEach(a -> year.addItem(a));
+		year.addItem(UpdateComboBoxParrocchia.anno());
 		this.nomeComp.addActionListener(e -> {
 			this.areaComp.removeAllItems();
 			UpdateComboBoxParrocchia.areaCompetenza(con, String.valueOf(nomeComp.getSelectedItem())).forEach(a -> areaComp.addItem(a));
