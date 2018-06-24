@@ -264,15 +264,20 @@ public class UpdateComboBoxParrocchia {
 		return codiceEventoRegistrazione.stream().collect(Collectors.toList());
 	}
 	
-	public static List<String> codiceIscrittoRegistrazione(DBConnection con, String branca, String codiceParrocchia){
+	public static List<String> codiceIscrittoRegistrazione(DBConnection con, String branca, String codiceEvento, String codiceParrocchia){
 		Set<String> codiceIscrittoRegistrazione = new HashSet<>();
 		if(branca.equals("LC")) {
 			try {
 				PreparedStatement st = con.getMsSQLConnection().prepareStatement("select codiceIscritto" + 
-						" from LC_ANNO, Contiene_LC " + 
-						"where codiceParrocchia = ? " + 
-						"and LC_ANNO.codiceLC = Contiene_LC.codiceLC");
+						" from LC_ANNO, Contiene_LC" + 
+						" where LC_ANNO.codiceLC = Contiene_LC.codiceLC" + 
+						" and Contiene_LC.codiceParrocchia = ?" + 
+						" and LC_ANNO.codiceIscritto not in (select codiceIscritto" + 
+						" from REGISTRAZIONE_E_P_LC, E_P_LC" +
+						" where REGISTRAZIONE_E_P_LC.codiceEvento = E_P_LC.codiceEvento" +
+						" and E_P_LC.codiceEvento = ?)");
 				st.setString(1, codiceParrocchia);
+				st.setString(2, codiceEvento);
 				ResultSet rs = st.executeQuery();
 				while (rs.next()) {
 					codiceIscrittoRegistrazione.add(rs.getString(1));
@@ -286,10 +291,15 @@ public class UpdateComboBoxParrocchia {
 		else if(branca.equals("EG")) {
 			try {
 				PreparedStatement st1 = con.getMsSQLConnection().prepareStatement("select codiceIscritto" + 
-						" from EG_ANNO, Contiene_EG " + 
-						"where codiceParrocchia = ? " + 
-						"and EG_ANNO.codiceEG = Contiene_EG.codiceEG");
+						" from EG_ANNO, Contiene_EG" + 
+						" where EG_ANNO.codiceEG = Contiene_EG.codiceEG" + 
+						" and Contiene_EG.codiceParrocchia = ?" + 
+						" and EG_ANNO.codiceIscritto not in (select codiceIscritto" + 
+						" from REGISTRAZIONE_E_P_EG, E_P_EG" +
+						" where REGISTRAZIONE_E_P_EG.codiceEvento = E_P_EG.codiceEvento" +
+						" and E_P_EG.codiceEvento = ?)");
 				st1.setString(1, codiceParrocchia);
+				st1.setString(2, codiceEvento);
 				ResultSet rs = st1.executeQuery();
 				while (rs.next()) {
 					codiceIscrittoRegistrazione.add(rs.getString(1));
@@ -304,10 +314,15 @@ public class UpdateComboBoxParrocchia {
 			try {
 				
 				PreparedStatement st2 = con.getMsSQLConnection().prepareStatement("select codiceIscritto" + 
-						" from RS_ANNO, Contiene_RS " + 
-						"where codiceParrocchia = ? " + 
-						"and RS_ANNO.codiceRS = Contiene_RS.codiceRS");
+						" from RS_ANNO, Contiene_RS" + 
+						" where RS_ANNO.codiceRS = Contiene_RS.codiceRS" + 
+						" and Contiene_RS.codiceParrocchia = ?" + 
+						" and RS_ANNO.codiceIscritto not in (select codiceIscritto" + 
+						" from REGISTRAZIONE_E_P_RS, E_P_RS" +
+						" where REGISTRAZIONE_E_P_RS.codiceEvento = E_P_RS.codiceEvento" +
+						" and E_P_RS.codiceEvento = ?)");
 				st2.setString(1, codiceParrocchia);
+				st2.setString(2, codiceEvento);
 				ResultSet rs = st2.executeQuery();
 				while (rs.next()) {
 					codiceIscrittoRegistrazione.add(rs.getString(1));
@@ -320,11 +335,16 @@ public class UpdateComboBoxParrocchia {
 		}
 		else if(branca.equals("Tutti")) {
 			try {
-				PreparedStatement st3 = con.getMsSQLConnection().prepareStatement("select codiceIscritto " + 
-						"from LC_ANNO, Contiene_LC " + 
-						"where LC_ANNO.codiceLC = Contiene_LC.codiceLC " + 
-						"and Contiene_LC.codiceParrocchia = ?");
+				PreparedStatement st3 = con.getMsSQLConnection().prepareStatement("select codiceIscritto" + 
+						" from LC_ANNO, Contiene_LC" + 
+						" where LC_ANNO.codiceLC = Contiene_LC.codiceLC" + 
+						" and Contiene_LC.codiceParrocchia = ?" + 
+						" and LC_ANNO.codiceIscritto not in (select codiceIscritto" + 
+						" from REGISTRAZIONE_E_P_LC, E_P_LC" +
+						" where REGISTRAZIONE_E_P_LC.codiceEvento = E_P_LC.codiceEvento" +
+						" and E_P_LC.codiceEvento = ?)");
 				st3.setString(1, codiceParrocchia);
+				st3.setString(2, codiceEvento);
 				ResultSet rs = st3.executeQuery();
 				while (rs.next()) {
 					codiceIscrittoRegistrazione.add(rs.getString(1));
@@ -335,11 +355,16 @@ public class UpdateComboBoxParrocchia {
 				e1.printStackTrace();
 			}
 			try {
-				PreparedStatement st4 = con.getMsSQLConnection().prepareStatement("select codiceIscritto " + 
-						"from EG_ANNO, Contiene_EG " + 
-						"where EG_ANNO.codiceEG = Contiene_EG.codiceEG " + 
-						"and Contiene_EG.codiceParrocchia = ?");
+				PreparedStatement st4 = con.getMsSQLConnection().prepareStatement("select codiceIscritto" + 
+						" from EG_ANNO, Contiene_EG" + 
+						" where EG_ANNO.codiceEG = Contiene_EG.codiceEG" + 
+						" and Contiene_EG.codiceParrocchia = ?" + 
+						" and EG_ANNO.codiceIscritto not in (select codiceIscritto" + 
+						" from REGISTRAZIONE_E_P_EG, E_P_EG" +
+						" where REGISTRAZIONE_E_P_EG.codiceEvento = E_P_EG.codiceEvento" +
+						" and E_P_EG.codiceEvento = ?)");
 				st4.setString(1, codiceParrocchia);
+				st4.setString(2, codiceEvento);
 				ResultSet rs = st4.executeQuery();
 				while (rs.next()) {
 					codiceIscrittoRegistrazione.add(rs.getString(1));
@@ -350,11 +375,16 @@ public class UpdateComboBoxParrocchia {
 				e1.printStackTrace();
 			}
 			try {
-				PreparedStatement st5 = con.getMsSQLConnection().prepareStatement("select codiceIscritto " + 
-						"from RS_ANNO, Contiene_RS " + 
-						"where RS_ANNO.codiceRS = Contiene_RS.codiceRS " + 
-						"and Contiene_RS.codiceParrocchia = ?");
+				PreparedStatement st5 = con.getMsSQLConnection().prepareStatement("select codiceIscritto" + 
+						" from RS_ANNO, Contiene_RS" + 
+						" where RS_ANNO.codiceRS = Contiene_RS.codiceRS" + 
+						" and Contiene_RS.codiceParrocchia = ?" + 
+						" and RS_ANNO.codiceIscritto not in (select codiceIscritto" + 
+						" from REGISTRAZIONE_E_P_RS, E_P_RS" +
+						" where REGISTRAZIONE_E_P_RS.codiceEvento = E_P_RS.codiceEvento" +
+						" and E_P_RS.codiceEvento = ?)");
 				st5.setString(1, codiceParrocchia);
+				st5.setString(2, codiceEvento);
 				ResultSet rs = st5.executeQuery();
 				while (rs.next()) {
 					codiceIscrittoRegistrazione.add(rs.getString(1));

@@ -208,16 +208,22 @@ public class ParrocchiaModifyOperation extends JPanel {
 			codiceEP.removeAllItems();
 			cIscr.removeAllItems();
 			UpdateComboBoxParrocchia
-					.codiceEventoRegistrazione(con, String.valueOf(this.brancheE.getSelectedItem()), codiceParrocchia)
-					.forEach(c -> codiceEP.addItem(c));
-			UpdateComboBoxParrocchia
-					.codiceIscrittoRegistrazione(con, String.valueOf(this.brancheE.getSelectedItem()), codiceParrocchia)
+					.codiceIscrittoRegistrazione(con, String.valueOf(this.brancheE.getSelectedItem()), String.valueOf(this.codiceEP.getSelectedItem()), codiceParrocchia)
 					.forEach(c -> cIscr.addItem(c));
+			UpdateComboBoxParrocchia
+			.codiceEventoRegistrazione(con, String.valueOf(this.brancheE.getSelectedItem()), codiceParrocchia)
+			.forEach(c -> codiceEP.addItem(c));
 		});
 		this.brancheI.addActionListener(e -> {
 			codIscB.removeAllItems();
 			UpdateComboBoxParrocchia.codiceIscritto(con, String.valueOf(brancheI.getSelectedItem()),
 					Integer.parseInt(String.valueOf(year.getSelectedItem()))).forEach(x -> codIscB.addItem(x));
+		});
+		this.codiceEP.addActionListener(e -> {
+			cIscr.removeAllItems();
+			UpdateComboBoxParrocchia
+			.codiceIscrittoRegistrazione(con, String.valueOf(this.brancheE.getSelectedItem()), String.valueOf(this.codiceEP.getSelectedItem()), codiceParrocchia)
+			.forEach(c -> cIscr.addItem(c));
 		});
 
 		this.branca.addActionListener(e -> {
@@ -236,9 +242,6 @@ public class ParrocchiaModifyOperation extends JPanel {
 			}
 		});
 		UpdateComboBoxParrocchia.codiceEvento(con, codiceParrocchia).forEach(e -> codiceEP.addItem(e));
-		UpdateComboBoxParrocchia
-				.codiceIscrittoRegistrazione(con, String.valueOf(brancheE.getSelectedItem()), codiceParrocchia)
-				.forEach(i -> cIscr.addItem(i));
 		UpdateComboBoxParrocchia.nomeCompetenza(con).forEach(n -> nomeComp.addItem(n));
 		UpdateComboBoxParrocchia.codiceIscritto(con, String.valueOf(brancheI.getSelectedItem()),
 				Integer.parseInt(String.valueOf(year.getSelectedItem()))).forEach(i -> codIscB.addItem(i));
@@ -405,7 +408,7 @@ public class ParrocchiaModifyOperation extends JPanel {
 			this.cIscr.removeAllItems();
 			UpdateComboBoxParrocchia.iscrittoBranca(con, codiceParrocchia).forEach(i -> codIsc.addItem(i));
 			UpdateComboBoxParrocchia
-					.codiceIscrittoRegistrazione(con, String.valueOf(this.brancheE.getSelectedItem()), codiceParrocchia)
+					.codiceIscrittoRegistrazione(con, String.valueOf(this.brancheE.getSelectedItem()), String.valueOf(this.codiceEP.getSelectedItem()), codiceParrocchia)
 					.forEach(c -> cIscr.addItem(c));
 		});
 
