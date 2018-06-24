@@ -50,4 +50,20 @@ public class UpdateUsers {
 		}
 		return anno;
 	}
+	
+	public static boolean isUserSignedIn(DBConnection con, String codEvento, String codIscritto) {
+		boolean res = false;
+		PreparedStatement st;
+		try {
+			st = con.getMsSQLConnection().prepareStatement(
+					"select codiceIscritto from REGISTRAZIONE_E_N where codiceEvento = ? AND codiceIscritto = ?");
+			st.setString(1, codEvento);
+			st.setString(2, codIscritto);
+			ResultSet rs = st.executeQuery();
+			res = rs.isBeforeFirst();
+		} catch (SQLException e) {
+			return true;
+		}
+		return res;
+	}
 }

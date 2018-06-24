@@ -44,14 +44,19 @@ public class UserSignInPanel extends JPanel {
 		setTitle();
 		buildInterface();
 		regbtn.addActionListener(e -> {
-			RegistrazioneEventoNazionale r = new RegistrazioneEventoNazionale(
-					String.valueOf(txtCodEv.getSelectedItem()), String.valueOf(txtCodIsc.getSelectedItem()),
-					txtCodReg.getText());
-			if (r.execQuery() == 1) {
-				JOptionPane.showMessageDialog(this, "Inserimento andato a buon fine.");
+			if(!UpdateUsers.isUserSignedIn(con, String.valueOf(txtCodEv.getSelectedItem()),  String.valueOf(txtCodIsc.getSelectedItem()))) {
+				RegistrazioneEventoNazionale r = new RegistrazioneEventoNazionale(
+						String.valueOf(txtCodEv.getSelectedItem()), String.valueOf(txtCodIsc.getSelectedItem()),
+						txtCodReg.getText());
+				if (r.execQuery() == 1) {
+					JOptionPane.showMessageDialog(this, "Inserimento andato a buon fine.");
+				} else {
+					JOptionPane.showMessageDialog(this,
+							"Si è verificato un errore, ricontrollare la correttezza dei campi.");
+				}				
 			} else {
 				JOptionPane.showMessageDialog(this,
-						"Si è verificato un errore, ricontrollare la correttezza dei campi.");
+						"Iscritto già registrato all'evento");
 			}
 		});
 	}
