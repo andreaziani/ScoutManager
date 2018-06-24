@@ -5,7 +5,7 @@ import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 
-public class EventoNazionale{
+public class EventoNazionale {
 
 	private String codiceEvento;
 	private String tipo;
@@ -14,9 +14,9 @@ public class EventoNazionale{
 	private String località;
 	private String descrizione;
 	private DBConnection con = new DBConnectionImpl();
-	
-	public EventoNazionale(String codiceEvento, String tipo, java.util.Date dataInizio, java.util.Date dataFine, String località,
-			String descrizione) {
+
+	public EventoNazionale(String codiceEvento, String tipo, java.util.Date dataInizio, java.util.Date dataFine,
+			String località, String descrizione) {
 		this.codiceEvento = codiceEvento;
 		this.tipo = tipo;
 		this.dataInizio = dataInizio;
@@ -24,6 +24,7 @@ public class EventoNazionale{
 		this.località = località;
 		this.descrizione = descrizione;
 	}
+
 	public String iscrittiAdEvento(String codiceEvento) {
 		PreparedStatement st;
 		String row = "CodIscritto \t Nome \t Cognome \t dataNascita \t NumeroTelefono \n";
@@ -33,8 +34,8 @@ public class EventoNazionale{
 			st.setString(1, codiceEvento);
 			ResultSet rs = st.executeQuery();
 			ResultSetMetaData rsm = st.getMetaData();
-			while(rs.next()) {
-				for(int i = 1; i <= rsm.getColumnCount(); i++) {
+			while (rs.next()) {
+				for (int i = 1; i <= rsm.getColumnCount(); i++) {
 					row += rs.getString(i);
 				}
 				row += "\n";
@@ -43,45 +44,45 @@ public class EventoNazionale{
 			return row;
 		}
 		return row;
-		
 	}
+
 	public int execQuery() {
-	    int result;
-	    try {
-                PreparedStatement st = con.getMsSQLConnection().prepareStatement(
-                                "insert into E_NAZIONALE(codiceEvento, tipo, dataInizio, dataFine, località, descrizione) VALUES(?, ?, ?, ?, ?, ?)");
-                st.setString(1, codiceEvento);
-                st.setString(2, tipo);
-                st.setDate(3, new java.sql.Date(dataInizio.getTime()));
-                st.setDate(4, new java.sql.Date(dataFine.getTime()));
-                st.setString(5, località);
-                st.setString(6, descrizione);
-                result = st.executeUpdate();
-                st.close();
-        } catch (SQLException e) {
-        		e.printStackTrace();
-                return 0;
-        }
-	    return result;
+		int result;
+		try {
+			PreparedStatement st = con.getMsSQLConnection().prepareStatement(
+					"insert into E_NAZIONALE(codiceEvento, tipo, dataInizio, dataFine, località, descrizione) VALUES(?, ?, ?, ?, ?, ?)");
+			st.setString(1, codiceEvento);
+			st.setString(2, tipo);
+			st.setDate(3, new java.sql.Date(dataInizio.getTime()));
+			st.setDate(4, new java.sql.Date(dataFine.getTime()));
+			st.setString(5, località);
+			st.setString(6, descrizione);
+			result = st.executeUpdate();
+			st.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return 0;
+		}
+		return result;
 	}
-	
+
 	public int updateQuery() {
-	    int result;
-            try {
-                PreparedStatement st = con.getMsSQLConnection().prepareStatement(
-                                "update E_NAZIONALE SET tipo = ? , dataInizio = ?, dataFine = ?, località = ?, descrizione = ? WHERE codiceEvento = ?");
-                st.setString(1, tipo);
-                st.setDate(2, new java.sql.Date(dataInizio.getTime()));
-                st.setDate(3, new java.sql.Date(dataFine.getTime()));
-                st.setString(4, località);
-                st.setString(5, descrizione);
-                st.setString(6, codiceEvento);
-                result = st.executeUpdate();
-                st.close();
-        } catch (SQLException e) {
-                return 0;
-        }
-            return result;
+		int result;
+		try {
+			PreparedStatement st = con.getMsSQLConnection().prepareStatement(
+					"update E_NAZIONALE SET tipo = ? , dataInizio = ?, dataFine = ?, località = ?, descrizione = ? WHERE codiceEvento = ?");
+			st.setString(1, tipo);
+			st.setDate(2, new java.sql.Date(dataInizio.getTime()));
+			st.setDate(3, new java.sql.Date(dataFine.getTime()));
+			st.setString(4, località);
+			st.setString(5, descrizione);
+			st.setString(6, codiceEvento);
+			result = st.executeUpdate();
+			st.close();
+		} catch (SQLException e) {
+			return 0;
+		}
+		return result;
 	}
 
 	public String getCodiceEvento() {
@@ -125,7 +126,7 @@ public class EventoNazionale{
 	}
 
 	public void setLocalita(String località) {
-		this.località= località;
+		this.località = località;
 	}
 
 	public void setDescrizione(String descrizione) {
