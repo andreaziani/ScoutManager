@@ -18,16 +18,19 @@ public class Acquisizione {
 	}
 
 	public int acquisizione() {
+		int rs;
 		try {
 			PreparedStatement st = con.getMsSQLConnection().prepareStatement(
 					"insert into acquisizione(codiceIscritto, nomeCompetenza, areaCompetenza) VALUES(?, ?, ?)");
 			st.setString(1, codiceIscritto);
 			st.setString(2, nome);
 			st.setString(3, areaCompetenza);
-			return st.executeUpdate();
+			rs = st.executeUpdate();
+			st.close();
 		} catch (SQLException e) {
 			return 0;
 		}
+		return rs;
 	}
 
 }

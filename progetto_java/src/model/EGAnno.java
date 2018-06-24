@@ -18,16 +18,19 @@ public class EGAnno {
 	}
 
 	public int iscrizioneEG() {
+		int rs;
 		try {
 			PreparedStatement st = con.getMsSQLConnection().prepareStatement(
 					"insert into EG_ANNO(codiceEG, codiceIscritto, anno) VALUES(?, ?, ?)");
 			st.setString(1, codiceEG);
 			st.setString(2, codiceIscritto);
 			st.setInt(3, anno);
-			return st.executeUpdate();
+			rs = st.executeUpdate();
+			st.close();
 		} catch (SQLException e) {
 			return 0;
 		}
+		return rs;
 	}
 
 }

@@ -21,6 +21,7 @@ public class RegistrazioneEventoParrocchiaLC {
 	}
 
 	public int registrazioneEventoLC() {
+		int rs;
 		try {
 			PreparedStatement st = con.getMsSQLConnection().prepareStatement(
 					"insert into REGISTRAZIONE_E_P_LC(codiceParrocchia, codiceEvento, codiceRegistrazione, codiceIscritto) VALUES(?, ?, ?, ?)");
@@ -28,10 +29,12 @@ public class RegistrazioneEventoParrocchiaLC {
 			st.setString(2, codiceEvento);
 			st.setString(3, codiceRegistrazione);
 			st.setString(4, codiceIscritto);
-			return st.executeUpdate();
+			rs = st.executeUpdate();
+			st.close();
 		} catch (SQLException e) {
 			return 0;
 		}
+		return rs;
 	}
 
 }

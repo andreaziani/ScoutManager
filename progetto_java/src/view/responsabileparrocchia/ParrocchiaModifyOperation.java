@@ -26,6 +26,8 @@ import model.FormazioneParrocchialeEG;
 import model.FormazioneParrocchialeRS;
 import model.Iscritto;
 import model.LCAnno;
+import model.ParrocchiaDeleteOperation;
+import model.QueryParrocchia;
 import model.RSAnno;
 import model.RegistrazioneEventoParrocchiaEG;
 import model.RegistrazioneEventoParrocchiaLC;
@@ -39,6 +41,7 @@ import model.ResponsabilitàEventoParrocchiaTutti;
 import model.RicreazioneEG;
 import model.RicreazioneLC;
 import model.RicreazioneTutti;
+import model.UpdateComboBoxParrocchia;
 
 public class ParrocchiaModifyOperation extends JPanel{
 	/**
@@ -183,7 +186,7 @@ public class ParrocchiaModifyOperation extends JPanel{
 		cIscr.setSelectedItem(0);
 		this.attLudicaE.setEnabled(true);
 		this.attFormativaE.setEnabled(false);
-		year.addItem("2018");
+		UpdateComboBoxParrocchia.anno().forEach(a -> year.addItem(a));
 		this.nomeComp.addActionListener(e -> {
 			this.areaComp.removeAllItems();
 			UpdateComboBoxParrocchia.areaCompetenza(con, String.valueOf(nomeComp.getSelectedItem())).forEach(a -> areaComp.addItem(a));

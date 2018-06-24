@@ -18,21 +18,19 @@ public class RSAnno {
 	}
 
 	public int iscrizioneRS() {
-		System.out.println(codiceRS);
-		System.out.println(codiceIscritto);
-		System.out.println(anno);
+		int rs;
 		try {
 			PreparedStatement st = con.getMsSQLConnection().prepareStatement(
 					"insert into RS_ANNO(codiceIscritto, anno, codiceRS) VALUES(?, ?, ?)");
 			st.setString(1, codiceIscritto);
 			st.setInt(2, anno);
 			st.setString(3, codiceRS);
-			
-			return st.executeUpdate();
+			rs = st.executeUpdate();
+			st.close();
 		} catch (SQLException e) {
-			e.printStackTrace();
 			return 0;
 		}
+		return rs;
 	}
 	
 }

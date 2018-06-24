@@ -21,6 +21,7 @@ public class ResponsabilitàParrocchia {
 			st.setString(1, this.codiceResponasbile);
 			st.setString(2, this.codiceParrocchia);
 			result = st.executeUpdate();
+			st.close();
 		} catch (SQLException e) {
 			return 0;
 		}

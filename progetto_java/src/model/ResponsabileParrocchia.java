@@ -51,6 +51,7 @@ public class ResponsabileParrocchia {
 			st.setString(8, this.username);
 			st.setString(9, this.password);
 			result = st.executeUpdate();
+			st.close();
 		} catch (SQLException | ParseException e) {
 			return 0;
 		}

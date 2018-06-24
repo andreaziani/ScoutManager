@@ -12,7 +12,10 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
 import model.DBConnection;
+import model.ParrocchiaViewOperation;
+import model.QueryParrocchia;
 import model.ResponsabileParrocchia;
+import model.UpdateComboBoxParrocchia;
 
 public class ParrocchiaViewOperationPanel extends JPanel{
 	

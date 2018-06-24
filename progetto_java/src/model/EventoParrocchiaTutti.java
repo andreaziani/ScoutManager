@@ -28,6 +28,7 @@ public class EventoParrocchiaTutti {
 	}
 
 	public int inserimentoEvento() {
+		int rs;
 		try {
 			PreparedStatement st = con.getMsSQLConnection().prepareStatement(
 					"insert into E_P_TUTTI(codiceParrocchia, codiceEvento, tipo, dataInizio, dataFine, località, descrizione) VALUES(?, ?, ?, ?, ?, ?, ?)");
@@ -38,10 +39,12 @@ public class EventoParrocchiaTutti {
 			st.setDate(5, dataFine);
 			st.setString(6, località);
 			st.setString(7, descrizione);
-			return st.executeUpdate();
+			rs = st.executeUpdate();
+			st.close();
 		} catch (SQLException e) {
 			return 0;
 		}
+		return rs;
 	}
 
 }

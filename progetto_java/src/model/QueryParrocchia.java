@@ -1,4 +1,4 @@
-package view.responsabileparrocchia;
+package model;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -23,6 +23,7 @@ public class QueryParrocchia {
 			while (rs.next()) {
 				codiceParrocchia = rs.getString(1);
 			}
+			st.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -38,6 +39,7 @@ public class QueryParrocchia {
 				codiceLC = rs.getString(1);
 				
 			}
+			st.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -53,6 +55,7 @@ public class QueryParrocchia {
 				codiceEG = rs.getString(1);
 				
 			}
+			st.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -68,6 +71,7 @@ public class QueryParrocchia {
 				codiceRS = rs.getString(1);
 				
 			}
+			st.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -83,6 +87,7 @@ public class QueryParrocchia {
 				codiceCC = rs.getString(1);
 				
 			}
+			st.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

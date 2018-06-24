@@ -18,16 +18,19 @@ public class LCAnno {
 	}
 
 	public int iscrizioneLC() {
+		int rs;
 		try {
 			PreparedStatement st = con.getMsSQLConnection().prepareStatement(
 					"insert into LC_ANNO(codiceLC, codiceIscritto, anno) VALUES(?, ?, ?)");
 			st.setString(1, codiceLC);
 			st.setString(2, codiceIscritto);
 			st.setInt(3, anno);
-			return st.executeUpdate();
+			rs = st.executeUpdate();
+			st.close();
 		} catch (SQLException e) {
 			return 0;
 		}
+		return rs;
 	}
 	
 }

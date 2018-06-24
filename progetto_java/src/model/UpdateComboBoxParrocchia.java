@@ -1,4 +1,4 @@
-package view.responsabileparrocchia;
+package model;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -127,37 +127,55 @@ public class UpdateComboBoxParrocchia {
 					iscrittoBranca.add(rs.getString(1));
 					
 				}
+				st.close();
 			} catch (SQLException e1) {
 				e1.printStackTrace();
 			}
 		
 		
 			try {
-				PreparedStatement st = con.getMsSQLConnection().prepareStatement("select codiceIscritto" + 
+				PreparedStatement st1 = con.getMsSQLConnection().prepareStatement("select codiceIscritto" + 
 						" from EG_ANNO, Contiene_EG " + 
 						"where codiceParrocchia = ? " + 
 						"and EG_ANNO.codiceEG = Contiene_EG.codiceEG");
-				st.setString(1, codiceParrocchia);
-				ResultSet rs = st.executeQuery();
+				st1.setString(1, codiceParrocchia);
+				ResultSet rs = st1.executeQuery();
 				while (rs.next()) {
 					iscrittoBranca.add(rs.getString(1));
 					
 				}
+				st1.close();
 			} catch (SQLException e1) {
 				e1.printStackTrace();
 			}
 			try {
 				
-				PreparedStatement st = con.getMsSQLConnection().prepareStatement("select codiceIscritto" + 
+				PreparedStatement st2 = con.getMsSQLConnection().prepareStatement("select codiceIscritto" + 
 						" from RS_ANNO, Contiene_RS " + 
 						"where codiceParrocchia = ? " + 
 						"and RS_ANNO.codiceRS = Contiene_RS.codiceRS");
-				st.setString(1, codiceParrocchia);
-				ResultSet rs = st.executeQuery();
+				st2.setString(1, codiceParrocchia);
+				ResultSet rs = st2.executeQuery();
 				while (rs.next()) {
 					iscrittoBranca.add(rs.getString(1));
 					
 				}
+				st2.close();
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
+			try {
+				PreparedStatement st3 = con.getMsSQLConnection().prepareStatement("select codiceIscritto" + 
+						" from CC_ANNO, Contiene_CC " + 
+						"where codiceParrocchia = ? " + 
+						"and CC_ANNO.codiceCC = Contiene_CC.codiceCC");
+				st3.setString(1, codiceParrocchia);
+				ResultSet rs = st3.executeQuery();
+				while (rs.next()) {
+					iscrittoBranca.add(rs.getString(1));
+					
+				}
+				st3.close();
 			} catch (SQLException e1) {
 				e1.printStackTrace();
 			}
@@ -173,6 +191,7 @@ public class UpdateComboBoxParrocchia {
 				attivitàFormativa.add(rs.getString(1));
 				
 			}
+			st.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -186,6 +205,7 @@ public class UpdateComboBoxParrocchia {
 			while (rs.next()) {
 				attivitàLudica.add(rs.getString(1));
 			}
+			st.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -203,45 +223,49 @@ public class UpdateComboBoxParrocchia {
 					codiceEventoRegistrazione.add(rs.getString(1));
 					
 				}
+				st.close();
 			} catch (SQLException e1) {
 				e1.printStackTrace();
 			}
 		}
 		else if(branca.equals("EG")) {
 			try {
-				PreparedStatement st = con.getMsSQLConnection().prepareStatement("select codiceEvento from E_P_EG where codiceParrocchia = ?");
-				st.setString(1, codiceParrocchia);
-				ResultSet rs = st.executeQuery();
+				PreparedStatement st1 = con.getMsSQLConnection().prepareStatement("select codiceEvento from E_P_EG where codiceParrocchia = ?");
+				st1.setString(1, codiceParrocchia);
+				ResultSet rs = st1.executeQuery();
 				while (rs.next()) {
 					codiceEventoRegistrazione.add(rs.getString(1));
 					
 				}
+				st1.close();
 			} catch (SQLException e1) {
 				e1.printStackTrace();
 			}
 		}
 		else if(branca.equals("RS")) {
 			try {
-				PreparedStatement st = con.getMsSQLConnection().prepareStatement("select codiceEvento from E_P_RS where codiceParrocchia = ?");
-				st.setString(1, codiceParrocchia);
-				ResultSet rs = st.executeQuery();
+				PreparedStatement st2 = con.getMsSQLConnection().prepareStatement("select codiceEvento from E_P_RS where codiceParrocchia = ?");
+				st2.setString(1, codiceParrocchia);
+				ResultSet rs = st2.executeQuery();
 				while (rs.next()) {
 					codiceEventoRegistrazione.add(rs.getString(1));
 					
 				}
+				st2.close();
 			} catch (SQLException e1) {
 				e1.printStackTrace();
 			}
 		}
 		else if(branca.equals("Tutti")) {
 			try {
-				PreparedStatement st = con.getMsSQLConnection().prepareStatement("select codiceEvento from E_P_TUTTI where codiceParrocchia = ?");
-				st.setString(1, codiceParrocchia);
-				ResultSet rs = st.executeQuery();
+				PreparedStatement st3 = con.getMsSQLConnection().prepareStatement("select codiceEvento from E_P_TUTTI where codiceParrocchia = ?");
+				st3.setString(1, codiceParrocchia);
+				ResultSet rs = st3.executeQuery();
 				while (rs.next()) {
 					codiceEventoRegistrazione.add(rs.getString(1));
 					
 				}
+				st3.close();
 			} catch (SQLException e1) {
 				e1.printStackTrace();
 			}
@@ -263,22 +287,24 @@ public class UpdateComboBoxParrocchia {
 					codiceIscrittoRegistrazione.add(rs.getString(1));
 					
 				}
+				st.close();
 			} catch (SQLException e1) {
 				e1.printStackTrace();
 			}
 		}
 		else if(branca.equals("EG")) {
 			try {
-				PreparedStatement st = con.getMsSQLConnection().prepareStatement("select codiceIscritto" + 
+				PreparedStatement st1 = con.getMsSQLConnection().prepareStatement("select codiceIscritto" + 
 						" from EG_ANNO, Contiene_EG " + 
 						"where codiceParrocchia = ? " + 
 						"and EG_ANNO.codiceEG = Contiene_EG.codiceEG");
-				st.setString(1, codiceParrocchia);
-				ResultSet rs = st.executeQuery();
+				st1.setString(1, codiceParrocchia);
+				ResultSet rs = st1.executeQuery();
 				while (rs.next()) {
 					codiceIscrittoRegistrazione.add(rs.getString(1));
 					
 				}
+				st1.close();
 			} catch (SQLException e1) {
 				e1.printStackTrace();
 			}
@@ -286,60 +312,64 @@ public class UpdateComboBoxParrocchia {
 		else if(branca.equals("RS")) {
 			try {
 				
-				PreparedStatement st = con.getMsSQLConnection().prepareStatement("select codiceIscritto" + 
+				PreparedStatement st2 = con.getMsSQLConnection().prepareStatement("select codiceIscritto" + 
 						" from RS_ANNO, Contiene_RS " + 
 						"where codiceParrocchia = ? " + 
 						"and RS_ANNO.codiceRS = Contiene_RS.codiceRS");
-				st.setString(1, codiceParrocchia);
-				ResultSet rs = st.executeQuery();
+				st2.setString(1, codiceParrocchia);
+				ResultSet rs = st2.executeQuery();
 				while (rs.next()) {
 					codiceIscrittoRegistrazione.add(rs.getString(1));
 					
 				}
+				st2.close();
 			} catch (SQLException e1) {
 				e1.printStackTrace();
 			}
 		}
 		else if(branca.equals("Tutti")) {
 			try {
-				PreparedStatement st = con.getMsSQLConnection().prepareStatement("select codiceIscritto " + 
+				PreparedStatement st3 = con.getMsSQLConnection().prepareStatement("select codiceIscritto " + 
 						"from LC_ANNO, Contiene_LC " + 
 						"where LC_ANNO.codiceLC = Contiene_LC.codiceLC " + 
 						"and Contiene_LC.codiceParrocchia = ?");
-				st.setString(1, codiceParrocchia);
-				ResultSet rs = st.executeQuery();
+				st3.setString(1, codiceParrocchia);
+				ResultSet rs = st3.executeQuery();
 				while (rs.next()) {
 					codiceIscrittoRegistrazione.add(rs.getString(1));
 					
 				}
+				st3.close();
 			} catch (SQLException e1) {
 				e1.printStackTrace();
 			}
 			try {
-				PreparedStatement st = con.getMsSQLConnection().prepareStatement("select codiceIscritto " + 
+				PreparedStatement st4 = con.getMsSQLConnection().prepareStatement("select codiceIscritto " + 
 						"from EG_ANNO, Contiene_EG " + 
 						"where EG_ANNO.codiceEG = Contiene_EG.codiceEG " + 
 						"and Contiene_EG.codiceParrocchia = ?");
-				st.setString(1, codiceParrocchia);
-				ResultSet rs = st.executeQuery();
+				st4.setString(1, codiceParrocchia);
+				ResultSet rs = st4.executeQuery();
 				while (rs.next()) {
 					codiceIscrittoRegistrazione.add(rs.getString(1));
 					
 				}
+				st4.close();
 			} catch (SQLException e1) {
 				e1.printStackTrace();
 			}
 			try {
-				PreparedStatement st = con.getMsSQLConnection().prepareStatement("select codiceIscritto " + 
+				PreparedStatement st5 = con.getMsSQLConnection().prepareStatement("select codiceIscritto " + 
 						"from RS_ANNO, Contiene_RS " + 
 						"where RS_ANNO.codiceRS = Contiene_RS.codiceRS " + 
 						"and Contiene_RS.codiceParrocchia = ?");
-				st.setString(1, codiceParrocchia);
-				ResultSet rs = st.executeQuery();
+				st5.setString(1, codiceParrocchia);
+				ResultSet rs = st5.executeQuery();
 				while (rs.next()) {
 					codiceIscrittoRegistrazione.add(rs.getString(1));
 					
 				}
+				st5.close();
 			} catch (SQLException e1) {
 				e1.printStackTrace();
 			}
@@ -358,30 +388,33 @@ public class UpdateComboBoxParrocchia {
 					codiceEventoAttL.add(rs.getString(1));
 					
 				}
+				st.close();
 			} catch (SQLException e1) {
 				e1.printStackTrace();
 			}
 		}
 		else if(branca.equals("EG")) {
 			try {
-				PreparedStatement st = con.getMsSQLConnection().prepareStatement("select codiceEvento from E_P_EG where codiceParrocchia = ?");
-				st.setString(1, codiceParrocchia);
-				ResultSet rs = st.executeQuery();
+				PreparedStatement st1 = con.getMsSQLConnection().prepareStatement("select codiceEvento from E_P_EG where codiceParrocchia = ?");
+				st1.setString(1, codiceParrocchia);
+				ResultSet rs = st1.executeQuery();
 				while (rs.next()) {
 					codiceEventoAttL.add(rs.getString(1));
 				}
+				st1.close();
 			} catch (SQLException e1) {
 				e1.printStackTrace();
 			}
 		}
 		else if(branca.equals("Tutti")) {
 			try {
-				PreparedStatement st = con.getMsSQLConnection().prepareStatement("select codiceEvento from E_P_TUTTI where codiceParrocchia = ?");
-				st.setString(1, codiceParrocchia);
-				ResultSet rs = st.executeQuery();
+				PreparedStatement st2 = con.getMsSQLConnection().prepareStatement("select codiceEvento from E_P_TUTTI where codiceParrocchia = ?");
+				st2.setString(1, codiceParrocchia);
+				ResultSet rs = st2.executeQuery();
 				while (rs.next()) {
 					codiceEventoAttL.add(rs.getString(1));		
 				}
+				st2.close();
 			} catch (SQLException e1) {
 				e1.printStackTrace();
 			}
@@ -399,18 +432,20 @@ public class UpdateComboBoxParrocchia {
 				while (rs.next()) {
 					codiceEventoAttF.add(rs.getString(1));
 				}
+				st.close();
 			} catch (SQLException e1) {
 				e1.printStackTrace();
 			}
 		}
 		else if(branca.equals("RS")) {
 			try {
-				PreparedStatement st = con.getMsSQLConnection().prepareStatement("select codiceEvento from E_P_RS where codiceParrocchia = ?");
-				st.setString(1, codiceParrocchia);
-				ResultSet rs = st.executeQuery();
+				PreparedStatement st1 = con.getMsSQLConnection().prepareStatement("select codiceEvento from E_P_RS where codiceParrocchia = ?");
+				st1.setString(1, codiceParrocchia);
+				ResultSet rs = st1.executeQuery();
 				while (rs.next()) {
 					codiceEventoAttF.add(rs.getString(1));		
 				}
+				st1.close();
 			} catch (SQLException e1) {
 				e1.printStackTrace();
 			}
@@ -425,6 +460,7 @@ public class UpdateComboBoxParrocchia {
 			while (rs.next()) {
 				nomeCompetenza.add(rs.getString(1));
 			}
+			st.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -440,6 +476,7 @@ public class UpdateComboBoxParrocchia {
 			while (rs.next()) {
 				areaCompetenza.add(rs.getString(1));
 			}
+			st.close();
 		} catch (SQLException e1) {
 			e1.printStackTrace();
 		}
@@ -456,39 +493,43 @@ public class UpdateComboBoxParrocchia {
 				codiceEvento.add(rs.getString(1));
 				
 			}
+			st.close();
 		} catch (SQLException e1) {
 			e1.printStackTrace();
 		}
 		try {
-			PreparedStatement st = con.getMsSQLConnection().prepareStatement("select codiceEvento from E_P_EG where codiceParrocchia = ?");
-			st.setString(1, codiceParrocchia);
-			ResultSet rs = st.executeQuery();
+			PreparedStatement st1 = con.getMsSQLConnection().prepareStatement("select codiceEvento from E_P_EG where codiceParrocchia = ?");
+			st1.setString(1, codiceParrocchia);
+			ResultSet rs = st1.executeQuery();
 			while (rs.next()) {
 				codiceEvento.add(rs.getString(1));
 				
 			}
+			st1.close();
 		} catch (SQLException e1) {
 			e1.printStackTrace();
 		}
 		try {
-			PreparedStatement st = con.getMsSQLConnection().prepareStatement("select codiceEvento from E_P_RS where codiceParrocchia = ?");
-			st.setString(1, codiceParrocchia);
-			ResultSet rs = st.executeQuery();
+			PreparedStatement st2 = con.getMsSQLConnection().prepareStatement("select codiceEvento from E_P_RS where codiceParrocchia = ?");
+			st2.setString(1, codiceParrocchia);
+			ResultSet rs = st2.executeQuery();
 			while (rs.next()) {
 				codiceEvento.add(rs.getString(1));
 				
 			}
+			st2.close();
 		} catch (SQLException e1) {
 			e1.printStackTrace();
 		}
 		try {
-			PreparedStatement st = con.getMsSQLConnection().prepareStatement("select codiceEvento from E_P_TUTTI where codiceParrocchia = ?");
-			st.setString(1, codiceParrocchia);
-			ResultSet rs = st.executeQuery();
+			PreparedStatement st3 = con.getMsSQLConnection().prepareStatement("select codiceEvento from E_P_TUTTI where codiceParrocchia = ?");
+			st3.setString(1, codiceParrocchia);
+			ResultSet rs = st3.executeQuery();
 			while (rs.next()) {
 				codiceEvento.add(rs.getString(1));
 				
 			}
+			st3.close();
 		} catch (SQLException e1) {
 			e1.printStackTrace();
 		}
