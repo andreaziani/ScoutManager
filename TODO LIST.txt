@@ -1,4 +1,3 @@
 - Ricontrollare attentamente la relazione.
-- Scrivere indice relazione.
 - Scrivere README per utilizzo applicazione.
 - Generare JAR file.
