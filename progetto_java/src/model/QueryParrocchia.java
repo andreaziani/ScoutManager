@@ -93,5 +93,22 @@ public class QueryParrocchia {
 		}
 		return codiceCC;
 	}
+	
+	public static int calculateYear(DBConnection con, String codiceIscritto) {
+		int anno = 2030;
+		try {
+			PreparedStatement st = con.getMsSQLConnection().prepareStatement("select year(dataNascita) from Iscritto where codiceIscritto = ?");
+			st.setString(1, codiceIscritto);
+			ResultSet rs = st.executeQuery();
+			while (rs.next()) {
+				anno = Integer.parseInt(rs.getString(1));
+				
+			}
+			st.close();
+		} catch (SQLException e) {
+			return anno;
+		}
+		return anno;
+	}
 
 }

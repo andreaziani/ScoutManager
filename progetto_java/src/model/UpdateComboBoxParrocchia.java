@@ -20,17 +20,8 @@ public class UpdateComboBoxParrocchia {
 	private static List<String> tipoEvento = new ArrayList<>(Arrays.asList("LC", "EG", "RS", "Tutti"));
 	private static List<String> eventoLudica = new ArrayList<>(Arrays.asList("LC", "EG", "Tutti"));
 	private static List<String> eventoFormativa = new ArrayList<>(Arrays.asList("EG", "RS"));
-	private static List<String> iscrittoBranca = new ArrayList<>();
-	private static List<String> attivitàFormativa = new ArrayList<>();
-	private static List<String> attivitàLudica = new ArrayList<>();
-	private static List<String> codiceEventoRegistrazione = new ArrayList<>();
-	private static List<String> codiceIscrittoRegistrazione = new ArrayList<>();
-	private static List<String> codiceEventoAttL = new ArrayList<>();
-	private static List<String> codiceEventoAttF = new ArrayList<>();
 	private static List<String> nomeCompetenza = new ArrayList<>();
-	private static List<String> areaCompetenza = new ArrayList<>();
-	private static List<String> codiceEvento = new ArrayList<>();
-	private static Set<String> codiceIscritto = new HashSet<>();
+
 	
 	public static String anno(){
 		return anno;
@@ -53,7 +44,7 @@ public class UpdateComboBoxParrocchia {
 	}
 	
 	public static List<String> codiceIscritto(DBConnection con, String branca, int anno) {
-		codiceIscritto.removeAll(codiceIscritto);
+		Set<String> codiceIscritto = new HashSet<>();
 		ResultSet rs;
 		if(branca.equals("LC")) {
 			try {
@@ -115,7 +106,7 @@ public class UpdateComboBoxParrocchia {
 	}
 	
 	public static List<String> iscrittoBranca(DBConnection con, String codiceParrocchia){
-		iscrittoBranca.removeAll(iscrittoBranca);
+		Set<String> iscrittoBranca = new HashSet<>();
 			try {
 				PreparedStatement st = con.getMsSQLConnection().prepareStatement("select codiceIscritto" + 
 						" from LC_ANNO, Contiene_LC " + 
@@ -179,11 +170,11 @@ public class UpdateComboBoxParrocchia {
 			} catch (SQLException e1) {
 				e1.printStackTrace();
 			}
-		return iscrittoBranca;
+		return iscrittoBranca.stream().collect(Collectors.toList());
 	}
 	
 	public static List<String> attivitàFormativa(DBConnection con) {
-		attivitàFormativa.removeAll(attivitàFormativa);
+		Set<String> attivitàFormativa = new HashSet<>();
 		try {
 			Statement st = con.getMsSQLConnection().createStatement();
 			ResultSet rs = st.executeQuery("select codiceAttività from ATT_FORMATIVA");
@@ -195,10 +186,10 @@ public class UpdateComboBoxParrocchia {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		return attivitàFormativa;
+		return attivitàFormativa.stream().collect(Collectors.toList());
 	}
 	public static List<String> attivitàLudica(DBConnection con){
-		attivitàLudica.removeAll(attivitàLudica);
+		Set<String> attivitàLudica = new HashSet<>();
 		try {
 			Statement st = con.getMsSQLConnection().createStatement();
 			ResultSet rs = st.executeQuery("select codiceAttività from ATT_LUDICA");
@@ -209,11 +200,11 @@ public class UpdateComboBoxParrocchia {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		return attivitàLudica;
+		return attivitàLudica.stream().collect(Collectors.toList());
 	}
 	
 	public static List<String> codiceEventoRegistrazione(DBConnection con, String branca, String codiceParrocchia){
-		codiceEventoRegistrazione.removeAll(codiceEventoRegistrazione);
+		Set<String> codiceEventoRegistrazione = new HashSet<>();
 		if(branca.equals("LC")) {
 			try {
 				PreparedStatement st = con.getMsSQLConnection().prepareStatement("select codiceEvento from E_P_LC where codiceParrocchia = ?");
@@ -270,11 +261,11 @@ public class UpdateComboBoxParrocchia {
 				e1.printStackTrace();
 			}
 		}
-		return codiceEventoRegistrazione;
+		return codiceEventoRegistrazione.stream().collect(Collectors.toList());
 	}
 	
 	public static List<String> codiceIscrittoRegistrazione(DBConnection con, String branca, String codiceParrocchia){
-		codiceIscrittoRegistrazione.removeAll(codiceIscrittoRegistrazione);
+		Set<String> codiceIscrittoRegistrazione = new HashSet<>();
 		if(branca.equals("LC")) {
 			try {
 				PreparedStatement st = con.getMsSQLConnection().prepareStatement("select codiceIscritto" + 
@@ -374,11 +365,11 @@ public class UpdateComboBoxParrocchia {
 				e1.printStackTrace();
 			}
 		}
-		return codiceIscrittoRegistrazione;
+		return codiceIscrittoRegistrazione.stream().collect(Collectors.toList());
 	}
 	
 	public static List<String> eventoAttivitàLudica(DBConnection con, String branca, String codiceParrocchia) {
-		codiceEventoAttL.removeAll(codiceEventoAttL);
+		Set<String> codiceEventoAttL = new HashSet<>();
 		if(branca.equals("LC")) {
 			try {
 				PreparedStatement st = con.getMsSQLConnection().prepareStatement("select codiceEvento from E_P_LC where codiceParrocchia = ?");
@@ -419,11 +410,11 @@ public class UpdateComboBoxParrocchia {
 				e1.printStackTrace();
 			}
 		}
-		return codiceEventoAttL;
+		return codiceEventoAttL.stream().collect(Collectors.toList());
 	}
 	
 	public static List<String> eventoAttivitàFormativa(DBConnection con, String branca, String codiceParrocchia) {
-		codiceEventoAttF.removeAll(codiceEventoAttF);
+		Set<String> codiceEventoAttF = new HashSet<>();
 		if(branca.equals("EG")) {
 			try {
 				PreparedStatement st = con.getMsSQLConnection().prepareStatement("select codiceEvento from E_P_EG where codiceParrocchia = ?");
@@ -450,7 +441,7 @@ public class UpdateComboBoxParrocchia {
 				e1.printStackTrace();
 			}
 		}
-		return codiceEventoAttF;
+		return codiceEventoAttF.stream().collect(Collectors.toList());
 	}
 	
 	public static List<String> nomeCompetenza(DBConnection con){
@@ -468,7 +459,7 @@ public class UpdateComboBoxParrocchia {
 	}
 	
 	public static List<String> areaCompetenza(DBConnection con, String nomeComp){
-		areaCompetenza.removeAll(areaCompetenza);
+		Set<String> areaCompetenza = new HashSet<>();
 		try {
 			PreparedStatement st = con.getMsSQLConnection().prepareStatement("select areaCompetenza from COMPETENZE where nomeCompetenza = ?");
 			st.setString(1, nomeComp);
@@ -480,11 +471,11 @@ public class UpdateComboBoxParrocchia {
 		} catch (SQLException e1) {
 			e1.printStackTrace();
 		}
-		return areaCompetenza;
+		return areaCompetenza.stream().collect(Collectors.toList());
 	}
 	
 	public static List<String> codiceEvento(DBConnection con, String codiceParrocchia){
-		codiceEvento.removeAll(codiceEvento);
+		Set<String> codiceEvento = new HashSet<>();
 		try {
 			PreparedStatement st = con.getMsSQLConnection().prepareStatement("select codiceEvento from E_P_LC where codiceParrocchia = ?");
 			st.setString(1, codiceParrocchia);
@@ -533,6 +524,6 @@ public class UpdateComboBoxParrocchia {
 		} catch (SQLException e1) {
 			e1.printStackTrace();
 		}
-		return codiceEvento;
+		return codiceEvento.stream().collect(Collectors.toList());
 	}
 }
