@@ -1,5 +1,4 @@
-- Modificare gli schemi della relazione con quelli aggiornati
-- Ricontrollare attentamente la relazione
-- Scrivere indice relazione
-- inserire la query p17 nella relazione
-- ricontrollare la correttezza delle query
+- Ricontrollare attentamente la relazione.
+- Scrivere indice relazione.
+- Scrivere README per utilizzo applicazione.
+- Generare JAR file.
