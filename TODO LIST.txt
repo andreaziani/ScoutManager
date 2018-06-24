@@ -1,3 +1,0 @@
-- Ricontrollare attentamente la relazione.
-- Scrivere README per utilizzo applicazione.
-- Generare JAR file.
