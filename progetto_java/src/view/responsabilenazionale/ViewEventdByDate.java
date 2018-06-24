@@ -19,8 +19,10 @@ import org.jdatepicker.impl.JDatePanelImpl;
 import org.jdatepicker.impl.JDatePickerImpl;
 import org.jdatepicker.impl.UtilDateModel;
 
+import model.EventoNazionale;
 import model.ResponsabileEventoNazionale;
 import model.ResponsabilitàEventoNazionale;
+import model.ViewUsersEN;
 import view.DateLabelFormatter;
 
 public class ViewEventdByDate extends JPanel {
@@ -38,7 +40,8 @@ public class ViewEventdByDate extends JPanel {
 	private Properties p;
 	private JDatePickerImpl datePicker;
 	private JButton btn = new JButton("VISUALIZZA");
-
+	private JButton btn2 = new JButton("VISUALIZZA");
+	
 	public ViewEventdByDate(ResponsabileEventoNazionale res, ConsoleArea log) {
 		this.setBorder(new EtchedBorder(EtchedBorder.LOWERED));
 		this.setLayout(new GridBagLayout());
@@ -53,6 +56,9 @@ public class ViewEventdByDate extends JPanel {
 			String msg = r.viewEvbyDateQuery((Date) datePicker.getModel().getValue());
 			log.insert(msg);
 		});
+		this.btn2.addActionListener(e->{
+		    log.insert(ViewUsersEN.iscrittiAdEvento(codiceEvento.getText()));
+		});
 	}
 
 	private void setTitle() {
@@ -62,8 +68,8 @@ public class ViewEventdByDate extends JPanel {
 		gbcMain.gridy = 0;
 
 		gbcMain.anchor = GridBagConstraints.CENTER;
-		gbcMain.insets = new Insets(2, 0, 3, 0);
-		gbcMain.insets = new Insets(4, 0, 4, 0);
+		gbcMain.insets = new Insets(1, 0, 1, 0);
+		gbcMain.insets = new Insets(1, 0, 1, 0);
 		title.setForeground(Color.RED);
 		title2.setForeground(Color.RED);
 		title.setHorizontalAlignment(SwingConstants.CENTER);
@@ -73,7 +79,7 @@ public class ViewEventdByDate extends JPanel {
 	}
 
 	private void build() {
-		gbc.insets = new Insets(3, 3, 3, 3);
+		gbc.insets = new Insets(1, 1, 1, 1);
 		gbc.gridy = 1;
 		gbc.gridx = 0;
 		gbc.fill = GridBagConstraints.HORIZONTAL;
@@ -91,22 +97,32 @@ public class ViewEventdByDate extends JPanel {
 		gbc.gridy = 3;
 		gbc.gridx = 0;
 		gbc.gridwidth = GridBagConstraints.REMAINDER;
-		gbc.gridheight = GridBagConstraints.REMAINDER;
-		gbc.fill = GridBagConstraints.NONE;
 		add(btn, gbc);
 
 		gbc.gridx = 0;
 		gbc.gridy = 4;
 		gbc.gridwidth = GridBagConstraints.REMAINDER;
-
+		gbc.fill = GridBagConstraints.NONE;
 		add(title2, gbc);
+		
 		gbc.gridx = 0;
 		gbc.gridy = 5;
+		gbc.gridwidth = GridBagConstraints.RELATIVE;
+		gbc.fill = GridBagConstraints.HORIZONTAL;
 		add(codice, gbc);
+		
+		gbc.gridy = 5;
+		gbc.gridx = 1;
+		
+		gbc.gridwidth = GridBagConstraints.REMAINDER;
+		add(codiceEvento, gbc);
+		
+		gbc.gridx = 0;
 		gbc.gridy = 6;
 		gbc.gridwidth = GridBagConstraints.REMAINDER;
 		gbc.gridheight = GridBagConstraints.REMAINDER;
-		add(codiceEvento, gbc);
+		
+		add(btn2, gbc);
 	}
 
 }
