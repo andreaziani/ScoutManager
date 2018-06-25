@@ -413,26 +413,32 @@ public class ParrocchiaModifyOperation extends JPanel {
 		});
 
 		this.iscriviEvento.addActionListener(e -> {
-			if (String.valueOf(brancheE.getSelectedItem()).equals("LC")) {
-				RegistrazioneEventoParrocchiaLC regLC = new RegistrazioneEventoParrocchiaLC(
-						String.valueOf(this.codiceEP.getSelectedItem()), String.valueOf(this.cIscr.getSelectedItem()),
-						codiceParrocchia, this.codReg.getText());
-				this.checkCorrect(regLC.registrazioneEventoLC());
-			} else if (String.valueOf(brancheE.getSelectedItem()).equals("EG")) {
-				RegistrazioneEventoParrocchiaEG regEG = new RegistrazioneEventoParrocchiaEG(
-						String.valueOf(this.codiceEP.getSelectedItem()), String.valueOf(this.cIscr.getSelectedItem()),
-						codiceParrocchia, this.codReg.getText());
-				this.checkCorrect(regEG.registrazioneEventoEG());
-			} else if (String.valueOf(brancheE.getSelectedItem()).equals("RS")) {
-				RegistrazioneEventoParrocchiaRS regRS = new RegistrazioneEventoParrocchiaRS(
-						String.valueOf(this.codiceEP.getSelectedItem()), String.valueOf(this.cIscr.getSelectedItem()),
-						codiceParrocchia, this.codReg.getText());
-				this.checkCorrect(regRS.registrazioneEventoRS());
-			} else if (String.valueOf(brancheE.getSelectedItem()).equals("Tutti")) {
-				RegistrazioneEventoParrocchiaTutti regTutti = new RegistrazioneEventoParrocchiaTutti(
-						String.valueOf(this.codiceEP.getSelectedItem()), String.valueOf(this.cIscr.getSelectedItem()),
-						codiceParrocchia, this.codReg.getText());
-				this.checkCorrect(regTutti.registrazioneEventoTutti());
+			if(this.codReg.getText().equals("")) {
+				this.error();
+			}
+			else {
+				if (String.valueOf(brancheE.getSelectedItem()).equals("LC")) {
+					RegistrazioneEventoParrocchiaLC regLC = new RegistrazioneEventoParrocchiaLC(
+							String.valueOf(this.codiceEP.getSelectedItem()), String.valueOf(this.cIscr.getSelectedItem()),
+							codiceParrocchia, this.codReg.getText());
+					this.checkCorrect(regLC.registrazioneEventoLC());
+				} else if (String.valueOf(brancheE.getSelectedItem()).equals("EG")) {
+					RegistrazioneEventoParrocchiaEG regEG = new RegistrazioneEventoParrocchiaEG(
+							String.valueOf(this.codiceEP.getSelectedItem()), String.valueOf(this.cIscr.getSelectedItem()),
+							codiceParrocchia, this.codReg.getText());
+					this.checkCorrect(regEG.registrazioneEventoEG());
+				} else if (String.valueOf(brancheE.getSelectedItem()).equals("RS")) {
+					RegistrazioneEventoParrocchiaRS regRS = new RegistrazioneEventoParrocchiaRS(
+							String.valueOf(this.codiceEP.getSelectedItem()), String.valueOf(this.cIscr.getSelectedItem()),
+							codiceParrocchia, this.codReg.getText());
+					this.checkCorrect(regRS.registrazioneEventoRS());
+				} else if (String.valueOf(brancheE.getSelectedItem()).equals("Tutti")) {
+					RegistrazioneEventoParrocchiaTutti regTutti = new RegistrazioneEventoParrocchiaTutti(
+							String.valueOf(this.codiceEP.getSelectedItem()), String.valueOf(this.cIscr.getSelectedItem()),
+							codiceParrocchia, this.codReg.getText());
+					this.checkCorrect(regTutti.registrazioneEventoTutti());
+				
+				}
 			}
 		});
 

@@ -19,7 +19,6 @@ import org.jdatepicker.impl.JDatePanelImpl;
 import org.jdatepicker.impl.JDatePickerImpl;
 import org.jdatepicker.impl.UtilDateModel;
 
-import model.EventoNazionale;
 import model.ResponsabileEventoNazionale;
 import model.ResponsabilitàEventoNazionale;
 import model.ViewUsersEN;

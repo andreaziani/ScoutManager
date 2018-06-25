@@ -44,21 +44,27 @@ public class UserSignInPanel extends JPanel {
 		setTitle();
 		buildInterface();
 		regbtn.addActionListener(e -> {
-			if(!UpdateUsers.isUserSignedIn(con, String.valueOf(txtCodEv.getSelectedItem()),  String.valueOf(txtCodIsc.getSelectedItem()))) {
-				RegistrazioneEventoNazionale r = new RegistrazioneEventoNazionale(
-						String.valueOf(txtCodEv.getSelectedItem()), String.valueOf(txtCodIsc.getSelectedItem()),
-						txtCodReg.getText());
-				if (r.execQuery() == 1) {
-					JOptionPane.showMessageDialog(this, "Inserimento andato a buon fine.");
+			if(txtCodReg.getText().equals("")) {
+				this.error();
+			}
+			else {
+				if(!UpdateUsers.isUserSignedIn(con, String.valueOf(txtCodEv.getSelectedItem()),  String.valueOf(txtCodIsc.getSelectedItem()))) {
+					RegistrazioneEventoNazionale r = new RegistrazioneEventoNazionale(
+							String.valueOf(txtCodEv.getSelectedItem()), String.valueOf(txtCodIsc.getSelectedItem()),
+							txtCodReg.getText());
+					if (r.execQuery() == 1) {
+						JOptionPane.showMessageDialog(this, "Inserimento andato a buon fine.");
+					} else {
+						JOptionPane.showMessageDialog(this,
+								"Si è verificato un errore, ricontrollare la correttezza dei campi.");
+					}				
 				} else {
 					JOptionPane.showMessageDialog(this,
-							"Si è verificato un errore, ricontrollare la correttezza dei campi.");
-				}				
-			} else {
-				JOptionPane.showMessageDialog(this,
-						"Iscritto già registrato all'evento");
+							"Iscritto già registrato all'evento");
+				}
 			}
 		});
+				
 	}
 
 	private void setTitle() {
@@ -120,5 +126,9 @@ public class UserSignInPanel extends JPanel {
 	public void updateBoxes() {
 		this.txtCodEv.removeAllItems();
 		UpdateBoxes.updateEventiNazionali(con).forEach(e -> this.txtCodEv.addItem(e));
+	}
+	
+	private void error() {
+		JOptionPane.showMessageDialog(this, "Qualcosa è andato storto, verifica la correttezza dei campi.");
 	}
 }
