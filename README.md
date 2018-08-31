@@ -1,4 +1,3 @@
-A little management system for scouting association.
-The focus of the project was planning and developing of a Relational Data Base so 
-no importance is given to produce good object-oriented code
-and the java application is built for the only purpose of using JDBC and drivers for sql server.
+# Management system for scouting association.
+This repo contains a little management system for scouting association.
+The focus of the project was to build a Relational Data Base, so no importance is given at the quality of the Java code or design of the application.
